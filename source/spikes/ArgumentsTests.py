@@ -1,4 +1,4 @@
-__author__ = 'Owner'
+__author__ = 'k0emt'
 
 import unittest
 from Arguments import *
