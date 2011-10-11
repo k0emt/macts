@@ -1,9 +1,11 @@
 __author__ = 'k0emt'
 
+
 class Greeter:
     def __init__(self):
         self.message = 'Hello world!'
         # print self.message
+
 
 class GreeterOverloaded:
     def __init__(self, greeting=None):
@@ -15,6 +17,7 @@ class GreeterOverloaded:
     def greeting(self):
             return self.myGreeting
 
+
 class GreeterOverloadedWithOr:
     def __init__(self, greeting=None):
         self.myGreeting = greeting or 'Zoom!'
@@ -22,8 +25,9 @@ class GreeterOverloadedWithOr:
     def greeting(self):
             return self.myGreeting
 
+
 class GreeterOverloadedWithVariableArgs:
-    def __init__(self, *args ):
+    def __init__(self, *args):
         self.myGreeting = 'meh'
         if len(args) > 0:
             self.myGreeting = ''
@@ -33,6 +37,7 @@ class GreeterOverloadedWithVariableArgs:
 
     def greeting(self):
             return self.myGreeting
+
 
 class GreeterOverloadedWithKeywordArgs:
     def __init__(self, **kwargs):

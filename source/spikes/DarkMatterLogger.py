@@ -1,4 +1,5 @@
-import pika, sys
+import sys
+import pika
 
 # prerequisites are that you have RabbitMQ installed
 # create a "darkmatter" named VirtualHost (VHOST)
@@ -7,21 +8,24 @@ import pika, sys
 #  rabbitmqctl add_user darkmatteradmin <password>
 # give the APP_USER the necessary permissions
 #  rabbitmqctl set_permissions -p darkmatter darkmatteradmin ".*"  ".*" ".*"
-
 RABBITMQ_SERVER = "localhost"
+
 EXCHANGE_DARKMATTER = "darkmatter-exchange"
 VHOST_DARKMATTER = "darkmatter"
 APP_USER = "darkmatteradmin"
 APP_PASS = "dmexploder"
 STOP_PROCESSING_MESSAGE = "QRT"
+FOLLOW_K0EMT_MESSAGE = "follow @k0emt on twitter! (that's a zero after the k)"
 
 __author__ = 'k0emt'
+
 
 class DarkMatterLogger:
     def __init__(self):
         print "DM Logger init"
         credentials = pika.PlainCredentials(APP_USER, APP_PASS)
-        conn_params = pika.ConnectionParameters(host=RABBITMQ_SERVER, virtual_host=VHOST_DARKMATTER,
+        conn_params = pika.ConnectionParameters(host=RABBITMQ_SERVER,
+                                                virtual_host=VHOST_DARKMATTER,
                                                 credentials=credentials)
         conn = pika.BlockingConnection(conn_params)
         self.channel = conn.channel()
@@ -47,18 +51,20 @@ class DarkMatterLogger:
 
 # if we receive a "quit" message, then stop processing
 class DarkMatterViewer:
-    def __init__ (self):
+    def __init__(self):
         print "DM Viewer init"
 
         credentials = pika.PlainCredentials(APP_USER, APP_PASS)
-        conn_params = pika.ConnectionParameters(host=RABBITMQ_SERVER, virtual_host=VHOST_DARKMATTER,
+        conn_params = pika.ConnectionParameters(host=RABBITMQ_SERVER,
+                                                virtual_host=VHOST_DARKMATTER,
                                                 credentials=credentials)
         conn = pika.BlockingConnection(conn_params)
         channel = conn.channel()
 
         ourChan = channel.queue_declare(exclusive=True)
 
-        channel.queue_bind(exchange=EXCHANGE_DARKMATTER, queue=ourChan.method.queue)
+        channel.queue_bind(exchange=EXCHANGE_DARKMATTER,
+                           queue=ourChan.method.queue)
 
         # callback that runs when message arrives -- see basic_consume() below
         def msg_consumer(channel, method, header, body):
@@ -76,10 +82,13 @@ class DarkMatterViewer:
 
         channel.start_consuming()
 
+
 def main():
-    # if the command line is given with the parameter send, then run this as a logger
+    # if the command line is given with the parameter send,
+    # then run this as a logger
     #   c:\Python27\python.exe DarkMatterLogger.py send
-    # run the logger/sender once first to create the exchange, then can run the consumers
+    # run the logger/sender once first to create the exchange,
+    # then can run the consumers
     #   c:\Python27\python.exe DarkMatterLogger.py
     if len(sys.argv) > 1:
         if sys.argv[1] == "send":
@@ -87,7 +96,7 @@ def main():
             dml.sendMessage("hola!")
             dml.sendMessage("dos")
             dml.sendMessage("tres")
-            dml.sendMessage("follow @k0emt on twitter! (that's a zero after the k)")
+            dml.sendMessage(FOLLOW_K0EMT_MESSAGE)
             dml.sendMessage(STOP_PROCESSING_MESSAGE)
     else:
         dmViewer = DarkMatterViewer()
