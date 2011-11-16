@@ -19,7 +19,6 @@ FOLLOW_K0EMT_MESSAGE = "follow @k0emt on twitter! (that's a zero after the k)"
 
 __author__ = 'k0emt'
 
-
 class DarkMatterLogger:
     def __init__(self):
         print "DM Logger init"
