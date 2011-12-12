@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="MseProject" company="KSU Computer Science Program" webLink="" view-date="2011-12-04" view-index="0" gantt-divider-location="836" resource-divider-location="301" version="2.0">
+<project name="MseProject" company="KSU Computer Science Program" webLink="" view-date="2011-08-14" view-index="0" gantt-divider-location="773" resource-divider-location="301" version="2.0">
     <description><![CDATA[My project plan for my Masters Software Engineering project.]]></description>
     <view zooming-state="default:6" id="gantt-chart"/>
     <view id="resource-table">
@@ -31,13 +31,13 @@
             <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
             <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
         </taskproperties>
-        <task id="0" name="Phase 1: Inception&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2011-08-21" duration="108" complete="61" priority="1" expand="true">
+        <task id="0" name="Phase 1: Inception&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2011-08-21" duration="111" complete="33" priority="1" expand="true">
             <depend id="13" type="2" difference="0" hardness="Strong"/>
             <depend id="58" type="1" difference="0" hardness="Strong"/>
             <depend id="60" type="1" difference="0" hardness="Strong"/>
             <task id="1" name="Setup Development Environment" color="#8cb6ce" meeting="false" start="2011-08-21" duration="10" complete="100" priority="1" expand="true"/>
             <task id="2" name="Software Quality Assurance Plan&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2011-09-18" duration="18" complete="80" priority="1" expand="true"/>
-            <task id="3" name="Project Plan" color="#8cb6ce" meeting="false" start="2011-09-18" duration="80" complete="25" priority="1" expand="true"/>
+            <task id="3" name="Project Plan" color="#8cb6ce" meeting="false" start="2011-09-18" duration="83" complete="25" priority="1" expand="true"/>
             <task id="4" name="Vision Document&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2011-08-27" duration="40" complete="100" priority="1" expand="true"/>
             <task id="5" name="PyMetrics install and learning&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2011-10-11" duration="1" complete="100" priority="1" expand="true"/>
             <task id="6" name="PEP8 tool install and learning&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2011-10-11" duration="1" complete="100" priority="1" expand="true"/>
@@ -46,6 +46,7 @@
             <task id="9" name="pika install and learning (RabbitMQ)&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2011-09-01" duration="93" complete="20" priority="1" expand="true"/>
             <task id="10" name="pyMongo install and learning&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2011-09-01" duration="93" complete="20" priority="1" expand="true"/>
             <task id="11" name="mockito install and learning&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2011-09-01" duration="93" complete="5" priority="1" expand="true"/>
+            <task id="78" name="Initial Prototype" color="#8cb6ce" meeting="false" start="2011-12-04" duration="5" complete="0" priority="1" expand="true"/>
         </task>
         <task id="68" name="Project: Spike Explorations" color="#ffffcc" meeting="false" start="2011-09-12" duration="112" complete="10" priority="1" expand="true">
             <depend id="13" type="2" difference="0" hardness="Strong"/>
@@ -59,10 +60,10 @@
             <task id="72" name="network double T&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2011-12-15" duration="3" complete="0" priority="1" expand="true">
                 <depend id="73" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="73" name="read from TRACI&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2011-12-18" duration="3" complete="0" priority="1" expand="true">
+            <task id="73" name="read from TraCI - TLS info" color="#8cb6ce" meeting="false" start="2011-12-18" duration="3" complete="0" priority="1" expand="true">
                 <depend id="74" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="74" name="send to TRACI&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2011-12-21" duration="3" complete="0" priority="1" expand="true">
+            <task id="74" name="send to TraCI - TLS commands" color="#8cb6ce" meeting="false" start="2011-12-21" duration="3" complete="0" priority="1" expand="true">
                 <depend id="75" type="2" difference="0" hardness="Strong"/>
             </task>
             <task id="75" name="network metrics&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2011-12-24" duration="3" complete="0" priority="1" expand="true">
@@ -75,10 +76,24 @@
         </task>
         <task id="62" name="Project: Risk Management" color="#ffcccc" meeting="false" start="2011-08-22" duration="131" complete="44" priority="1" expand="true">
             <depend id="13" type="2" difference="0" hardness="Strong"/>
-            <task id="66" name="SUMO" color="#8cb6ce" meeting="false" start="2011-10-17" duration="75" complete="5" priority="1" expand="true"/>
-            <task id="63" name="Python&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2011-08-31" duration="122" complete="20" priority="1" expand="true"/>
+            <task id="66" name="SUMO" color="#8cb6ce" meeting="false" start="2011-10-17" duration="75" complete="5" priority="1" expand="true">
+                <notes><![CDATA[loading networks
+creating networks
+adding new sensors
+adding TLS
+]]></notes>
+            </task>
+            <task id="63" name="Python" color="#8cb6ce" meeting="false" start="2011-08-31" duration="122" complete="20" priority="1" expand="true">
+                <notes><![CDATA[unittest
+mocking
+looping, flow control
+events
+classes]]></notes>
+            </task>
             <task id="64" name="RabbitMQ&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2011-09-12" duration="110" complete="50" priority="1" expand="true"/>
-            <task id="65" name="MongoDB" color="#8cb6ce" meeting="false" start="2011-11-07" duration="54" complete="10" priority="1" expand="true"/>
+            <task id="65" name="MongoDB" color="#8cb6ce" meeting="false" start="2011-11-07" duration="54" complete="10" priority="1" expand="true">
+                <notes><![CDATA[ISUD]]></notes>
+            </task>
             <task id="67" name="git" color="#8cb6ce" meeting="false" start="2011-08-22" duration="103" complete="100" priority="1" expand="true">
                 <notes><![CDATA[how roll back/drop commit?
 how pull from a milestone?
@@ -97,7 +112,7 @@ working with document and code branches]]></notes>
             <task id="16" name="Project Plan Updates&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2012-01-10" duration="3" complete="0" priority="1" expand="true">
                 <depend id="17" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="17" name="Formal Requirement Specification&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2012-01-13" duration="10" complete="0" priority="1" expand="true">
+            <task id="17" name="Formal Requirement Specification - Metrics Agent" color="#8cb6ce" meeting="false" start="2012-01-13" duration="10" complete="0" priority="1" expand="true">
                 <depend id="18" type="2" difference="0" hardness="Strong"/>
             </task>
             <task id="18" name="Architecture Design&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2012-01-23" duration="5" complete="0" priority="1" expand="true">
@@ -216,7 +231,7 @@ working with document and code branches]]></notes>
             </task>
             <task id="56" name="Formal Technical Inspection Letters&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2012-05-30" duration="3" complete="0" priority="1" expand="true"/>
         </task>
-        <task id="57" name="Project: Maintenance" color="#99ff99" meeting="false" start="2011-08-21" duration="284" complete="26" priority="1" expand="true">
+        <task id="57" name="Project: Maintenance" color="#99ff99" meeting="false" start="2011-08-21" duration="288" complete="26" priority="1" expand="true">
             <task id="58" name="Engineering Notebook" color="#8cb6ce" meeting="false" start="2011-09-12" duration="266" complete="30" priority="1" expand="true"/>
             <task id="60" name="Status Reporting" color="#8cb6ce" meeting="false" start="2011-09-12" duration="266" complete="25" priority="1" expand="true"/>
             <task id="59" name="Research Reading&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2011-08-21" duration="132" complete="25" priority="1" expand="true"/>
@@ -228,12 +243,12 @@ working with document and code branches]]></notes>
     <vacations/>
     <taskdisplaycolumns>
         <displaycolumn property-id="tpd10" order="0" width="21"/>
-        <displaycolumn property-id="tpd3" order="1" width="304"/>
-        <displaycolumn property-id="tpd4" order="2" width="100"/>
-        <displaycolumn property-id="tpd5" order="3" width="78"/>
-        <displaycolumn property-id="tpd6" order="4" width="76"/>
-        <displaycolumn property-id="tpd7" order="5" width="65"/>
-        <displaycolumn property-id="tpd9" order="6" width="64"/>
+        <displaycolumn property-id="tpd3" order="1" width="299"/>
+        <displaycolumn property-id="tpd4" order="2" width="96"/>
+        <displaycolumn property-id="tpd5" order="3" width="77"/>
+        <displaycolumn property-id="tpd6" order="4" width="79"/>
+        <displaycolumn property-id="tpd7" order="5" width="68"/>
+        <displaycolumn property-id="tpd9" order="6" width="68"/>
     </taskdisplaycolumns>
     <previous/>
     <roles roleset-name="Default"/>
