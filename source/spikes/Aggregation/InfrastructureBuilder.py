@@ -17,9 +17,12 @@ __author__ = 'Owner'
 #  rabbitmqctl add_user aggregate_admin <password>
 # give the APP_USER the necessary permissions
 #  rabbitmqctl set_permissions -p aggregate_spike aggregate_admin ".*"  ".*" ".*"
+# verify exchanges were built
+#  rabbitmqctl list_exchanges -p aggregate_spike
 RABBITMQ_SERVER = "localhost"
 
 EXCHANGE_AGGREGATE = "aggregate_exchange"
+EXCHANGE_SYSTEM_TICK = "system_tick"
 VHOST_AGGREGATE = "aggregate_spike"
 APP_USER = "aggregate_admin"
 APP_PASS = "putthemtogether"
@@ -43,6 +46,12 @@ class InfrastructureBuilder:
                                         auto_delete=False
         )
 
+        self.channel.exchange_declare(exchange=EXCHANGE_SYSTEM_TICK,
+                                        type= "fanout",
+                                        passive=False,
+                                        durable=False,
+                                        auto_delete=False
+        )
 
         print "infrastructure build complete."
 
