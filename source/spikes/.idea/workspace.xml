@@ -11,9 +11,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/spikes$Unittests_in_ArgumentsTests_py.coverage" NAME="Unittests in ArgumentsTests.py Coverage Results" MODIFIED="1324272773202" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
-    <option name="REVERSE_PATCH" value="false" />
   </component>
   <component name="DaemonCodeAnalyzer">
     <disable_hints />
@@ -22,89 +24,146 @@
     <favorites_list name="spikes" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.4446786">
+    <splitter split-orientation="horizontal" split-proportion="0.45619652">
       <split-first>
-        <leaf>
-          <file leaf-file-name="Arguments.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Arguments.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="7" column="0" selection-start="129" selection-end="129" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="ArgumentsTests.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/ArgumentsTests.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="64" column="0" selection-start="2306" selection-end="2352" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="DarkMatterLogger.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/DarkMatterLogger.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="74" column="69" selection-start="2867" selection-end="2867" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="OffenderDataPublisher.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/OffenderDataPublisher.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="7" column="41" selection-start="159" selection-end="159" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="OffenderData.py" pinned="false" current="true" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/OffenderData.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="6" column="40" selection-start="163" selection-end="163" vertical-scroll-proportion="0.17926186">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="OffenderDataConsumer.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/OffenderDataConsumer.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="5" column="21" selection-start="118" selection-end="118" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="OffenderDataAggregator.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/OffenderDataAggregator.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="3" column="2" selection-start="44" selection-end="44" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
+        <splitter split-orientation="vertical" split-proportion="0.6034115">
+          <split-first>
+            <leaf>
+              <file leaf-file-name="Arguments.py" pinned="false" current="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/Arguments.py">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state line="7" column="0" selection-start="129" selection-end="129" vertical-scroll-proportion="0.0">
+                      <folding />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file leaf-file-name="ArgumentsTests.py" pinned="false" current="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/ArgumentsTests.py">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state line="9" column="27" selection-start="211" selection-end="211" vertical-scroll-proportion="0.0">
+                      <folding />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file leaf-file-name="DarkMatterLogger.py" pinned="false" current="true" current-in-tab="true">
+                <entry file="file://$PROJECT_DIR$/DarkMatterLogger.py">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state line="38" column="35" selection-start="1475" selection-end="1475" vertical-scroll-proportion="0.4448598">
+                      <folding>
+                        <element signature="e#0#10#0" expanded="true" />
+                      </folding>
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+            </leaf>
+          </split-first>
+          <split-second>
+            <leaf>
+              <file leaf-file-name="Aggregation.py" pinned="false" current="false" current-in-tab="true">
+                <entry file="file://$PROJECT_DIR$/Aggregation/Aggregation.py">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state line="10" column="18" selection-start="446" selection-end="446" vertical-scroll-proportion="0.457971">
+                      <folding />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+            </leaf>
+          </split-second>
+        </splitter>
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="OffenderDataSerial.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/OffenderDataSerial.py">
+          <file leaf-file-name="InfrastructureBuilder.py" pinned="false" current="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/Aggregation/InfrastructureBuilder.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="29" column="52" selection-start="692" selection-end="692" vertical-scroll-proportion="0.0">
+                <state line="45" column="0" selection-start="1713" selection-end="1713" vertical-scroll-proportion="0.80963045">
+                  <folding>
+                    <element signature="e#1#11#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="SpikeRunner.py" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Aggregation/SpikeRunner.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="8" column="0" selection-start="273" selection-end="273" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="OffenderDataTests.py" pinned="false" current="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/OffenderDataTests.py">
+          <file leaf-file-name="Producer.py" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Aggregation/Producer.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="18" column="46" selection-start="858" selection-end="858" vertical-scroll-proportion="0.533101">
+                <state line="2" column="24" selection-start="46" selection-end="46" vertical-scroll-proportion="0.0">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Consumer.py" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Aggregation/Consumer.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="4" column="46" selection-start="168" selection-end="168" vertical-scroll-proportion="0.0">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="SystemTickAgent.py" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Aggregation/SystemTickAgent.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="2" column="29" selection-start="51" selection-end="51" vertical-scroll-proportion="0.0">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="EvenAgent.py" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Aggregation/EvenAgent.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="OddAgent.py" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Aggregation/OddAgent.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="LinearAgent.py" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Aggregation/LinearAgent.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="EvenAndOddAggregatorAgent.py" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Aggregation/EvenAndOddAggregatorAgent.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="AlternateAggregatorAgent.py" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Aggregation/AlternateAggregatorAgent.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
@@ -126,22 +185,30 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/experiment.py" />
-        <option value="$PROJECT_DIR$/Experiment.py" />
-        <option value="$PROJECT_DIR$/ExperimentTests.py" />
-        <option value="$PROJECT_DIR$/workq_consumer.py" />
-        <option value="$PROJECT_DIR$/ArgumentsTests.py" />
-        <option value="$PROJECT_DIR$/Arguments.py" />
-        <option value="$PROJECT_DIR$/DarkMatterLogger.py" />
-        <option value="$PROJECT_DIR$/OffenderDataConsumer.py" />
-        <option value="$PROJECT_DIR$/OffenderDataAggregator.py" />
-        <option value="$PROJECT_DIR$/OffenderDataFormatAndMasterData.txt" />
-        <option value="$PROJECT_DIR$/OffenderDataPublisher.py" />
-        <option value="$PROJECT_DIR$/OffenderDataSerial.py" />
         <option value="$PROJECT_DIR$/OffenderDataTests.py" />
         <option value="$PROJECT_DIR$/OffenderData.py" />
+        <option value="$PROJECT_DIR$/ArgumentsTests.py" />
+        <option value="$PROJECT_DIR$/Aggregation.py" />
+        <option value="$PROJECT_DIR$/AggregationTests.py" />
+        <option value="$PROJECT_DIR$/Aggregation/AggregationTests.py" />
+        <option value="$PROJECT_DIR$/Aggregation/Producer.py" />
+        <option value="$PROJECT_DIR$/Aggregation/Consumer.py" />
+        <option value="$PROJECT_DIR$/Aggregation/SystemTickAgent.py" />
+        <option value="$PROJECT_DIR$/Aggregation/EvenAgent.py" />
+        <option value="$PROJECT_DIR$/Aggregation/OddAgent.py" />
+        <option value="$PROJECT_DIR$/Aggregation/LinearAgent.py" />
+        <option value="$PROJECT_DIR$/Aggregation/EvenAndOddAggregator.py" />
+        <option value="$PROJECT_DIR$/Aggregation/AlternateAggregatorAgent.py" />
+        <option value="$PROJECT_DIR$/Aggregation/SpikeRunner.py" />
+        <option value="$PROJECT_DIR$/Aggregation/InfrastructureBuilder.py" />
       </list>
     </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1096" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -174,6 +241,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -192,40 +260,42 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spikes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spikes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Aggregation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Favorites" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="recentsLimit" value="5" />
-    <property name="options.lastSelected" value="editor.preferences.appearance" />
+    <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors.Custom" />
     <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
   </component>
-  <component name="RunManager" selected="Python's unittest.Unittests in OffenderDataTests.test_extractLastName">
-    <configuration default="false" name="Unittests in MyTestCase" type="PythonUnitTestConfigurationType" factoryName="Python's unittest" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <module name="spikes" />
-      <option name="SCRIPT_NAME" value="C:\macts\source\spikes\ArgumentsTests.py" />
-      <option name="CLASS_NAME" value="GreeterTest" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_CLASS" />
-      <option name="PATTERN" value="" />
-      <option name="PUREUNITTEST" value="true" />
-      <RunnerSettings RunnerId="PythonRunner" />
-      <ConfigurationWrapper RunnerId="PythonRunner" />
-      <method />
-    </configuration>
+  <component name="PyConsoleOptionsProvider">
+    <option name="myPythonConsoleState">
+      <PyConsoleSettings />
+    </option>
+    <option name="myDjangoConsoleState">
+      <PyConsoleSettings />
+    </option>
+  </component>
+  <component name="RunManager" selected="Python.InfrastructureBuilder">
     <configuration default="false" name="DarkMatterLogger" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -236,8 +306,10 @@
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <module name="spikes" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/DarkMatterLogger.py" />
       <option name="PARAMETERS" value="" />
+      <option name="MULTIPROCESS" value="false" />
       <RunnerSettings RunnerId="PythonRunner" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
@@ -252,13 +324,15 @@
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <module name="spikes" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/workq_consumer.py" />
       <option name="PARAMETERS" value="" />
+      <option name="MULTIPROCESS" value="false" />
       <RunnerSettings RunnerId="PythonRunner" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
-    <configuration default="false" name="Unittests in OffenderDataTests.py" type="PythonUnitTestConfigurationType" factoryName="Python's unittest" temporary="true">
+    <configuration default="false" name="Unittests in ArgumentsTests.py" type="tests" factoryName="Unittests" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs />
@@ -266,18 +340,22 @@
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <module name="spikes" />
-      <option name="SCRIPT_NAME" value="OffenderDataTests.py" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ArgumentsTests.py" />
       <option name="CLASS_NAME" value="" />
       <option name="METHOD_NAME" value="" />
       <option name="FOLDER_NAME" value="" />
       <option name="TEST_TYPE" value="TEST_SCRIPT" />
       <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
       <option name="PUREUNITTEST" value="true" />
+      <RunnerSettings RunnerId="PythonCover" />
       <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonCover" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
-    <configuration default="false" name="Unittests in OffenderDataTests.test_extractLastName" type="PythonUnitTestConfigurationType" factoryName="Python's unittest" temporary="true">
+    <configuration default="false" name="Unittests in OffenderDataTests.py" type="tests" factoryName="Unittests" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs />
@@ -285,32 +363,35 @@
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <module name="spikes" />
-      <option name="SCRIPT_NAME" value="OffenderDataTests.py" />
-      <option name="CLASS_NAME" value="OffenderDataTests" />
-      <option name="METHOD_NAME" value="test_extractLastName" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_METHOD" />
-      <option name="PATTERN" value="" />
-      <option name="PUREUNITTEST" value="true" />
-      <RunnerSettings RunnerId="PythonRunner" />
-      <ConfigurationWrapper RunnerId="PythonRunner" />
-      <method />
-    </configuration>
-    <configuration default="true" type="PythonUnitTestConfigurationType" factoryName="Python's unittest">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <module name="spikes" />
-      <option name="SCRIPT_NAME" value="" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/OffenderDataTests.py" />
       <option name="CLASS_NAME" value="" />
       <option name="METHOD_NAME" value="" />
       <option name="FOLDER_NAME" value="" />
       <option name="TEST_TYPE" value="TEST_SCRIPT" />
       <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
       <option name="PUREUNITTEST" value="true" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="InfrastructureBuilder" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Aggregation" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <module name="spikes" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Aggregation/InfrastructureBuilder.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="MULTIPROCESS" value="false" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
@@ -323,11 +404,13 @@
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <module name="spikes" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
       <option name="PARAMETERS" value="" />
+      <option name="MULTIPROCESS" value="false" />
       <method />
     </configuration>
-    <configuration default="true" type="PythonDocTestRunConfigurationType" factoryName="Python's doctests">
+    <configuration default="true" type="tests" factoryName="Unittests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs />
@@ -335,12 +418,33 @@
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <module name="spikes" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
       <option name="CLASS_NAME" value="" />
       <option name="METHOD_NAME" value="" />
       <option name="FOLDER_NAME" value="" />
       <option name="TEST_TYPE" value="TEST_SCRIPT" />
       <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PUREUNITTEST" value="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Doctests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <module name="spikes" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
       <method />
     </configuration>
     <configuration default="false" name="experiment" type="PythonConfigurationType" factoryName="Python">
@@ -353,8 +457,10 @@
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <module name="spikes" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="C:\macts\source\spikes\Arguments.py" />
       <option name="PARAMETERS" value="" />
+      <option name="MULTIPROCESS" value="false" />
       <RunnerSettings RunnerId="PythonRunner" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
@@ -369,20 +475,22 @@
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <module name="spikes" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/OffenderDataSerial.py" />
       <option name="PARAMETERS" value="" />
+      <option name="MULTIPROCESS" value="false" />
       <RunnerSettings RunnerId="PythonRunner" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
     <list size="7">
       <item index="0" class="java.lang.String" itemvalue="Python.experiment" />
-      <item index="1" class="java.lang.String" itemvalue="Python's unittest.Unittests in MyTestCase" />
-      <item index="2" class="java.lang.String" itemvalue="Python.DarkMatterLogger" />
-      <item index="3" class="java.lang.String" itemvalue="Python.workq_consumer" />
-      <item index="4" class="java.lang.String" itemvalue="Python.OffenderDataSerial" />
-      <item index="5" class="java.lang.String" itemvalue="Python's unittest.Unittests in OffenderDataTests.py" />
-      <item index="6" class="java.lang.String" itemvalue="Python's unittest.Unittests in OffenderDataTests.test_extractLastName" />
+      <item index="1" class="java.lang.String" itemvalue="Python.DarkMatterLogger" />
+      <item index="2" class="java.lang.String" itemvalue="Python.workq_consumer" />
+      <item index="3" class="java.lang.String" itemvalue="Python.OffenderDataSerial" />
+      <item index="4" class="java.lang.String" itemvalue="Python's test.Unittests in ArgumentsTests.py" />
+      <item index="5" class="java.lang.String" itemvalue="Python's test.Unittests in OffenderDataTests.py" />
+      <item index="6" class="java.lang.String" itemvalue="Python.InfrastructureBuilder" />
     </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
@@ -436,22 +544,28 @@
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32979852" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1301743" sideWeight="0.32661718" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.12592202" sideWeight="0.65111345" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.12713675" sideWeight="0.7121535" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34888652" sideWeight="0.99900794" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28784648" sideWeight="0.99900794" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29374337" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
@@ -477,6 +591,12 @@
     <option name="SHOW_ONLY_CHANGED_IN_SELECTION_DIFF" value="true" />
     <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
     <option name="DEFAULT_PATCH_EXTENSION" value="patch" />
+    <option name="SHORT_DIFF_HORISONTALLY" value="true" />
+    <option name="SHORT_DIFF_EXTRA_LINES" value="2" />
+    <option name="SOFT_WRAPS_IN_SHORT_DIFF" value="true" />
+    <option name="INCLUDE_TEXT_INTO_PATCH" value="false" />
+    <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
+    <option name="CREATE_PATCH_EXPAND_DETAILS_DEFAULT" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="LAST_COMMIT_MESSAGE" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
@@ -496,91 +616,117 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/DarkMatterLogger.py">
+    <entry file="file://$PROJECT_DIR$/OffenderData.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="69" selection-start="2867" selection-end="2867" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OffenderDataPublisher.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="41" selection-start="159" selection-end="159" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OffenderDataConsumer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="21" selection-start="118" selection-end="118" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OffenderDataAggregator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="2" selection-start="44" selection-end="44" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://C:/Projects/Python/ReadFile.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="4" selection-start="335" selection-end="335" vertical-scroll-proportion="0.29694322">
-          <folding />
-        </state>
+        <state line="10" column="31" selection-start="280" selection-end="280" vertical-scroll-proportion="0.38724375" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Arguments.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="0" selection-start="129" selection-end="129" vertical-scroll-proportion="0.0" />
+        <state line="7" column="0" selection-start="129" selection-end="129" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ArgumentsTests.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="64" column="0" selection-start="2306" selection-end="2352" vertical-scroll-proportion="0.0">
+        <state line="9" column="27" selection-start="211" selection-end="211" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://C:/Projects/Python/FieldSizeChecker.py">
+    <entry file="file://$PROJECT_DIR$/Aggregation/AggregationTests.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="46" selection-start="416" selection-end="416" vertical-scroll-proportion="0.42805755">
+        <state line="10" column="28" selection-start="331" selection-end="331" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://C:/Projects/Python/FieldCountChecker.py">
+    <entry file="file://$PROJECT_DIR$/Aggregation/Producer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="0" selection-start="653" selection-end="653" vertical-scroll-proportion="-0.059753954">
+        <state line="2" column="24" selection-start="46" selection-end="46" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://C:/Projects/Python/DelimiterCheck.py">
+    <entry file="file://$PROJECT_DIR$/Aggregation/Consumer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="19" selection-start="558" selection-end="558" vertical-scroll-proportion="0.6572935">
+        <state line="4" column="46" selection-start="168" selection-end="168" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://C:/Projects/Python/enron_mail_files_to_mongodb.py">
+    <entry file="file://$PROJECT_DIR$/Aggregation/SystemTickAgent.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="41" selection-start="581" selection-end="581" vertical-scroll-proportion="0.6274165">
+        <state line="2" column="29" selection-start="51" selection-end="51" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/OffenderDataSerial.py">
+    <entry file="file://$PROJECT_DIR$/Aggregation/EvenAgent.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="52" selection-start="692" selection-end="692" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/OffenderDataTests.py">
+    <entry file="file://$PROJECT_DIR$/Aggregation/OddAgent.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="46" selection-start="858" selection-end="858" vertical-scroll-proportion="0.533101">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/OffenderData.py">
+    <entry file="file://$PROJECT_DIR$/Aggregation/LinearAgent.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="40" selection-start="163" selection-end="163" vertical-scroll-proportion="0.17926186">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Aggregation/AlternateAggregatorAgent.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Aggregation/EvenAndOddAggregatorAgent.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Aggregation/SpikeRunner.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="0" selection-start="273" selection-end="273" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Aggregation/Aggregation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="18" selection-start="446" selection-end="446" vertical-scroll-proportion="0.457971">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Aggregation/InfrastructureBuilder.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="45" column="0" selection-start="1713" selection-end="1713" vertical-scroll-proportion="0.80963045">
+          <folding>
+            <element signature="e#1#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DarkMatterLogger.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="38" column="35" selection-start="1475" selection-end="1475" vertical-scroll-proportion="0.4448598">
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

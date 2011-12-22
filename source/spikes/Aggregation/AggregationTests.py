@@ -1,7 +1,6 @@
 __author__ = 'Owner'
 
 import unittest
-from Aggregation import *
 
 class AggregationTests(unittest.TestCase):
     def test_monitoringTwoSensors(self):
