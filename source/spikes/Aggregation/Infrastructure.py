@@ -1,11 +1,12 @@
-
 import sys
 import pika
+import json
 
-__author__ = 'Owner'
+__author__ = 'k0emt'
 
-# this class is used to spin up the Tick Queue
-# this way we can have consumers up and running before initiating the System Tick Agent Producer
+# this class is used to spin up the Tick Exchange
+# this way we can have consumers up and running
+# before initiating the System Tick Agent Producer
 
 # set up an "aggregate_spike" vhost
 # set up the primary tick Queue
@@ -16,14 +17,13 @@ __author__ = 'Owner'
 # create a user APP_USER with associated APP_PASS word
 #  rabbitmqctl add_user aggregate_admin <password>
 # give the APP_USER the necessary permissions
-#  rabbitmqctl set_permissions -p aggregate_spike aggregate_admin ".*"  ".*" ".*"
+#  rabbitmqctl set_permissions -p aggregate_spike aggregate_admin ".*" ".*" ".*"
 # verify exchanges were built
 #  rabbitmqctl list_exchanges -p aggregate_spike
 RABBITMQ_SERVER = "localhost"
-
+VHOST_AGGREGATE = "aggregate_spike"
 EXCHANGE_AGGREGATE = "aggregate_exchange"
 EXCHANGE_SYSTEM_TICK = "system_tick"
-VHOST_AGGREGATE = "aggregate_spike"
 APP_USER = "aggregate_admin"
 APP_PASS = "putthemtogether"
 STOP_PROCESSING_MESSAGE = "QRT"
@@ -40,14 +40,14 @@ class InfrastructureBuilder:
         self.channel = conn.channel()
 
         self.channel.exchange_declare(exchange=EXCHANGE_AGGREGATE,
-                                        type= "fanout",
+                                        type="direct",
                                         passive=False,
                                         durable=False,
                                         auto_delete=False
         )
 
         self.channel.exchange_declare(exchange=EXCHANGE_SYSTEM_TICK,
-                                        type= "fanout",
+                                        type="fanout",
                                         passive=False,
                                         durable=False,
                                         auto_delete=False
@@ -55,7 +55,18 @@ class InfrastructureBuilder:
 
         print "infrastructure build complete."
 
-def main():
-    ib = InfrastructureBuilder()
+class MessageContainer:
+    def __init__(self, systemTickId, tickAgent, tickValue):
+        self.data = [ {'systemTickId' : systemTickId,
+                        'agent' : tickAgent,
+                        'agentValue' : tickValue
+                       } ]
 
-main()
+    def getJSON(self):
+        return json.dumps(self.data)
+
+# don't do anything when it is used as an import
+# def main():
+
+if __name__ == "__main__":
+    ib = InfrastructureBuilder()

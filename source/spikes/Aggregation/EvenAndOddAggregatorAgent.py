@@ -1,1 +1,3 @@
-__author__ = 'Owner'
+__author__ = 'k0emt'
+
+# publishes to a direct exchange with a topic of plan
