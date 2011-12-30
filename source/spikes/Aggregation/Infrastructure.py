@@ -56,11 +56,13 @@ class InfrastructureBuilder:
         print "infrastructure build complete."
 
 class MessageContainer:
-    def __init__(self, systemTickId, tickAgent, tickValue):
+
+    def __init__(self, systemTickId, tickAgent, tickValue, aggregatorName=None):
         self.data = [ {'systemTickId' : systemTickId,
-                        'agent' : tickAgent,
-                        'agentValue' : tickValue
-                       } ]
+                       'agent' : tickAgent,
+                       'agentValue' : tickValue,
+                       'aggregator' : aggregatorName
+        } ]
 
     def getJSON(self):
         return json.dumps(self.data)
