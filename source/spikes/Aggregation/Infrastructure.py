@@ -24,6 +24,9 @@ RABBITMQ_SERVER = "localhost"
 VHOST_AGGREGATE = "aggregate_spike"
 EXCHANGE_AGGREGATE = "aggregate_exchange"
 EXCHANGE_SYSTEM_TICK = "system_tick"
+
+ROUTE_KEY_AGGREGATE = "aggregated"
+ROUTE_KEY_LINEAR = "linear"
 APP_USER = "aggregate_admin"
 APP_PASS = "putthemtogether"
 STOP_PROCESSING_MESSAGE = "QRT"
@@ -57,11 +60,10 @@ class InfrastructureBuilder:
 
 class MessageContainer:
 
-    def __init__(self, systemTickId, tickAgent, tickValue, aggregatorName=None):
+    def __init__(self, systemTickId, agentName, agentValue):
         self.data = [ {'systemTickId' : systemTickId,
-                       'agent' : tickAgent,
-                       'agentValue' : tickValue,
-                       'aggregator' : aggregatorName
+                       'agent' : agentName,
+                       'agentValue' : agentValue
         } ]
 
     def getJSON(self):

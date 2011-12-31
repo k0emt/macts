@@ -3,7 +3,11 @@ import pika
 import Infrastructure
 from Infrastructure import MessageContainer
 
+
 class LinearAgent:
+    AGENT_NAME = "LinearAgent"
+    ROUTING_KEY = Infrastructure.ROUTE_KEY_LINEAR
+
     def Connect_RabbitMQ(self):
         print "Connecting to RabbitMQ...",
         # first thing this agent needs to do is connect to the tick exchange
@@ -20,7 +24,7 @@ class LinearAgent:
         return channel
 
     def __init__(self):
-        print "Linear Agent"
+        print self.AGENT_NAME
         self.counter = 0
         print "Counter initialized to: ", self.counter
 
@@ -38,7 +42,7 @@ class LinearAgent:
             print "received: ", body
 
             if self.isStopProcessingMessage(body):
-                channel.basic_cancel(consumer_tag="LinearAgent")
+                channel.basic_cancel(consumer_tag=self.AGENT_NAME)
                 channel.stop_consuming()
             else:
                 outGoingMessage = self.transform(body)
@@ -49,7 +53,7 @@ class LinearAgent:
         print "DONE"
         print "Consuming"
         channel.start_consuming()
-        print "Linear Agent FINISHED"
+        print self.AGENT_NAME, " FINISHED"
 
     # callback that runs when message arrives -- see basic_consume() below
     def isStopProcessingMessage(self, body):
@@ -58,14 +62,14 @@ class LinearAgent:
     # on rcv tick transform it (no transformation for this agent)
     def transform(self, body):
         self.counter += 1
-        return MessageContainer(body,'LinearAgent',self.counter).getJSON()
+        return MessageContainer(body, self.AGENT_NAME, self.counter).getJSON()
 
     # send transformed data to to Direct Exchange, "linear" topic
     # pull this out to Producer
     def sendMessage(self,message):
         print "SEND:", message,
         self.publishChannel.basic_publish(exchange=Infrastructure.EXCHANGE_AGGREGATE,
-                                            routing_key='linear',
+                                            routing_key=self.ROUTING_KEY,
                                             body=message)
         print " SENT"
 
