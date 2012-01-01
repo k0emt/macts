@@ -39,7 +39,7 @@ class LinearAgent:
         def msg_consumer(channel, method, header, body):
             channel.basic_ack(delivery_tag=method.delivery_tag)
 
-            print "received: ", body
+            print "RX %r |" % body,
 
             if self.isStopProcessingMessage(body):
                 channel.basic_cancel(consumer_tag=self.AGENT_NAME)
@@ -62,16 +62,16 @@ class LinearAgent:
     # on rcv tick transform it (no transformation for this agent)
     def transform(self, body):
         self.counter += 1
-        return MessageContainer(body, self.AGENT_NAME, self.counter).getJSON()
+        return MessageContainer(body, self.AGENT_NAME, str(self.counter)).getJSON()
 
     # send transformed data to to Direct Exchange, "linear" topic
     # pull this out to Producer
     def sendMessage(self,message):
-        print "SEND:", message,
+        print "TX", message,
         self.publishChannel.basic_publish(exchange=Infrastructure.EXCHANGE_AGGREGATE,
                                             routing_key=self.ROUTING_KEY,
                                             body=message)
-        print " SENT"
+        print "+"
 
 if __name__ == "__main__":
     la = LinearAgent()

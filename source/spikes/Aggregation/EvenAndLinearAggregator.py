@@ -1,5 +1,7 @@
 __author__ = 'k0emt'
+
 import pika
+import json
 import Infrastructure
 from Infrastructure import MessageContainer
 # TODO subscribe to and read from the direct exchange for even
@@ -35,12 +37,12 @@ class EvenAndLinearAggregator:
         ourQ = channel.queue_declare(exclusive=True)
         queue_name = ourQ.method.queue
         channel.queue_bind(exchange=Infrastructure.EXCHANGE_AGGREGATE,
-                            queue=queue_name,
-                            routing_key=Infrastructure.ROUTE_KEY_LINEAR)
+            queue=queue_name,
+            routing_key=Infrastructure.ROUTE_KEY_LINEAR)
 
         def callback(ch, method, properties, body):
-            print "RX {0} VIA {1} X".format(body, method.routing_key),
-            outGoingMessage = self.transform(body)
+            print "RX {0} VIA {1} |".format(body, method.routing_key),
+            outGoingMessage = self.transform(body).getJSON()
             self.sendMessage(outGoingMessage)
 
         channel.basic_consume(callback, queue=queue_name, no_ack=True)
@@ -48,13 +50,6 @@ class EvenAndLinearAggregator:
         print "Consuming"
         channel.start_consuming()
         print self.AGENT_NAME, " FINISHED"
-
-    # TODO need ALL parts for transformation
-    def transform(self, body):
-        # TODO need to extract the system tick id from the incoming message
-
-        # faking it for now!
-        return MessageContainer("1", self.AGENT_NAME, "2").getJSON()
 
     # send transformed data to to Direct Exchange, "linear" topic
     # pull this out to Producer
@@ -64,7 +59,19 @@ class EvenAndLinearAggregator:
             exchange=Infrastructure.EXCHANGE_AGGREGATE,
             routing_key=self.ROUTING_KEY,
             body=message)
-        print "X"
+        print "+"
+
+    @staticmethod
+    def transform(incoming_json_message):
+        # TODO aggregation code
+        incoming = json.loads(incoming_json_message)
+        incoming_dictionary = dict(incoming[0])
+        return MessageContainer(incoming_dictionary[MessageContainer.SYSTEM_TICK_ID_FIELD],
+            EvenAndLinearAggregator.AGENT_NAME,
+            "{0}:{1}".format(
+                incoming_dictionary[MessageContainer.SYSTEM_AGENT_FIELD],
+                incoming_dictionary[MessageContainer.SYSTEM_AGENT_VALUE_FIELD])
+        )
 
 if __name__ == "__main__":
     eal = EvenAndLinearAggregator()

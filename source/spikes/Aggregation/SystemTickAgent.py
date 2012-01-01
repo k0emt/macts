@@ -9,6 +9,9 @@ import Infrastructure
 
 
 class SystemTickAgent:
+    TIMES_TO_TICK = 5
+    TICK_DELAY_IN_SECONDS = .5
+
     def __init__(self):
         print "System Tick Agent"
         print "Connecting to RabbitMQ...",
@@ -23,10 +26,7 @@ class SystemTickAgent:
         print "CONNECTED"
 
     def sendTick(self, message):
-    #        msg = '{"tick":' + repr(message) + "}"
-    #        print msg
-    #        print json.loads(msg)
-        print message,
+        print "TX %r" % message,
         msg = repr(message)
         msg_props = pika.BasicProperties()
         msg_props.content_type = "text/plain"
@@ -35,7 +35,7 @@ class SystemTickAgent:
             exchange=Infrastructure.EXCHANGE_SYSTEM_TICK,
             properties=msg_props,
             routing_key="")
-        print "...SENT"
+        print "+"
 
     def autoTick(self, tickDelayInSeconds, timesToTick):
         counter = 0
@@ -47,7 +47,8 @@ class SystemTickAgent:
 
 def main():
     sta = SystemTickAgent()
-    sta.autoTick(.5, 5)
+    print "Auto Tick set for %r seconds delay and %r ticks." % (sta.TICK_DELAY_IN_SECONDS, sta.TIMES_TO_TICK)
+    sta.autoTick(sta.TICK_DELAY_IN_SECONDS, sta.TIMES_TO_TICK)
     sta.sendTick(Infrastructure.STOP_PROCESSING_MESSAGE)
 
 main()

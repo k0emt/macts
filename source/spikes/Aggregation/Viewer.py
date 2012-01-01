@@ -36,7 +36,7 @@ class Viewer:
             routing_key=Infrastructure.ROUTE_KEY_AGGREGATE)
 
         def callback(ch, method, properties, body):
-            print "RX {0} VIA {1} X".format(body, method.routing_key)
+            print "RX {0} VIA {1}".format(body, method.routing_key)
 
         channel.basic_consume(callback, queue=queue_name, no_ack=True)
 

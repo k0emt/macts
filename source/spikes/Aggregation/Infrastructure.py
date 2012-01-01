@@ -59,11 +59,17 @@ class InfrastructureBuilder:
         print "infrastructure build complete."
 
 class MessageContainer:
+    SYSTEM_TICK_ID_FIELD = 'systemTickId'
+    SYSTEM_AGENT_VALUE_FIELD = 'agentValue'
+    SYSTEM_AGENT_FIELD = 'agent'
 
     def __init__(self, systemTickId, agentName, agentValue):
-        self.data = [ {'systemTickId' : systemTickId,
-                       'agent' : agentName,
-                       'agentValue' : agentValue
+        self.system_tick_id = systemTickId
+        self.agent_name = agentName
+        self.agent_value = agentValue
+        self.data = [ {self.SYSTEM_TICK_ID_FIELD: self.system_tick_id,
+                       self.SYSTEM_AGENT_FIELD: self.agent_name,
+                       self.SYSTEM_AGENT_VALUE_FIELD: self.agent_value
         } ]
 
     def getJSON(self):
