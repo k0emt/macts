@@ -27,6 +27,9 @@ EXCHANGE_SYSTEM_TICK = "system_tick"
 
 ROUTE_KEY_AGGREGATE = "aggregated"
 ROUTE_KEY_LINEAR = "linear"
+ROUTE_KEY_EVEN = "even"
+ROUTE_KEY_ODD = "odd"
+
 APP_USER = "aggregate_admin"
 APP_PASS = "putthemtogether"
 STOP_PROCESSING_MESSAGE = "QRT"
@@ -74,6 +77,62 @@ class MessageContainer:
 
     def getJSON(self):
         return json.dumps(self.data)
+
+
+class Agent:
+    AGENT_NAME = None
+    ROUTING_KEY = None
+
+    def local_init(self):
+        pass
+
+    def establish_connection(self, message_consumer):
+        channel = self.Connect_RabbitMQ()
+
+        print "Creating Queue...",
+        ourChan = channel.queue_declare(exclusive=True)
+        channel.queue_bind(exchange=EXCHANGE_SYSTEM_TICK,
+            queue=ourChan.method.queue)
+        print "DONE"
+        print "Setting up callback...",
+
+        channel.basic_qos(prefetch_count=1)
+        channel.basic_consume(message_consumer)
+        print "DONE"
+
+        print "Consuming"
+        channel.start_consuming()
+        print self.AGENT_NAME, " FINISHED"
+
+    def Connect_RabbitMQ(self):
+        print "Connecting to RabbitMQ...",
+        # first thing this agent needs to do is connect to the tick exchange
+        credentials = pika.PlainCredentials(APP_USER,
+            APP_PASS)
+        conn_params = pika.ConnectionParameters(
+            host=RABBITMQ_SERVER,
+            virtual_host=VHOST_AGGREGATE,
+            credentials=credentials)
+        conn = pika.BlockingConnection(conn_params)
+        channel = conn.channel()
+        self.publishChannel = conn.channel()
+        print "CONNECTED"
+        return channel
+
+    # callback that runs when message arrives -- see basic_consume() below
+    def isStopProcessingMessage(self, body):
+        return repr(STOP_PROCESSING_MESSAGE) == body
+
+    # send transformed data to to Direct Exchange, "linear" topic
+    # pull this out to Producer
+    def sendMessage(self, message):
+        print "TX", message,
+        self.publishChannel.basic_publish(
+            exchange=EXCHANGE_AGGREGATE,
+            routing_key=self.ROUTING_KEY,
+            body=message)
+        print "+"
+
 
 # don't do anything when it is used as an import
 # def main():

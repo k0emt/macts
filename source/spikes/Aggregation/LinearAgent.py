@@ -1,41 +1,29 @@
 __author__ = 'k0emt'
-import pika
 import Infrastructure
 from Infrastructure import MessageContainer
+from Infrastructure import Agent
 
+import EvenAgent
 
-class LinearAgent:
-    AGENT_NAME = "LinearAgent"
-    ROUTING_KEY = Infrastructure.ROUTE_KEY_LINEAR
+class LinearAgent(Agent):
 
-    def Connect_RabbitMQ(self):
-        print "Connecting to RabbitMQ...",
-        # first thing this agent needs to do is connect to the tick exchange
-        credentials = pika.PlainCredentials(Infrastructure.APP_USER,
-            Infrastructure.APP_PASS)
-        conn_params = pika.ConnectionParameters(
-            host=Infrastructure.RABBITMQ_SERVER,
-            virtual_host=Infrastructure.VHOST_AGGREGATE,
-            credentials=credentials)
-        conn = pika.BlockingConnection(conn_params)
-        channel = conn.channel()
-        self.publishChannel = conn.channel()
-        print "CONNECTED"
-        return channel
+    def local_init(self):
+        self.AGENT_NAME = "LinearAgent"
+        self.ROUTING_KEY = Infrastructure.ROUTE_KEY_LINEAR
 
-    def __init__(self):
         print self.AGENT_NAME
         self.counter = 0
         print "Counter initialized to: ", self.counter
 
-        channel = self.Connect_RabbitMQ()
+    # on rcv tick transform it (no transformation for this agent)
+    def transform(self, body):
+        self.counter += 1
+        return MessageContainer(body,
+                                self.AGENT_NAME,
+                                str(self.counter))\
+                .getJSON()
 
-        print "Creating Queue...",
-        ourChan = channel.queue_declare(exclusive=True)
-        channel.queue_bind(exchange=Infrastructure.EXCHANGE_SYSTEM_TICK,
-                            queue=ourChan.method.queue)
-        print "DONE"
-        print "Setting up callback...",
+    def __init__(self):
         def msg_consumer(channel, method, header, body):
             channel.basic_ack(delivery_tag=method.delivery_tag)
 
@@ -48,33 +36,8 @@ class LinearAgent:
                 outGoingMessage = self.transform(body)
                 self.sendMessage(outGoingMessage)
 
-        channel.basic_qos(prefetch_count=1)
-        channel.basic_consume(msg_consumer)
-        print "DONE"
-        print "Consuming"
-        channel.start_consuming()
-        print self.AGENT_NAME, " FINISHED"
-
-    # callback that runs when message arrives -- see basic_consume() below
-    def isStopProcessingMessage(self, body):
-        return repr(Infrastructure.STOP_PROCESSING_MESSAGE) == body
-
-    # on rcv tick transform it (no transformation for this agent)
-    def transform(self, body):
-        self.counter += 1
-        return MessageContainer(body, self.AGENT_NAME, str(self.counter)).getJSON()
-
-    # send transformed data to to Direct Exchange, "linear" topic
-    # pull this out to Producer
-    def sendMessage(self,message):
-        print "TX", message,
-        self.publishChannel.basic_publish(exchange=Infrastructure.EXCHANGE_AGGREGATE,
-                                            routing_key=self.ROUTING_KEY,
-                                            body=message)
-        print "+"
+        self.local_init()
+        Agent.establish_connection(self, msg_consumer)
 
 if __name__ == "__main__":
     la = LinearAgent()
-
-
-

@@ -4,7 +4,6 @@ import pika
 import json
 import Infrastructure
 from Infrastructure import MessageContainer
-# TODO subscribe to and read from the direct exchange for even
 # TODO receive reports, put them together
 # TODO when detect have assembled report, send to direct exchange
 
@@ -39,6 +38,10 @@ class EvenAndLinearAggregator:
         channel.queue_bind(exchange=Infrastructure.EXCHANGE_AGGREGATE,
             queue=queue_name,
             routing_key=Infrastructure.ROUTE_KEY_LINEAR)
+
+        channel.queue_bind(exchange=Infrastructure.EXCHANGE_AGGREGATE,
+            queue=queue_name,
+            routing_key=Infrastructure.ROUTE_KEY_EVEN)
 
         def callback(ch, method, properties, body):
             print "RX {0} VIA {1} |".format(body, method.routing_key),

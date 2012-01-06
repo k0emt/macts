@@ -9,8 +9,8 @@ import Infrastructure
 
 
 class SystemTickAgent:
-    TIMES_TO_TICK = 5
-    TICK_DELAY_IN_SECONDS = .5
+    TIMES_TO_TICK = 20
+    TICK_DELAY_IN_SECONDS = .4
 
     def __init__(self):
         print "System Tick Agent"
