@@ -1,4 +1,3 @@
-import sys
 import pika
 import json
 
@@ -20,7 +19,7 @@ __author__ = 'k0emt'
 #  rabbitmqctl set_permissions -p aggregate_spike aggregate_admin ".*" ".*" ".*"
 # verify exchanges were built
 #  rabbitmqctl list_exchanges -p aggregate_spike
-RABBITMQ_SERVER = "localhost"
+RABBITMQ_SERVER = "naginata"                        # YOUR RABBITMQ SERVER NAME/IP HERE
 VHOST_AGGREGATE = "aggregate_spike"
 EXCHANGE_AGGREGATE = "aggregate_exchange"
 EXCHANGE_SYSTEM_TICK = "system_tick"
@@ -40,26 +39,27 @@ class InfrastructureBuilder:
         print "Aggregate Spike Infrastructure Builder"
         credentials = pika.PlainCredentials(APP_USER, APP_PASS)
         conn_params = pika.ConnectionParameters(host=RABBITMQ_SERVER,
-                                                virtual_host=VHOST_AGGREGATE,
-                                                credentials=credentials)
+            virtual_host=VHOST_AGGREGATE,
+            credentials=credentials)
         conn = pika.BlockingConnection(conn_params)
         self.channel = conn.channel()
 
         self.channel.exchange_declare(exchange=EXCHANGE_AGGREGATE,
-                                        type="direct",
-                                        passive=False,
-                                        durable=False,
-                                        auto_delete=False
+            type="direct",
+            passive=False,
+            durable=False,
+            auto_delete=False
         )
 
         self.channel.exchange_declare(exchange=EXCHANGE_SYSTEM_TICK,
-                                        type="fanout",
-                                        passive=False,
-                                        durable=False,
-                                        auto_delete=False
+            type="fanout",
+            passive=False,
+            durable=False,
+            auto_delete=False
         )
 
         print "infrastructure build complete."
+
 
 class MessageContainer:
     SYSTEM_TICK_ID_FIELD = 'systemTickId'
@@ -70,10 +70,10 @@ class MessageContainer:
         self.system_tick_id = systemTickId
         self.agent_name = agentName
         self.agent_value = agentValue
-        self.data = [ {self.SYSTEM_TICK_ID_FIELD: self.system_tick_id,
-                       self.SYSTEM_AGENT_FIELD: self.agent_name,
-                       self.SYSTEM_AGENT_VALUE_FIELD: self.agent_value
-        } ]
+        self.data = [{self.SYSTEM_TICK_ID_FIELD: self.system_tick_id,
+                      self.SYSTEM_AGENT_FIELD: self.agent_name,
+                      self.SYSTEM_AGENT_VALUE_FIELD: self.agent_value
+        }]
 
     def getJSON(self):
         return json.dumps(self.data)
@@ -133,6 +133,40 @@ class Agent:
             body=message)
         print "+"
 
+
+class Aggregator:
+    AGENT_NAME = None
+    AGENT_NAME_SHORT = None
+    ROUTING_KEY = ROUTE_KEY_AGGREGATE
+
+    def Connect_RabbitMQ(self):
+        print "Connecting to RabbitMQ...",
+        # first thing this agent needs to do is connect to the tick exchange
+        credentials = pika.PlainCredentials(APP_USER, APP_PASS)
+        conn_params = pika.ConnectionParameters(host=RABBITMQ_SERVER,
+                                                virtual_host=VHOST_AGGREGATE,
+                                                credentials=credentials)
+        conn = pika.BlockingConnection(conn_params)
+        channel = conn.channel()
+        self.publishChannel = conn.channel()
+        print "CONNECTED"
+        return channel
+
+    def base_rabbit_init(self):
+        print self.AGENT_NAME
+        self.system_tick_dictionary = {}
+        channel = self.Connect_RabbitMQ()
+        ourQ = channel.queue_declare(exclusive=True)
+        queue_name = ourQ.method.queue
+        return channel, queue_name
+
+    def sendMessage(self, message):
+        print "TX", message,
+        self.publishChannel.basic_publish(
+            exchange=EXCHANGE_AGGREGATE,
+            routing_key=self.ROUTING_KEY,
+            body=message)
+        print "+"
 
 # don't do anything when it is used as an import
 # def main():
