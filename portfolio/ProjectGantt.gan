@@ -187,7 +187,7 @@ working with document and code branches]]></notes>
                     <depend id="41" type="2" difference="0" hardness="Strong"/>
                     <depend id="42" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="41" name="SR 15 - UC 7" color="#8cb6ce" meeting="false" start="2012-05-01" duration="15" complete="0" priority="1" expand="false">
+                <task id="41" name="SR 15 - UC 7" color="#8cb6ce" meeting="false" start="2012-05-01" duration="15" complete="0" priority="1" expand="true">
                     <depend id="45" type="2" difference="0" hardness="Strong"/>
                     <task id="42" name="SR 15 - Simple Timings Approach" color="#8cb6ce" meeting="false" start="2012-05-01" duration="3" complete="0" priority="1" expand="true">
                         <notes><![CDATA[Use SUMO based timing handling]]></notes>
