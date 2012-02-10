@@ -1,0 +1,275 @@
+-------------------------------------------------------------------------------
+-- GMoDS Based Agent Architecture
+-- 
+-- This file contains a formal specification of the invariants maintained by
+-- the getEventsToFire method from the RoleLevelGoalModel
+--
+-- File:    GMoDSAgentArchitecture.use
+-- Author:  Kyle Hill
+-- Date:    June 20, 2011
+-------------------------------------------------------------------------------
+
+model GMoDSAgentArchitecture
+
+-------------------------------------------------------------------------------
+-- Classes
+-------------------------------------------------------------------------------
+class Object
+end
+
+-------------------------------------------------------------------------------
+-- GAA Classes
+-------------------------------------------------------------------------------
+class RoleInterpreter
+end
+
+class RoleLevelGoalModel
+operations
+    getEventsToFire(g : ParameterizedSpecificationGoal, r : Boolean) : Set(SpecificationEvent)
+    getNextInstanceGoal() : InstanceGoal
+end
+
+class GoalCapabilityMap
+operations
+    addMapping(s : String, e : CapabilityMapEntry)
+    invoke(g : ParameterizedSpecificationGoal, p : InstanceParameters)
+end
+
+class CapabilityMapEntry
+attributes
+    id : String
+end
+
+class Method
+attributes
+    name : String
+    return : Object
+end
+
+class Capability
+end
+
+-------------------------------------------------------------------------------
+-- GMoDS Classes
+-------------------------------------------------------------------------------
+class GoalTree
+end
+
+class SpecificationTree
+end
+
+class SpecificationEvent
+attributes
+    id : String
+end
+
+class ParameterizedSpecificationGoal
+attributes
+    id : String
+    isLeaf : Boolean
+end
+
+class SpecificationParameters
+end
+
+class SpecificationParameter
+attributes
+    key : String
+end
+
+class InstanceTree
+end
+
+class InstanceGoal
+attributes
+    id : String
+end
+
+class InstanceParameters
+end
+
+class InstanceParameter
+attributes
+   key : String
+   value : Object
+end
+
+-------------------------------------------------------------------------------
+-- Associations
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+-- GAA Associations
+-------------------------------------------------------------------------------
+association RLGM between
+    RoleInterpreter[1]
+    RoleLevelGoalModel[1] role rlgm
+end
+
+association RLGMGoalTree between
+    RoleLevelGoalModel[1]
+    GoalTree[1] role goalTree
+end
+
+association GCM between
+    RoleInterpreter[1]
+    GoalCapabilityMap[1] role gcm
+end
+
+association MapEntries between
+    GoalCapabilityMap[1]
+    CapabilityMapEntry[0..*] role entries
+end
+
+association EntryMethod between
+    CapabilityMapEntry[0..*]
+    Method[1] role method
+end
+
+association EntryCapability between
+    CapabilityMapEntry[0..*]
+    Capability[1] role capability
+end
+
+association MethodParams between
+    Method[1] role method1
+    Object[0..*] role params
+end
+
+-------------------------------------------------------------------------------
+-- GMoDS Associations
+-------------------------------------------------------------------------------
+association SpecTree between
+   GoalTree[1]
+   SpecificationTree[1] role specTree
+end
+
+association SpecGoals between
+   SpecificationTree[1]
+   ParameterizedSpecificationGoal[1..*] role goals
+end
+
+association SpecGoalParam between
+   ParameterizedSpecificationGoal[1]
+   SpecificationParameters[0..1] role param
+end
+
+association SpecEvents between
+   SpecificationTree[1]
+   SpecificationEvent[0..*] role events
+end
+
+association SpecEventParams between
+   SpecificationEvent[1]
+   SpecificationParameters[0..1] role param
+end
+
+association SpecParams between
+   SpecificationParameters[1]
+   SpecificationParameter[0..*] role params
+end
+
+association InstTree between
+   GoalTree[1]
+   InstanceTree[1] role instTree
+end
+
+association ActiveInstGoals between
+   InstanceTree[1]
+   InstanceGoal[0..*] role activeGoals
+end
+
+association InstGoalParam between
+   InstanceGoal[1]
+   InstanceParameters[0..1] role param
+end
+
+association InstParams between
+   InstanceParameters[1]
+   InstanceParameter[0..*] role params
+end
+
+-------------------------------------------------------------------------------
+-- Constratints
+-------------------------------------------------------------------------------
+constraints
+
+-------------------------------------------------------------------------------
+-- RoleLevelGoalModel Constraints
+-------------------------------------------------------------------------------
+context RoleLevelGoalModel::getEventsToFire(g : ParameterizedSpecificationGoal, r : Boolean) : Set(SpecificationEvent)
+
+-- The given specification goal must exist within the specification tree and be
+-- unique
+pre GoalInTree:
+    goalTree.specTree.goals->select(id = g.id)->size() = 1
+
+-- If the return value is not boolean, then all goal model specified events are
+-- returned
+post NoBoolReturnsAll:
+    r.isUndefined() implies goalTree.specTree.events = result
+    
+-- If the return value is true, then all the "true" prefixed events are returned.
+--   If no events are prefixed with "true", then all unconditional events are returned.
+-- Otherwise, if the return value is false, then all the "false" prefixed events are returned.
+--   If no events are prefixed with "false", then all unconditional events are returned.
+post CorrectEventsReturned:
+    let allEvents   : Set(SpecificationEvent) = goalTree.specTree.events in
+    let trueEvents  : Set(SpecificationEvent) = allEvents->select(id.toLower().substring(1, 4) = 'true') in
+    let falseEvents : Set(SpecificationEvent) = allEvents->select(id.toLower().substring(1, 5) = 'false') in
+    let unconEvents : Set(SpecificationEvent) = allEvents - trueEvents - falseEvents in
+        if r then
+            if trueEvents->isEmpty() then
+                result = unconEvents
+            else
+                result = trueEvents
+            endif
+        else
+            if falseEvents->isEmpty() then
+                result = unconEvents
+            else
+                result = falseEvents
+            endif
+        endif
+        
+context RoleLevelGoalModel::getNextInstanceGoal() : InstanceGoal
+
+-- The returned instance goal is either null, or it is in the set of active
+-- goals and it is a leaf goal
+post NullOrActiveLeaf:
+    result.isUndefined() or
+        (goalTree.instTree.activeGoals->includes(result) and
+            goalTree.specTree.goals->select(id = result.id and isLeaf)->notEmpty())        
+        
+-------------------------------------------------------------------------------
+-- GoalCapabilityMap Constratints
+-------------------------------------------------------------------------------        
+context GoalCapabilityMap::addMapping(s : String, e : CapabilityMapEntry)
+-- The given mapping contains no null values
+pre NoNulls:
+    not s.isUndefined() and
+        not e.isUndefined() and
+            not e.method.isUndefined() and
+                not e.capability.isUndefined()
+    
+-- The entry has been added to the mapping    
+post EntryAdded:
+    entries = entries@pre->including(e) and
+        e.id = s
+
+context GoalCapabilityMap::invoke(g : ParameterizedSpecificationGoal, p : InstanceParameters)
+-- The given goal is not undefined
+pre NoNulls:
+    not g.isUndefined()
+        
+-- A mapping is already present in the GCM for this goal
+pre MappingExists:
+    entries->exists(id = g.id)
+    
+-- The specification parameters and instance parameters are null, or 
+-- There exists an instance parameter for each specification parameter of the goal
+pre FormalParamsMatch:
+    let specificationParams = g.param.params in
+    let instanceParams      = p.params in
+        ((g.param.isUndefined() or specificationParams->isEmpty()) and (p.isUndefined() or instanceParams->isEmpty())) or
+            specificationParams->forAll(fp : SpecificationParameter | instanceParams->exists(ap : InstanceParameter | fp.key = ap.key))
