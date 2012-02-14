@@ -1,0 +1,7 @@
+<configuration>
+	<input>
+		<net-file value="double_t.net.xml"/>
+		<route-files value="double_t.rou.xml"/>
+		<additional-files value="double_t.add.xml">
+	</input>
+</configuration>
