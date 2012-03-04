@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 03/03/12 19:42:03 by SUMO netconvert Version 0.14.0
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.sf.net/xsd/netconvertConfiguration.xsd">
+
+    <input>
+        <node-files value="input_nodes.nod.xml"/>
+        <edge-files value="input_edges.edg.xml"/>
+        <connection-files value="input_connections.con.xml"/>
+    </input>
+
+    <output>
+        <output-file value="single_t.net.xml"/>
+    </output>
+
+    <processing>
+        <speed-in-kmh value="true"/>
+    </processing>
+
+</configuration>
+-->
+
+<net version="0.13" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.sf.net/xsd/net_file.xsd">
+
+    <location netOffset="100.00,0.00" convBoundary="0.00,0.00,166.00,320.00" origBoundary="-100.00,0.00,66.00,320.00" projParameter="!"/>
+
+    <edge id=":J_RKLN_0" function="internal">
+        <lane id=":J_RKLN_0_0" index="0" speed="7.78" length="4.82" shape="166.00,-1.65 167.24,-0.83 167.65,-0.00 167.24,0.82 166.00,1.65"/>
+    </edge>
+    <edge id=":J_SS_0" function="internal">
+        <lane id=":J_SS_0_0" index="0" speed="5.83" length="5.00" shape="98.35,8.05 98.16,6.69 97.57,5.72 96.61,5.14 95.25,4.95"/>
+    </edge>
+    <edge id=":J_SS_1" function="internal">
+        <lane id=":J_SS_1_0" index="0" speed="5.83" length="13.09" shape="98.35,8.05 98.75,3.81 99.95,0.77 101.95,-1.04 104.75,-1.65"/>
+    </edge>
+    <edge id=":J_SS_2" function="internal">
+        <lane id=":J_SS_2_0" index="0" speed="5.83" length="5.00" shape="104.75,4.95 103.39,5.14 102.43,5.72 101.84,6.69 101.65,8.05"/>
+    </edge>
+    <edge id=":J_SS_3" function="internal">
+        <lane id=":J_SS_3_0" index="0" speed="7.78" length="9.50" shape="104.75,4.95 95.25,4.95"/>
+    </edge>
+    <edge id=":J_SS_4" function="internal">
+        <lane id=":J_SS_4_0" index="0" speed="7.78" length="9.50" shape="104.75,1.65 95.25,1.65"/>
+    </edge>
+    <edge id=":J_SS_5" function="internal">
+        <lane id=":J_SS_5_0" index="0" speed="7.78" length="9.50" shape="95.25,-4.95 104.75,-4.95"/>
+    </edge>
+    <edge id=":J_SS_6" function="internal">
+        <lane id=":J_SS_6_0" index="0" speed="7.78" length="9.50" shape="95.25,-1.65 104.75,-1.65"/>
+    </edge>
+    <edge id=":J_SS_7" function="internal">
+        <lane id=":J_SS_7_0" index="0" speed="5.83" length="6.51" shape="95.25,-1.65 98.05,-1.04 100.05,0.77 100.40,1.65"/>
+    </edge>
+    <edge id=":J_SS_8" function="internal">
+        <lane id=":J_SS_8_0" index="0" speed="5.83" length="6.58" shape="100.40,1.65 101.25,3.81 101.65,8.05"/>
+    </edge>
+    <edge id=":T_North_1_0" function="internal">
+        <lane id=":T_North_1_0_0" index="0" speed="3.89" length="4.82" shape="101.65,320.00 100.82,321.24 100.00,321.65 99.17,321.24 98.35,320.00"/>
+    </edge>
+    <edge id=":T_West_0" function="internal">
+        <lane id=":T_West_0_0" index="0" speed="7.78" length="4.82" shape="0.00,1.65 -1.24,0.83 -1.65,0.00 -1.24,-0.82 0.00,-1.65"/>
+    </edge>
+
+    <edge id="BAve_EB" from="J_SS" to="J_RKLN" priority="1">
+        <lane id="BAve_EB_0" index="0" speed="7.78" length="61.25" shape="104.75,-4.95 166.00,-4.95"/>
+        <lane id="BAve_EB_1" index="1" speed="7.78" length="61.25" shape="104.75,-1.65 166.00,-1.65"/>
+    </edge>
+    <edge id="BAve_WB" from="J_RKLN" to="J_SS" priority="2">
+        <lane id="BAve_WB_0" index="0" speed="7.78" length="61.25" shape="166.00,4.95 104.75,4.95"/>
+        <lane id="BAve_WB_1" index="1" speed="7.78" length="61.25" shape="166.00,1.65 104.75,1.65"/>
+    </edge>
+    <edge id="BWest_EB" from="T_West" to="J_SS" priority="2">
+        <lane id="BWest_EB_0" index="0" speed="7.78" length="95.25" shape="0.00,-4.95 95.25,-4.95"/>
+        <lane id="BWest_EB_1" index="1" speed="7.78" length="95.25" shape="0.00,-1.65 95.25,-1.65"/>
+    </edge>
+    <edge id="BWest_WB" from="J_SS" to="T_West" priority="1">
+        <lane id="BWest_WB_0" index="0" speed="7.78" length="95.25" shape="95.25,4.95 0.00,4.95"/>
+        <lane id="BWest_WB_1" index="1" speed="7.78" length="95.25" shape="95.25,1.65 0.00,1.65"/>
+    </edge>
+    <edge id="SteS_NB" from="J_SS" to="T_North_1" priority="1">
+        <lane id="SteS_NB_0" index="0" speed="3.89" length="311.95" shape="101.65,8.05 101.65,320.00"/>
+    </edge>
+    <edge id="SteS_SB" from="T_North_1" to="J_SS" priority="2">
+        <lane id="SteS_SB_0" index="0" speed="3.89" length="311.95" shape="98.35,320.00 98.35,8.05"/>
+    </edge>
+
+    <junction id="J_RKLN" type="priority" x="166.00" y="0.00" incLanes="BAve_EB_0 BAve_EB_1" intLanes=":J_RKLN_0_0" shape="166.00,0.05 166.00,6.55 166.00,-6.55 166.00,-0.05">
+        <request index="0" response="0" foes="0" cont="0"/>
+    </junction>
+    <junction id="J_SS" type="priority" x="100.00" y="0.00" incLanes="SteS_SB_0 BAve_WB_0 BAve_WB_1 BWest_EB_0 BWest_EB_1" intLanes=":J_SS_0_0 :J_SS_1_0 :J_SS_2_0 :J_SS_3_0 :J_SS_4_0 :J_SS_5_0 :J_SS_6_0 :J_SS_8_0" shape="96.75,8.05 103.25,8.05 104.75,6.55 104.75,-6.55 95.25,-6.55 95.25,6.55">
+        <request index="0" response="00011000" foes="00011000" cont="0"/>
+        <request index="1" response="11111000" foes="11111000" cont="0"/>
+        <request index="2" response="00000000" foes="10000000" cont="0"/>
+        <request index="3" response="00000000" foes="10000011" cont="0"/>
+        <request index="4" response="00000000" foes="10000011" cont="0"/>
+        <request index="5" response="00000000" foes="00000010" cont="0"/>
+        <request index="6" response="00000000" foes="00000010" cont="0"/>
+        <request index="7" response="00011100" foes="00011110" cont="1"/>
+    </junction>
+    <junction id="T_North_1" type="priority" x="100.00" y="320.00" incLanes="SteS_NB_0" intLanes=":T_North_1_0_0" shape="99.95,320.00 96.75,320.00 103.25,320.00 100.05,320.00">
+        <request index="0" response="0" foes="0" cont="0"/>
+    </junction>
+    <junction id="T_West" type="priority" x="0.00" y="0.00" incLanes="BWest_WB_0 BWest_WB_1" intLanes=":T_West_0_0" shape="0.00,-0.05 0.00,-6.55 -0.00,6.55 -0.00,0.05">
+        <request index="0" response="0" foes="0" cont="0"/>
+    </junction>
+
+    <junction id=":J_SS_8_0" type="internal" x="100.40" y="1.65" incLanes=":J_SS_7_0 BAve_WB_0 BAve_WB_1" intLanes=":J_SS_2_0 :J_SS_3_0 :J_SS_4_0"/>
+
+    <connection from="BAve_EB" to="BAve_WB" fromLane="1" toLane="1" via=":J_RKLN_0_0" dir="t" state="M"/>
+    <connection from="BAve_WB" to="SteS_NB" fromLane="0" toLane="0" via=":J_SS_2_0" dir="r" state="M"/>
+    <connection from="BAve_WB" to="BWest_WB" fromLane="0" toLane="0" via=":J_SS_3_0" dir="s" state="M"/>
+    <connection from="BAve_WB" to="BWest_WB" fromLane="1" toLane="1" via=":J_SS_4_0" dir="s" state="M"/>
+    <connection from="BWest_EB" to="BAve_EB" fromLane="0" toLane="0" via=":J_SS_5_0" dir="s" state="M"/>
+    <connection from="BWest_EB" to="BAve_EB" fromLane="1" toLane="1" via=":J_SS_6_0" dir="s" state="M"/>
+    <connection from="BWest_EB" to="SteS_NB" fromLane="1" toLane="0" via=":J_SS_7_0" dir="l" state="m"/>
+    <connection from="BWest_WB" to="BWest_EB" fromLane="1" toLane="1" via=":T_West_0_0" dir="t" state="M"/>
+    <connection from="SteS_NB" to="SteS_SB" fromLane="0" toLane="0" via=":T_North_1_0_0" dir="t" state="M"/>
+    <connection from="SteS_SB" to="BWest_WB" fromLane="0" toLane="0" via=":J_SS_0_0" dir="r" state="m"/>
+    <connection from="SteS_SB" to="BAve_EB" fromLane="0" toLane="1" via=":J_SS_1_0" dir="l" state="m"/>
+
+    <connection from=":J_RKLN_0" to="BAve_WB" fromLane="0" toLane="1" dir="s" state="M"/>
+    <connection from=":J_SS_0" to="BWest_WB" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":J_SS_1" to="BAve_EB" fromLane="0" toLane="1" dir="s" state="M"/>
+    <connection from=":J_SS_2" to="SteS_NB" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":J_SS_3" to="BWest_WB" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":J_SS_4" to="BWest_WB" fromLane="0" toLane="1" dir="s" state="M"/>
+    <connection from=":J_SS_5" to="BAve_EB" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":J_SS_6" to="BAve_EB" fromLane="0" toLane="1" dir="s" state="M"/>
+    <connection from=":J_SS_7" to="SteS_NB" fromLane="0" toLane="0" via=":J_SS_8_0" dir="s" state="M"/>
+    <connection from=":J_SS_8" to="SteS_NB" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":T_North_1_0" to="SteS_SB" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":T_West_0" to="BWest_EB" fromLane="0" toLane="1" dir="s" state="M"/>
+
+</net>

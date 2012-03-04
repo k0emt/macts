@@ -1,0 +1,10 @@
+<connections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.sf.net/xsd/connections_file.xsd">
+
+	<connection from="BWest_EB" to="BAve_EB"/>
+	<connection from="BWest_EB" to="SteS_NB"/>
+	<connection from="BAve_WB" to="SteS_NB"/>
+	<connection from="BAve_WB" to="BWest_WB"/>
+	<connection from="SteS_SB" to="BWest_WB"/>
+	<connection from="SteS_SB" to="BAve_EB"/>
+
+</connections>
