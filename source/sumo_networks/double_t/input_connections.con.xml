@@ -1,0 +1,21 @@
+<connections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.sf.net/xsd/connections_file.xsd">
+
+	<connection from="Best~EB" to="BAve~EB" />
+	<connection from="Best~EB" to="SteS~NB" />
+
+	<connection from="BAve~WB" to="SteS~NB" />
+	<connection from="BAve~WB" to="Best~WB" />
+	
+	<connection from="BAve~EB" to="RKL~NB" />
+	<connection from="BAve~EB" to="Pell~EB" />
+
+	<connection from="Pell~WB" to="RKL~NB" />
+	<connection from="Pell~WB" to="BAve~WB" />
+
+	<connection from="SteS~SB" to="Best~WB" />
+	<connection from="SteS~SB" to="BAve~EB" />
+
+	<connection from="RKL~SB" to="BAve~WB" />
+	<connection from="RKL~SB" to="Pell~EB" />
+
+</connections>
