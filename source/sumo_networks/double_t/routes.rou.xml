@@ -1,0 +1,55 @@
+<routes>
+	<vTypeDistribution id="typedist1">
+        <vType id="type1" accel="1.8" decel="4.5" sigma="0.4" length="5" maxSpeed="30" minGap="1" probability="0.8" color="0,0,255"/>
+        <vType id="type2" accel="3.0" decel="5.5" sigma="0.2" length="3" maxSpeed="50" minGap="1" probability="0.1" color="192,0,0"/>
+        <vType id="type3" accel="0.8" decel="3.5" sigma="0.1" length="15" maxSpeed="30" minGap="2" probability="0.1" color="0,128,0" />
+    </vTypeDistribution>
+
+    <routeDistribution id="bestRoute">
+    	<!--
+    	<route id="02" edges="Best~EB BAve~EB" probability="0.221" />
+    	<route id="03" edges="BAve~EB RKL~NB" probability="0.538" />
+    	<route id="04" edges="BAve~EB Pell~EB" probability="0.462" />
+		-->
+    	<route id="01" edges="Best~EB SteS~NB" probability="0.779" />
+    	<route id="02" edges="Best~EB BAve~EB RKL~NB" probability="0.119" />
+    	<route id="03" edges="Best~EB BAve~EB Pell~EB" probability="0.102" />
+	</routeDistribution>
+	<flow id="Best" route="bestRoute" vehsPerHour="724" />
+
+	<routeDistribution id="pellRoute">
+		<!--
+		<route id="08" edges="Pell~WB BAve~WB" probability="0.618" />
+		<route id="05" edges="BAve~WB SteS~NB" probability="0.091" />
+    	<route id="06" edges="BAve~WB Best~WB" probability="0.909" />
+		-->
+		<route id="04" edges="Pell~WB RKL~NB" probability="0.382" />
+		<route id="05" edges="Pell~WB BAve~WB SteS~NB" probability="0.056" />
+    	<route id="06" edges="Pell~WB BAve~WB Best~WB" probability="0.562" />
+	</routeDistribution>
+    <flow id="Pell" route="pellRoute" vehsPerHour="896" />
+
+	<routeDistribution id="stesRoute">
+		<!--
+    	<route id="10" edges="SteS~SB BAve~EB" probability="0.489" />
+    	<route id="03" edges="BAve~EB RKL~NB" probability="0.538" />
+    	<route id="04" edges="BAve~EB Pell~EB" probability="0.462" />
+    	-->
+		<route id="07" edges="SteS~SB Best~WB" probability="0.511" />
+    	<route id="08" edges="SteS~SB BAve~EB RKL~NB" probability="0.263" />
+    	<route id="09" edges="SteS~SB BAve~EB Pell~EB" probability="0.226" />
+	</routeDistribution>
+	<flow id="SteS" route="stesRoute" vehsPerHour="289" />
+
+	<routeDistribution id="rklRoute">
+    	<!-- <route id="11" edges="RKL~SB BAve~WB" probability="0.684" />
+   			<route id="05" edges="BAve~WB SteS~NB" probability="0.091" />
+    		<route id="06" edges="BAve~WB Best~WB" probability="0.909" />
+		-->
+	   	<route id="10" edges="RKL~SB Pell~EB" probability="0.316" />
+		<route id="11" edges="RKL~SB BAve~WB SteS~NB" probability="0.062" />
+		<route id="12" edges="RKL~SB BAve~WB Best~WB" probability="0.622" />
+    </routeDistribution>
+    <flow id="RKL" route="rklRoute" vehsPerHour="1504" />
+
+</routes>
