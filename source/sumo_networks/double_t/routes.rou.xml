@@ -1,9 +1,12 @@
 <routes>
+
 	<vTypeDistribution id="typedist1">
-        <vType id="type1" accel="1.8" decel="4.5" sigma="0.4" length="5" maxSpeed="30" minGap="1" probability="0.8" color="0,0,255"/>
-        <vType id="type2" accel="3.0" decel="5.5" sigma="0.2" length="3" maxSpeed="50" minGap="1" probability="0.1" color="192,0,0"/>
-        <vType id="type3" accel="0.8" decel="3.5" sigma="0.1" length="15" maxSpeed="30" minGap="2" probability="0.1" color="0,128,0" />
+        <vType id="type1" accel="1.8" decel="4.5" sigma="0.3" length="5" maxSpeed="30" minGap="1" probability="0.85" guiShape="passenger" />
+        <vType id="type2" accel="3.0" decel="5.5" sigma="0.2" length="3" maxSpeed="50" minGap="1" probability="0.1" guiShape="motorcycle" />
+        <vType id="type3" accel="1.0" decel="3.5" sigma="0.2" length="8" maxSpeed="30" minGap="2" probability="0.05" guiShape="bus" />
     </vTypeDistribution>
+
+	<vType id="SUMO_DEFAULT_TYPE" accel="0.8" decel="4.5" sigma="0.5" length="3" minGap="2" maxSpeed="70"/>
 
     <routeDistribution id="bestRoute">
     	<!--
@@ -15,7 +18,7 @@
     	<route id="02" edges="Best~EB BAve~EB RKL~NB" probability="0.119" />
     	<route id="03" edges="Best~EB BAve~EB Pell~EB" probability="0.102" />
 	</routeDistribution>
-	<flow id="Best" route="bestRoute" vehsPerHour="724" />
+	<flow id="Best" route="bestRoute" vehsPerHour="724" type="typedist1" />
 
 	<routeDistribution id="pellRoute">
 		<!--
@@ -27,7 +30,7 @@
 		<route id="05" edges="Pell~WB BAve~WB SteS~NB" probability="0.056" />
     	<route id="06" edges="Pell~WB BAve~WB Best~WB" probability="0.562" />
 	</routeDistribution>
-    <flow id="Pell" route="pellRoute" vehsPerHour="896" />
+    <flow id="Pell" route="pellRoute" vehsPerHour="896" type="typedist1"/>
 
 	<routeDistribution id="stesRoute">
 		<!--
@@ -39,7 +42,7 @@
     	<route id="08" edges="SteS~SB BAve~EB RKL~NB" probability="0.263" />
     	<route id="09" edges="SteS~SB BAve~EB Pell~EB" probability="0.226" />
 	</routeDistribution>
-	<flow id="SteS" route="stesRoute" vehsPerHour="289" />
+	<flow id="SteS" route="stesRoute" vehsPerHour="289" type="typedist1"/>
 
 	<routeDistribution id="rklRoute">
     	<!-- <route id="11" edges="RKL~SB BAve~WB" probability="0.684" />
@@ -50,6 +53,6 @@
 		<route id="11" edges="RKL~SB BAve~WB SteS~NB" probability="0.062" />
 		<route id="12" edges="RKL~SB BAve~WB Best~WB" probability="0.622" />
     </routeDistribution>
-    <flow id="RKL" route="rklRoute" vehsPerHour="1504" />
+    <flow id="RKL" route="rklRoute" vehsPerHour="1504" type="typedist1"/>
 
 </routes>
