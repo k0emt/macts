@@ -102,6 +102,7 @@ while step < MAXSTEPS:
     vehCountedOverInduction = traci.inductionloop.getLastStepVehicleNumber("e1det_RKL~SB_0") \
                             + traci.inductionloop.getLastStepVehicleNumber("e1det_RKL~SB_1")
     print >> logfile, "step: %i e1det_RKL~SB_0 & 1 detected: %i" % (step, vehCountedOverInduction)
+    print >> logfile, "RKL emissions lane 0: %f  1: %f" % (traci.lane.getCO2Emission('RKL~SB_0') , traci.lane.getCO2Emission('RKL~SB_1'))
     if vehCountedOverInduction == 2:
         print >> logfile, "e1det_RKL~SB inductor(s) tripped"
         if bumpCounter < MAX_BUMPS:
