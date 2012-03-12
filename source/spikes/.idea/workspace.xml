@@ -28,7 +28,7 @@
       <file leaf-file-name="run_simulation.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../sumo_networks/double_t/run_simulation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="91" column="97" selection-start="3291" selection-end="3291" vertical-scroll-proportion="0.02954899">
+            <state line="97" column="33" selection-start="3383" selection-end="3383" vertical-scroll-proportion="0.20684293">
               <folding>
                 <element signature="e#1682#1691#0" expanded="true" />
               </folding>
@@ -169,10 +169,10 @@
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="recentsLimit" value="5" />
     <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors.Font" />
-    <property name="options.searchVisible" value="true" />
+    <property name="recentsLimit" value="5" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -453,13 +453,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="217" y="179" width="1299" height="839" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18550107" sideWeight="0.4636752" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1298077" sideWeight="0.6705757" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24696356" sideWeight="0.7107195" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25182188" sideWeight="0.7107195" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39978677" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1298077" sideWeight="0.2185501" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32942432" sideWeight="0.53258544" order="8" side_tool="true" content_ui="tabs" />
@@ -604,7 +604,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../sumo_networks/double_t/run_simulation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="91" column="97" selection-start="3291" selection-end="3291" vertical-scroll-proportion="0.02954899">
+        <state line="97" column="33" selection-start="3383" selection-end="3383" vertical-scroll-proportion="0.20684293">
           <folding>
             <element signature="e#1682#1691#0" expanded="true" />
           </folding>
