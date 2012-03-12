@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 03/07/12 19:07:02 by SUMO netconvert Version 0.14.0
+<!-- generated on 03/10/12 23:19:22 by SUMO netconvert Version 0.14.0
 <?xml version="1.0" encoding="UTF-8"?>
 
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.sf.net/xsd/netconvertConfiguration.xsd">
 
     <input>
-        <node-files value="input_nodes.nod.xml"/>
-        <edge-files value="input_edges.edg.xml"/>
-        <connection-files value="input_connections.con.xml"/>
+        <node-files value="input_nodes.xml"/>
+        <edge-files value="input_edges.xml"/>
+        <connection-files value="input_connections.xml"/>
     </input>
 
     <output>
@@ -26,122 +26,122 @@
 
     <location netOffset="100.00,0.00" convBoundary="0.00,0.00,270.00,320.00" origBoundary="-100.00,0.00,170.00,320.00" projParameter="!"/>
 
-    <edge id=":J_RKLN_0" function="internal">
-        <lane id=":J_RKLN_0_0" index="0" speed="7.72" length="5.00" shape="161.05,8.05 160.86,6.69 160.27,5.72 159.31,5.14 157.95,4.95"/>
+    <edge id=":JunctionRKLN_0" function="internal">
+        <lane id=":JunctionRKLN_0_0" index="0" speed="7.72" length="5.00" shape="161.05,8.05 160.86,6.69 160.27,5.72 159.31,5.14 157.95,4.95"/>
     </edge>
-    <edge id=":J_RKLN_1" function="internal">
-        <lane id=":J_RKLN_1_0" index="0" speed="7.72" length="10.32" shape="164.35,8.05 163.95,5.25 162.75,3.25 160.75,2.05 157.95,1.65"/>
+    <edge id=":JunctionRKLN_1" function="internal">
+        <lane id=":JunctionRKLN_1_0" index="0" speed="7.72" length="10.32" shape="164.35,8.05 163.95,5.25 162.75,3.25 160.75,2.05 157.95,1.65"/>
     </edge>
-    <edge id=":J_RKLN_2" function="internal">
-        <lane id=":J_RKLN_2_0" index="0" speed="7.72" length="3.13" shape="164.35,8.05 164.79,4.95"/>
+    <edge id=":JunctionRKLN_2" function="internal">
+        <lane id=":JunctionRKLN_2_0" index="0" speed="7.72" length="3.13" shape="164.35,8.05 164.79,4.95"/>
     </edge>
-    <edge id=":J_RKLN_9" function="internal">
-        <lane id=":J_RKLN_9_0" index="0" speed="7.72" length="12.51" shape="164.79,4.95 164.96,3.81 166.77,0.77 169.81,-1.04 174.05,-1.65"/>
+    <edge id=":JunctionRKLN_9" function="internal">
+        <lane id=":JunctionRKLN_9_0" index="0" speed="7.72" length="12.51" shape="164.79,4.95 164.96,3.81 166.77,0.77 169.81,-1.04 174.05,-1.65"/>
     </edge>
-    <edge id=":J_RKLN_3" function="internal">
-        <lane id=":J_RKLN_3_0" index="0" speed="7.72" length="5.00" shape="174.05,4.95 172.69,5.14 171.73,5.72 171.14,6.69 170.95,8.05"/>
+    <edge id=":JunctionRKLN_3" function="internal">
+        <lane id=":JunctionRKLN_3_0" index="0" speed="7.72" length="5.00" shape="174.05,4.95 172.69,5.14 171.73,5.72 171.14,6.69 170.95,8.05"/>
     </edge>
-    <edge id=":J_RKLN_4" function="internal">
-        <lane id=":J_RKLN_4_0" index="0" speed="7.72" length="16.10" shape="174.05,4.95 169.27,4.95 166.00,4.95 162.73,4.95 157.95,4.95"/>
+    <edge id=":JunctionRKLN_4" function="internal">
+        <lane id=":JunctionRKLN_4_0" index="0" speed="7.72" length="16.10" shape="174.05,4.95 169.27,4.95 166.00,4.95 162.73,4.95 157.95,4.95"/>
     </edge>
-    <edge id=":J_RKLN_5" function="internal">
-        <lane id=":J_RKLN_5_0" index="0" speed="7.72" length="16.10" shape="174.05,1.65 169.27,1.65 166.00,1.65 162.73,1.65 157.95,1.65"/>
+    <edge id=":JunctionRKLN_5" function="internal">
+        <lane id=":JunctionRKLN_5_0" index="0" speed="7.72" length="16.10" shape="174.05,1.65 169.27,1.65 166.00,1.65 162.73,1.65 157.95,1.65"/>
     </edge>
-    <edge id=":J_RKLN_6" function="internal">
-        <lane id=":J_RKLN_6_0" index="0" speed="7.72" length="16.10" shape="157.95,-4.95 162.73,-4.95 166.00,-4.95 169.27,-4.95 174.05,-4.95"/>
+    <edge id=":JunctionRKLN_6" function="internal">
+        <lane id=":JunctionRKLN_6_0" index="0" speed="7.72" length="16.10" shape="157.95,-4.95 162.73,-4.95 166.00,-4.95 169.27,-4.95 174.05,-4.95"/>
     </edge>
-    <edge id=":J_RKLN_7" function="internal">
-        <lane id=":J_RKLN_7_0" index="0" speed="7.72" length="16.10" shape="157.95,-1.65 162.73,-1.65 166.00,-1.65 169.27,-1.65 174.05,-1.65"/>
+    <edge id=":JunctionRKLN_7" function="internal">
+        <lane id=":JunctionRKLN_7_0" index="0" speed="7.72" length="16.10" shape="157.95,-1.65 162.73,-1.65 166.00,-1.65 169.27,-1.65 174.05,-1.65"/>
     </edge>
-    <edge id=":J_RKLN_8" function="internal">
-        <lane id=":J_RKLN_8_0" index="0" speed="7.72" length="8.84" shape="157.95,-1.65 162.19,-1.04 165.23,0.77 165.75,1.65"/>
+    <edge id=":JunctionRKLN_8" function="internal">
+        <lane id=":JunctionRKLN_8_0" index="0" speed="7.72" length="8.84" shape="157.95,-1.65 162.19,-1.04 165.23,0.77 165.75,1.65"/>
     </edge>
-    <edge id=":J_RKLN_10" function="internal">
-        <lane id=":J_RKLN_10_0" index="0" speed="7.72" length="6.80" shape="165.75,1.65 167.04,3.81 167.65,8.05"/>
+    <edge id=":JunctionRKLN_10" function="internal">
+        <lane id=":JunctionRKLN_10_0" index="0" speed="7.72" length="6.80" shape="165.75,1.65 167.04,3.81 167.65,8.05"/>
     </edge>
-    <edge id=":J_SS_0" function="internal">
-        <lane id=":J_SS_0_0" index="0" speed="5.79" length="5.00" shape="98.35,8.05 98.16,6.69 97.57,5.72 96.61,5.14 95.25,4.95"/>
+    <edge id=":JunctionSS_0" function="internal">
+        <lane id=":JunctionSS_0_0" index="0" speed="5.79" length="5.00" shape="98.35,8.05 98.16,6.69 97.57,5.72 96.61,5.14 95.25,4.95"/>
     </edge>
-    <edge id=":J_SS_1" function="internal">
-        <lane id=":J_SS_1_0" index="0" speed="5.79" length="3.11" shape="98.35,8.05 98.64,4.95"/>
+    <edge id=":JunctionSS_1" function="internal">
+        <lane id=":JunctionSS_1_0" index="0" speed="5.79" length="3.11" shape="98.35,8.05 98.64,4.95"/>
     </edge>
-    <edge id=":J_SS_8" function="internal">
-        <lane id=":J_SS_8_0" index="0" speed="5.79" length="9.98" shape="98.64,4.95 98.75,3.81 99.95,0.77 101.95,-1.04 104.75,-1.65"/>
+    <edge id=":JunctionSS_8" function="internal">
+        <lane id=":JunctionSS_8_0" index="0" speed="5.79" length="9.98" shape="98.64,4.95 98.75,3.81 99.95,0.77 101.95,-1.04 104.75,-1.65"/>
     </edge>
-    <edge id=":J_SS_2" function="internal">
-        <lane id=":J_SS_2_0" index="0" speed="5.79" length="5.00" shape="104.75,4.95 103.39,5.14 102.43,5.72 101.84,6.69 101.65,8.05"/>
+    <edge id=":JunctionSS_2" function="internal">
+        <lane id=":JunctionSS_2_0" index="0" speed="5.79" length="5.00" shape="104.75,4.95 103.39,5.14 102.43,5.72 101.84,6.69 101.65,8.05"/>
     </edge>
-    <edge id=":J_SS_3" function="internal">
-        <lane id=":J_SS_3_0" index="0" speed="7.72" length="9.50" shape="104.75,4.95 95.25,4.95"/>
+    <edge id=":JunctionSS_3" function="internal">
+        <lane id=":JunctionSS_3_0" index="0" speed="7.72" length="9.50" shape="104.75,4.95 95.25,4.95"/>
     </edge>
-    <edge id=":J_SS_4" function="internal">
-        <lane id=":J_SS_4_0" index="0" speed="7.72" length="9.50" shape="104.75,1.65 95.25,1.65"/>
+    <edge id=":JunctionSS_4" function="internal">
+        <lane id=":JunctionSS_4_0" index="0" speed="7.72" length="9.50" shape="104.75,1.65 95.25,1.65"/>
     </edge>
-    <edge id=":J_SS_5" function="internal">
-        <lane id=":J_SS_5_0" index="0" speed="7.72" length="9.50" shape="95.25,-4.95 104.75,-4.95"/>
+    <edge id=":JunctionSS_5" function="internal">
+        <lane id=":JunctionSS_5_0" index="0" speed="7.72" length="9.50" shape="95.25,-4.95 104.75,-4.95"/>
     </edge>
-    <edge id=":J_SS_6" function="internal">
-        <lane id=":J_SS_6_0" index="0" speed="7.72" length="9.50" shape="95.25,-1.65 104.75,-1.65"/>
+    <edge id=":JunctionSS_6" function="internal">
+        <lane id=":JunctionSS_6_0" index="0" speed="7.72" length="9.50" shape="95.25,-1.65 104.75,-1.65"/>
     </edge>
-    <edge id=":J_SS_7" function="internal">
-        <lane id=":J_SS_7_0" index="0" speed="5.79" length="6.51" shape="95.25,-1.65 98.05,-1.04 100.05,0.77 100.40,1.65"/>
+    <edge id=":JunctionSS_7" function="internal">
+        <lane id=":JunctionSS_7_0" index="0" speed="5.79" length="6.51" shape="95.25,-1.65 98.05,-1.04 100.05,0.77 100.40,1.65"/>
     </edge>
-    <edge id=":J_SS_9" function="internal">
-        <lane id=":J_SS_9_0" index="0" speed="5.79" length="6.58" shape="100.40,1.65 101.25,3.81 101.65,8.05"/>
+    <edge id=":JunctionSS_9" function="internal">
+        <lane id=":JunctionSS_9_0" index="0" speed="5.79" length="6.58" shape="100.40,1.65 101.25,3.81 101.65,8.05"/>
     </edge>
-    <edge id=":T_East_0" function="internal">
-        <lane id=":T_East_0_0" index="0" speed="7.72" length="4.82" shape="270.00,-1.65 271.24,-0.83 271.65,-0.00 271.24,0.82 270.00,1.65"/>
+    <edge id=":TerminalEast_0" function="internal">
+        <lane id=":TerminalEast_0_0" index="0" speed="7.72" length="4.82" shape="270.00,-1.65 271.24,-0.83 271.65,-0.00 271.24,0.82 270.00,1.65"/>
     </edge>
-    <edge id=":T_North_1_0" function="internal">
-        <lane id=":T_North_1_0_0" index="0" speed="3.86" length="4.82" shape="101.65,320.00 100.82,321.24 100.00,321.65 99.17,321.24 98.35,320.00"/>
+    <edge id=":TerminalNorthEast_0" function="internal">
+        <lane id=":TerminalNorthEast_0_0" index="0" speed="7.72" length="4.82" shape="167.65,220.00 166.83,221.24 166.00,221.65 165.18,221.24 164.35,220.00"/>
     </edge>
-    <edge id=":T_North_2_0" function="internal">
-        <lane id=":T_North_2_0_0" index="0" speed="7.72" length="4.82" shape="167.65,220.00 166.83,221.24 166.00,221.65 165.18,221.24 164.35,220.00"/>
+    <edge id=":TerminalNorthWest_0" function="internal">
+        <lane id=":TerminalNorthWest_0_0" index="0" speed="3.86" length="4.82" shape="101.65,320.00 100.82,321.24 100.00,321.65 99.17,321.24 98.35,320.00"/>
     </edge>
-    <edge id=":T_West_0" function="internal">
-        <lane id=":T_West_0_0" index="0" speed="7.72" length="4.82" shape="0.00,1.65 -1.24,0.83 -1.65,0.00 -1.24,-0.82 0.00,-1.65"/>
+    <edge id=":TerminalWest_0" function="internal">
+        <lane id=":TerminalWest_0_0" index="0" speed="7.72" length="4.82" shape="0.00,1.65 -1.24,0.83 -1.65,0.00 -1.24,-0.82 0.00,-1.65"/>
     </edge>
 
-    <edge id="BAve~EB" from="J_SS" to="J_RKLN" priority="1">
+    <edge id="BAve~EB" from="JunctionSS" to="JunctionRKLN" priority="1">
         <lane id="BAve~EB_0" index="0" speed="7.72" length="53.20" shape="104.75,-4.95 157.95,-4.95"/>
         <lane id="BAve~EB_1" index="1" speed="7.72" length="53.20" shape="104.75,-1.65 157.95,-1.65"/>
     </edge>
-    <edge id="BAve~WB" from="J_RKLN" to="J_SS" priority="2">
+    <edge id="BAve~WB" from="JunctionRKLN" to="JunctionSS" priority="2">
         <lane id="BAve~WB_0" index="0" speed="7.72" length="53.20" shape="157.95,4.95 104.75,4.95"/>
         <lane id="BAve~WB_1" index="1" speed="7.72" length="53.20" shape="157.95,1.65 104.75,1.65"/>
     </edge>
-    <edge id="Best~EB" from="T_West" to="J_SS" priority="1">
+    <edge id="Best~EB" from="TerminalWest" to="JunctionSS" priority="1">
         <lane id="Best~EB_0" index="0" speed="7.72" length="95.25" shape="0.00,-4.95 95.25,-4.95"/>
         <lane id="Best~EB_1" index="1" speed="7.72" length="95.25" shape="0.00,-1.65 95.25,-1.65"/>
     </edge>
-    <edge id="Best~WB" from="J_SS" to="T_West" priority="2">
+    <edge id="Best~WB" from="JunctionSS" to="TerminalWest" priority="2">
         <lane id="Best~WB_0" index="0" speed="7.72" length="95.25" shape="95.25,4.95 0.00,4.95"/>
         <lane id="Best~WB_1" index="1" speed="7.72" length="95.25" shape="95.25,1.65 0.00,1.65"/>
     </edge>
-    <edge id="Pell~EB" from="J_RKLN" to="T_East" priority="1">
+    <edge id="Pell~EB" from="JunctionRKLN" to="TerminalEast" priority="1">
         <lane id="Pell~EB_0" index="0" speed="7.72" length="95.95" shape="174.05,-4.95 270.00,-4.95"/>
         <lane id="Pell~EB_1" index="1" speed="7.72" length="95.95" shape="174.05,-1.65 270.00,-1.65"/>
     </edge>
-    <edge id="Pell~WB" from="T_East" to="J_RKLN" priority="2">
+    <edge id="Pell~WB" from="TerminalEast" to="JunctionRKLN" priority="2">
         <lane id="Pell~WB_0" index="0" speed="7.72" length="95.95" shape="270.00,4.95 174.05,4.95"/>
         <lane id="Pell~WB_1" index="1" speed="7.72" length="95.95" shape="270.00,1.65 174.05,1.65"/>
     </edge>
-    <edge id="RKL~NB" from="J_RKLN" to="T_North_2" priority="1">
+    <edge id="RKL~NB" from="JunctionRKLN" to="TerminalNorthEast" priority="1">
         <lane id="RKL~NB_0" index="0" speed="7.72" length="211.95" shape="170.95,8.05 170.95,220.00"/>
         <lane id="RKL~NB_1" index="1" speed="7.72" length="211.95" shape="167.65,8.05 167.65,220.00"/>
     </edge>
-    <edge id="RKL~SB" from="T_North_2" to="J_RKLN" priority="2">
+    <edge id="RKL~SB" from="TerminalNorthEast" to="JunctionRKLN" priority="2">
         <lane id="RKL~SB_0" index="0" speed="7.72" length="211.95" shape="161.05,220.00 161.05,8.05"/>
         <lane id="RKL~SB_1" index="1" speed="7.72" length="211.95" shape="164.35,220.00 164.35,8.05"/>
     </edge>
-    <edge id="SteS~NB" from="J_SS" to="T_North_1" priority="1">
+    <edge id="SteS~NB" from="JunctionSS" to="TerminalNorthWest" priority="1">
         <lane id="SteS~NB_0" index="0" speed="3.86" length="311.95" shape="101.65,8.05 101.65,320.00"/>
     </edge>
-    <edge id="SteS~SB" from="T_North_1" to="J_SS" priority="2">
+    <edge id="SteS~SB" from="TerminalNorthWest" to="JunctionSS" priority="2">
         <lane id="SteS~SB_0" index="0" speed="3.86" length="311.95" shape="98.35,320.00 98.35,8.05"/>
     </edge>
 
-    <tlLogic id="J_RKLN" type="static" programID="0" offset="0">
+    <tlLogic id="JunctionRKLN" type="static" programID="0" offset="0">
         <phase duration="31" state="rrrGGGGGg"/>
         <phase duration="2" state="rrryyyyyg"/>
         <phase duration="6" state="rrrrrrrrG"/>
@@ -149,7 +149,7 @@
         <phase duration="31" state="GGGGrrrrr"/>
         <phase duration="2" state="yyyyrrrrr"/>
     </tlLogic>
-    <tlLogic id="J_SS" type="static" programID="0" offset="0">
+    <tlLogic id="JunctionSS" type="static" programID="0" offset="0">
         <phase duration="31" state="rrGGGGGg"/>
         <phase duration="2" state="rryyyyyg"/>
         <phase duration="6" state="rrrrrrrG"/>
@@ -158,7 +158,7 @@
         <phase duration="2" state="yyyrrrrr"/>
     </tlLogic>
 
-    <junction id="J_RKLN" type="traffic_light" x="166.00" y="0.00" incLanes="RKL~SB_0 RKL~SB_1 Pell~WB_0 Pell~WB_1 BAve~EB_0 BAve~EB_1" intLanes=":J_RKLN_0_0 :J_RKLN_1_0 :J_RKLN_9_0 :J_RKLN_3_0 :J_RKLN_4_0 :J_RKLN_5_0 :J_RKLN_6_0 :J_RKLN_7_0 :J_RKLN_10_0" shape="159.45,8.05 172.55,8.05 174.05,6.55 174.05,-6.55 157.95,-6.55 157.95,6.55">
+    <junction id="JunctionRKLN" type="traffic_light" x="166.00" y="0.00" incLanes="RKL~SB_0 RKL~SB_1 Pell~WB_0 Pell~WB_1 BAve~EB_0 BAve~EB_1" intLanes=":JunctionRKLN_0_0 :JunctionRKLN_1_0 :JunctionRKLN_9_0 :JunctionRKLN_3_0 :JunctionRKLN_4_0 :JunctionRKLN_5_0 :JunctionRKLN_6_0 :JunctionRKLN_7_0 :JunctionRKLN_10_0" shape="159.45,8.05 172.55,8.05 174.05,6.55 174.05,-6.55 157.95,-6.55 157.95,6.55">
         <request index="0" response="000000000" foes="000110000" cont="0"/>
         <request index="1" response="000000000" foes="000110000" cont="0"/>
         <request index="2" response="000110000" foes="111110000" cont="1"/>
@@ -169,7 +169,7 @@
         <request index="7" response="000000100" foes="000000100" cont="0"/>
         <request index="8" response="000111100" foes="000111100" cont="1"/>
     </junction>
-    <junction id="J_SS" type="traffic_light" x="100.00" y="0.00" incLanes="SteS~SB_0 BAve~WB_0 BAve~WB_1 Best~EB_0 Best~EB_1" intLanes=":J_SS_0_0 :J_SS_8_0 :J_SS_2_0 :J_SS_3_0 :J_SS_4_0 :J_SS_5_0 :J_SS_6_0 :J_SS_9_0" shape="96.75,8.05 103.25,8.05 104.75,6.55 104.75,-6.55 95.25,-6.55 95.25,6.55">
+    <junction id="JunctionSS" type="traffic_light" x="100.00" y="0.00" incLanes="SteS~SB_0 BAve~WB_0 BAve~WB_1 Best~EB_0 Best~EB_1" intLanes=":JunctionSS_0_0 :JunctionSS_8_0 :JunctionSS_2_0 :JunctionSS_3_0 :JunctionSS_4_0 :JunctionSS_5_0 :JunctionSS_6_0 :JunctionSS_9_0" shape="96.75,8.05 103.25,8.05 104.75,6.55 104.75,-6.55 95.25,-6.55 95.25,6.55">
         <request index="0" response="00011000" foes="00011000" cont="0"/>
         <request index="1" response="11111000" foes="11111000" cont="1"/>
         <request index="2" response="00000000" foes="10000000" cont="0"/>
@@ -179,70 +179,70 @@
         <request index="6" response="00000000" foes="00000010" cont="0"/>
         <request index="7" response="00011100" foes="00011110" cont="1"/>
     </junction>
-    <junction id="T_East" type="priority" x="270.00" y="0.00" incLanes="Pell~EB_0 Pell~EB_1" intLanes=":T_East_0_0" shape="270.00,0.05 270.00,6.55 270.00,-6.55 270.00,-0.05">
+    <junction id="TerminalEast" type="priority" x="270.00" y="0.00" incLanes="Pell~EB_0 Pell~EB_1" intLanes=":TerminalEast_0_0" shape="270.00,0.05 270.00,6.55 270.00,-6.55 270.00,-0.05">
         <request index="0" response="0" foes="0" cont="0"/>
     </junction>
-    <junction id="T_North_1" type="priority" x="100.00" y="320.00" incLanes="SteS~NB_0" intLanes=":T_North_1_0_0" shape="99.95,320.00 96.75,320.00 103.25,320.00 100.05,320.00">
+    <junction id="TerminalNorthEast" type="priority" x="166.00" y="220.00" incLanes="RKL~NB_0 RKL~NB_1" intLanes=":TerminalNorthEast_0_0" shape="165.95,220.00 159.45,220.00 172.55,220.00 166.05,220.00">
         <request index="0" response="0" foes="0" cont="0"/>
     </junction>
-    <junction id="T_North_2" type="priority" x="166.00" y="220.00" incLanes="RKL~NB_0 RKL~NB_1" intLanes=":T_North_2_0_0" shape="165.95,220.00 159.45,220.00 172.55,220.00 166.05,220.00">
+    <junction id="TerminalNorthWest" type="priority" x="100.00" y="320.00" incLanes="SteS~NB_0" intLanes=":TerminalNorthWest_0_0" shape="99.95,320.00 96.75,320.00 103.25,320.00 100.05,320.00">
         <request index="0" response="0" foes="0" cont="0"/>
     </junction>
-    <junction id="T_West" type="priority" x="0.00" y="0.00" incLanes="Best~WB_0 Best~WB_1" intLanes=":T_West_0_0" shape="0.00,-0.05 0.00,-6.55 -0.00,6.55 -0.00,0.05">
+    <junction id="TerminalWest" type="priority" x="0.00" y="0.00" incLanes="Best~WB_0 Best~WB_1" intLanes=":TerminalWest_0_0" shape="0.00,-0.05 0.00,-6.55 -0.00,6.55 -0.00,0.05">
         <request index="0" response="0" foes="0" cont="0"/>
     </junction>
 
-    <junction id=":J_RKLN_9_0" type="internal" x="164.79" y="4.95" incLanes=":J_RKLN_2_0 Pell~WB_0 Pell~WB_1" intLanes=":J_RKLN_4_0 :J_RKLN_5_0"/>
-    <junction id=":J_RKLN_10_0" type="internal" x="165.75" y="1.65" incLanes=":J_RKLN_8_0 Pell~WB_0 Pell~WB_1" intLanes=":J_RKLN_3_0 :J_RKLN_4_0 :J_RKLN_5_0"/>
-    <junction id=":J_SS_8_0" type="internal" x="98.64" y="4.95" incLanes=":J_SS_1_0 BAve~WB_0 BAve~WB_1" intLanes=":J_SS_3_0 :J_SS_4_0"/>
-    <junction id=":J_SS_9_0" type="internal" x="100.40" y="1.65" incLanes=":J_SS_7_0 BAve~WB_0 BAve~WB_1" intLanes=":J_SS_2_0 :J_SS_3_0 :J_SS_4_0"/>
+    <junction id=":JunctionRKLN_9_0" type="internal" x="164.79" y="4.95" incLanes=":JunctionRKLN_2_0 Pell~WB_0 Pell~WB_1" intLanes=":JunctionRKLN_4_0 :JunctionRKLN_5_0"/>
+    <junction id=":JunctionRKLN_10_0" type="internal" x="165.75" y="1.65" incLanes=":JunctionRKLN_8_0 Pell~WB_0 Pell~WB_1" intLanes=":JunctionRKLN_3_0 :JunctionRKLN_4_0 :JunctionRKLN_5_0"/>
+    <junction id=":JunctionSS_8_0" type="internal" x="98.64" y="4.95" incLanes=":JunctionSS_1_0 BAve~WB_0 BAve~WB_1" intLanes=":JunctionSS_3_0 :JunctionSS_4_0"/>
+    <junction id=":JunctionSS_9_0" type="internal" x="100.40" y="1.65" incLanes=":JunctionSS_7_0 BAve~WB_0 BAve~WB_1" intLanes=":JunctionSS_2_0 :JunctionSS_3_0 :JunctionSS_4_0"/>
 
-    <connection from="BAve~EB" to="Pell~EB" fromLane="0" toLane="0" via=":J_RKLN_6_0" tl="J_RKLN" linkIndex="6" dir="s" state="o"/>
-    <connection from="BAve~EB" to="Pell~EB" fromLane="1" toLane="1" via=":J_RKLN_7_0" tl="J_RKLN" linkIndex="7" dir="s" state="o"/>
-    <connection from="BAve~EB" to="RKL~NB" fromLane="1" toLane="1" via=":J_RKLN_8_0" tl="J_RKLN" linkIndex="8" dir="l" state="o"/>
-    <connection from="BAve~WB" to="SteS~NB" fromLane="0" toLane="0" via=":J_SS_2_0" tl="J_SS" linkIndex="2" dir="r" state="o"/>
-    <connection from="BAve~WB" to="Best~WB" fromLane="0" toLane="0" via=":J_SS_3_0" tl="J_SS" linkIndex="3" dir="s" state="o"/>
-    <connection from="BAve~WB" to="Best~WB" fromLane="1" toLane="1" via=":J_SS_4_0" tl="J_SS" linkIndex="4" dir="s" state="o"/>
-    <connection from="Best~EB" to="BAve~EB" fromLane="0" toLane="0" via=":J_SS_5_0" tl="J_SS" linkIndex="5" dir="s" state="o"/>
-    <connection from="Best~EB" to="BAve~EB" fromLane="1" toLane="1" via=":J_SS_6_0" tl="J_SS" linkIndex="6" dir="s" state="o"/>
-    <connection from="Best~EB" to="SteS~NB" fromLane="1" toLane="0" via=":J_SS_7_0" tl="J_SS" linkIndex="7" dir="l" state="o"/>
-    <connection from="Best~WB" to="Best~EB" fromLane="1" toLane="1" via=":T_West_0_0" dir="t" state="M"/>
-    <connection from="Pell~EB" to="Pell~WB" fromLane="1" toLane="1" via=":T_East_0_0" dir="t" state="M"/>
-    <connection from="Pell~WB" to="RKL~NB" fromLane="0" toLane="0" via=":J_RKLN_3_0" tl="J_RKLN" linkIndex="3" dir="r" state="o"/>
-    <connection from="Pell~WB" to="BAve~WB" fromLane="0" toLane="0" via=":J_RKLN_4_0" tl="J_RKLN" linkIndex="4" dir="s" state="o"/>
-    <connection from="Pell~WB" to="BAve~WB" fromLane="1" toLane="1" via=":J_RKLN_5_0" tl="J_RKLN" linkIndex="5" dir="s" state="o"/>
-    <connection from="RKL~NB" to="RKL~SB" fromLane="1" toLane="1" via=":T_North_2_0_0" dir="t" state="M"/>
-    <connection from="RKL~SB" to="BAve~WB" fromLane="0" toLane="0" via=":J_RKLN_0_0" tl="J_RKLN" linkIndex="0" dir="r" state="o"/>
-    <connection from="RKL~SB" to="BAve~WB" fromLane="1" toLane="1" via=":J_RKLN_1_0" tl="J_RKLN" linkIndex="1" dir="r" state="o"/>
-    <connection from="RKL~SB" to="Pell~EB" fromLane="1" toLane="1" via=":J_RKLN_2_0" tl="J_RKLN" linkIndex="2" dir="l" state="o"/>
-    <connection from="SteS~NB" to="SteS~SB" fromLane="0" toLane="0" via=":T_North_1_0_0" dir="t" state="M"/>
-    <connection from="SteS~SB" to="Best~WB" fromLane="0" toLane="0" via=":J_SS_0_0" tl="J_SS" linkIndex="0" dir="r" state="o"/>
-    <connection from="SteS~SB" to="BAve~EB" fromLane="0" toLane="1" via=":J_SS_1_0" tl="J_SS" linkIndex="1" dir="l" state="o"/>
+    <connection from="BAve~EB" to="Pell~EB" fromLane="0" toLane="0" via=":JunctionRKLN_6_0" tl="JunctionRKLN" linkIndex="6" dir="s" state="o"/>
+    <connection from="BAve~EB" to="Pell~EB" fromLane="1" toLane="1" via=":JunctionRKLN_7_0" tl="JunctionRKLN" linkIndex="7" dir="s" state="o"/>
+    <connection from="BAve~EB" to="RKL~NB" fromLane="1" toLane="1" via=":JunctionRKLN_8_0" tl="JunctionRKLN" linkIndex="8" dir="l" state="o"/>
+    <connection from="BAve~WB" to="SteS~NB" fromLane="0" toLane="0" via=":JunctionSS_2_0" tl="JunctionSS" linkIndex="2" dir="r" state="o"/>
+    <connection from="BAve~WB" to="Best~WB" fromLane="0" toLane="0" via=":JunctionSS_3_0" tl="JunctionSS" linkIndex="3" dir="s" state="o"/>
+    <connection from="BAve~WB" to="Best~WB" fromLane="1" toLane="1" via=":JunctionSS_4_0" tl="JunctionSS" linkIndex="4" dir="s" state="o"/>
+    <connection from="Best~EB" to="BAve~EB" fromLane="0" toLane="0" via=":JunctionSS_5_0" tl="JunctionSS" linkIndex="5" dir="s" state="o"/>
+    <connection from="Best~EB" to="BAve~EB" fromLane="1" toLane="1" via=":JunctionSS_6_0" tl="JunctionSS" linkIndex="6" dir="s" state="o"/>
+    <connection from="Best~EB" to="SteS~NB" fromLane="1" toLane="0" via=":JunctionSS_7_0" tl="JunctionSS" linkIndex="7" dir="l" state="o"/>
+    <connection from="Best~WB" to="Best~EB" fromLane="1" toLane="1" via=":TerminalWest_0_0" dir="t" state="M"/>
+    <connection from="Pell~EB" to="Pell~WB" fromLane="1" toLane="1" via=":TerminalEast_0_0" dir="t" state="M"/>
+    <connection from="Pell~WB" to="RKL~NB" fromLane="0" toLane="0" via=":JunctionRKLN_3_0" tl="JunctionRKLN" linkIndex="3" dir="r" state="o"/>
+    <connection from="Pell~WB" to="BAve~WB" fromLane="0" toLane="0" via=":JunctionRKLN_4_0" tl="JunctionRKLN" linkIndex="4" dir="s" state="o"/>
+    <connection from="Pell~WB" to="BAve~WB" fromLane="1" toLane="1" via=":JunctionRKLN_5_0" tl="JunctionRKLN" linkIndex="5" dir="s" state="o"/>
+    <connection from="RKL~NB" to="RKL~SB" fromLane="1" toLane="1" via=":TerminalNorthEast_0_0" dir="t" state="M"/>
+    <connection from="RKL~SB" to="BAve~WB" fromLane="0" toLane="0" via=":JunctionRKLN_0_0" tl="JunctionRKLN" linkIndex="0" dir="r" state="o"/>
+    <connection from="RKL~SB" to="BAve~WB" fromLane="1" toLane="1" via=":JunctionRKLN_1_0" tl="JunctionRKLN" linkIndex="1" dir="r" state="o"/>
+    <connection from="RKL~SB" to="Pell~EB" fromLane="1" toLane="1" via=":JunctionRKLN_2_0" tl="JunctionRKLN" linkIndex="2" dir="l" state="o"/>
+    <connection from="SteS~NB" to="SteS~SB" fromLane="0" toLane="0" via=":TerminalNorthWest_0_0" dir="t" state="M"/>
+    <connection from="SteS~SB" to="Best~WB" fromLane="0" toLane="0" via=":JunctionSS_0_0" tl="JunctionSS" linkIndex="0" dir="r" state="o"/>
+    <connection from="SteS~SB" to="BAve~EB" fromLane="0" toLane="1" via=":JunctionSS_1_0" tl="JunctionSS" linkIndex="1" dir="l" state="o"/>
 
-    <connection from=":J_RKLN_0" to="BAve~WB" fromLane="0" toLane="0" dir="s" state="M"/>
-    <connection from=":J_RKLN_1" to="BAve~WB" fromLane="0" toLane="1" dir="s" state="M"/>
-    <connection from=":J_RKLN_2" to="Pell~EB" fromLane="0" toLane="1" via=":J_RKLN_9_0" dir="s" state="M"/>
-    <connection from=":J_RKLN_9" to="Pell~EB" fromLane="0" toLane="1" dir="s" state="M"/>
-    <connection from=":J_RKLN_3" to="RKL~NB" fromLane="0" toLane="0" dir="s" state="M"/>
-    <connection from=":J_RKLN_4" to="BAve~WB" fromLane="0" toLane="0" dir="s" state="M"/>
-    <connection from=":J_RKLN_5" to="BAve~WB" fromLane="0" toLane="1" dir="s" state="M"/>
-    <connection from=":J_RKLN_6" to="Pell~EB" fromLane="0" toLane="0" dir="s" state="M"/>
-    <connection from=":J_RKLN_7" to="Pell~EB" fromLane="0" toLane="1" dir="s" state="M"/>
-    <connection from=":J_RKLN_8" to="RKL~NB" fromLane="0" toLane="1" via=":J_RKLN_10_0" dir="s" state="M"/>
-    <connection from=":J_RKLN_10" to="RKL~NB" fromLane="0" toLane="1" dir="s" state="M"/>
-    <connection from=":J_SS_0" to="Best~WB" fromLane="0" toLane="0" dir="s" state="M"/>
-    <connection from=":J_SS_1" to="BAve~EB" fromLane="0" toLane="1" via=":J_SS_8_0" dir="s" state="M"/>
-    <connection from=":J_SS_8" to="BAve~EB" fromLane="0" toLane="1" dir="s" state="M"/>
-    <connection from=":J_SS_2" to="SteS~NB" fromLane="0" toLane="0" dir="s" state="M"/>
-    <connection from=":J_SS_3" to="Best~WB" fromLane="0" toLane="0" dir="s" state="M"/>
-    <connection from=":J_SS_4" to="Best~WB" fromLane="0" toLane="1" dir="s" state="M"/>
-    <connection from=":J_SS_5" to="BAve~EB" fromLane="0" toLane="0" dir="s" state="M"/>
-    <connection from=":J_SS_6" to="BAve~EB" fromLane="0" toLane="1" dir="s" state="M"/>
-    <connection from=":J_SS_7" to="SteS~NB" fromLane="0" toLane="0" via=":J_SS_9_0" dir="s" state="M"/>
-    <connection from=":J_SS_9" to="SteS~NB" fromLane="0" toLane="0" dir="s" state="M"/>
-    <connection from=":T_East_0" to="Pell~WB" fromLane="0" toLane="1" dir="s" state="M"/>
-    <connection from=":T_North_1_0" to="SteS~SB" fromLane="0" toLane="0" dir="s" state="M"/>
-    <connection from=":T_North_2_0" to="RKL~SB" fromLane="0" toLane="1" dir="s" state="M"/>
-    <connection from=":T_West_0" to="Best~EB" fromLane="0" toLane="1" dir="s" state="M"/>
+    <connection from=":JunctionRKLN_0" to="BAve~WB" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":JunctionRKLN_1" to="BAve~WB" fromLane="0" toLane="1" dir="s" state="M"/>
+    <connection from=":JunctionRKLN_2" to="Pell~EB" fromLane="0" toLane="1" via=":JunctionRKLN_9_0" dir="s" state="M"/>
+    <connection from=":JunctionRKLN_9" to="Pell~EB" fromLane="0" toLane="1" dir="s" state="M"/>
+    <connection from=":JunctionRKLN_3" to="RKL~NB" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":JunctionRKLN_4" to="BAve~WB" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":JunctionRKLN_5" to="BAve~WB" fromLane="0" toLane="1" dir="s" state="M"/>
+    <connection from=":JunctionRKLN_6" to="Pell~EB" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":JunctionRKLN_7" to="Pell~EB" fromLane="0" toLane="1" dir="s" state="M"/>
+    <connection from=":JunctionRKLN_8" to="RKL~NB" fromLane="0" toLane="1" via=":JunctionRKLN_10_0" dir="s" state="M"/>
+    <connection from=":JunctionRKLN_10" to="RKL~NB" fromLane="0" toLane="1" dir="s" state="M"/>
+    <connection from=":JunctionSS_0" to="Best~WB" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":JunctionSS_1" to="BAve~EB" fromLane="0" toLane="1" via=":JunctionSS_8_0" dir="s" state="M"/>
+    <connection from=":JunctionSS_8" to="BAve~EB" fromLane="0" toLane="1" dir="s" state="M"/>
+    <connection from=":JunctionSS_2" to="SteS~NB" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":JunctionSS_3" to="Best~WB" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":JunctionSS_4" to="Best~WB" fromLane="0" toLane="1" dir="s" state="M"/>
+    <connection from=":JunctionSS_5" to="BAve~EB" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":JunctionSS_6" to="BAve~EB" fromLane="0" toLane="1" dir="s" state="M"/>
+    <connection from=":JunctionSS_7" to="SteS~NB" fromLane="0" toLane="0" via=":JunctionSS_9_0" dir="s" state="M"/>
+    <connection from=":JunctionSS_9" to="SteS~NB" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":TerminalEast_0" to="Pell~WB" fromLane="0" toLane="1" dir="s" state="M"/>
+    <connection from=":TerminalNorthEast_0" to="RKL~SB" fromLane="0" toLane="1" dir="s" state="M"/>
+    <connection from=":TerminalNorthWest_0" to="SteS~SB" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":TerminalWest_0" to="Best~EB" fromLane="0" toLane="1" dir="s" state="M"/>
 
 </net>

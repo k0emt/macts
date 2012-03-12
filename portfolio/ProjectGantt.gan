@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="MseProject" company="KSU Computer Science Program" webLink="" view-date="2011-06-26" view-index="0" gantt-divider-location="267" resource-divider-location="301" version="2.0">
+<project name="MseProject" company="KSU Computer Science Program" webLink="" view-date="2012-01-22" view-index="0" gantt-divider-location="267" resource-divider-location="301" version="2.0">
     <description><![CDATA[My project plan for my Masters Software Engineering project.]]></description>
-    <view zooming-state="default:7" id="gantt-chart"/>
+    <view zooming-state="default:5" id="gantt-chart"/>
     <view id="resource-table">
         <field id="0" name="Name" width="55" order="0"/>
         <field id="1" name="Default role" width="44" order="1"/>
@@ -49,7 +49,7 @@
             <task id="11" name="mockito install and learning&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2011-09-01" duration="93" complete="5" priority="1" expand="true"/>
             <task id="79" name="Presentation" color="#8cb6ce" meeting="false" start="2011-12-31" duration="27" complete="100" priority="1" expand="true"/>
         </task>
-        <task id="68" name="Project: Spike Explorations" color="#ffffcc" meeting="false" start="2011-09-12" duration="112" complete="52" priority="1" expand="true">
+        <task id="68" name="Project: Spike Explorations" color="#ffffcc" meeting="false" start="2011-09-12" duration="112" complete="88" priority="1" expand="true">
             <depend id="13" type="2" difference="0" hardness="Rubber"/>
             <task id="69" name="Q Fanout&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2011-09-12" duration="2" complete="100" priority="1" expand="true"/>
             <task id="70" name="aggregation&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2011-12-10" duration="2" complete="100" priority="1" expand="true">
@@ -61,23 +61,23 @@
             <task id="72" name="network double T" color="#8cb6ce" meeting="false" start="2011-12-15" duration="3" complete="100" priority="1" expand="true">
                 <depend id="73" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="73" name="read from TraCI - TLS info" color="#8cb6ce" meeting="false" start="2011-12-18" duration="3" complete="0" priority="1" expand="true">
+            <task id="73" name="read from TraCI - TLS info" color="#8cb6ce" meeting="false" start="2011-12-18" duration="3" complete="100" priority="1" expand="true">
                 <depend id="74" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="74" name="send to TraCI - TLS commands" color="#8cb6ce" meeting="false" start="2011-12-21" duration="3" complete="0" priority="1" expand="true">
+            <task id="74" name="send to TraCI - TLS commands" color="#8cb6ce" meeting="false" start="2011-12-21" duration="3" complete="100" priority="1" expand="true">
                 <depend id="75" type="2" difference="0" hardness="Strong"/>
             </task>
             <task id="75" name="network metrics&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2011-12-24" duration="3" complete="0" priority="1" expand="true">
                 <depend id="76" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="76" name="read sensors&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2011-12-27" duration="3" complete="0" priority="1" expand="true">
+            <task id="76" name="read sensors" color="#8cb6ce" meeting="false" start="2011-12-27" duration="3" complete="100" priority="1" expand="true">
                 <depend id="77" type="2" difference="0" hardness="Strong"/>
             </task>
             <task id="77" name="new sensors" color="#8cb6ce" meeting="false" start="2011-12-30" duration="3" complete="100" priority="1" expand="true"/>
         </task>
-        <task id="62" name="Project: Risk Management" color="#ffcccc" meeting="false" start="2011-08-22" duration="131" complete="73" priority="1" expand="true">
+        <task id="62" name="Project: Risk Management" color="#ffcccc" meeting="false" start="2011-08-22" duration="131" complete="78" priority="1" expand="true">
             <depend id="13" type="2" difference="0" hardness="Rubber"/>
-            <task id="66" name="SUMO" color="#8cb6ce" meeting="false" start="2011-10-17" duration="75" complete="35" priority="1" expand="true">
+            <task id="66" name="SUMO" color="#8cb6ce" meeting="false" start="2011-10-17" duration="75" complete="65" priority="1" expand="true">
                 <notes><![CDATA[loading networks
 creating networks
 adding new sensors
@@ -101,7 +101,7 @@ how merge?
 working with document and code branches]]></notes>
             </task>
         </task>
-        <task id="13" name="Phase 2: Elaboration" color="#8cb6ce" meeting="false" start="2012-01-27" duration="46" complete="8" priority="1" expand="true">
+        <task id="13" name="Phase 2: Elaboration" color="#8cb6ce" meeting="false" start="2012-01-27" duration="46" complete="15" priority="1" expand="true">
             <depend id="22" type="2" difference="0" hardness="Strong"/>
             <task id="14" name="Action Items" color="#8cb6ce" meeting="false" start="2012-01-27" duration="5" complete="80" priority="1" expand="true">
                 <depend id="15" type="2" difference="0" hardness="Strong"/>
@@ -124,7 +124,7 @@ working with document and code branches]]></notes>
             <task id="20" name="Formal Technical Inspection&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2012-02-27" duration="5" complete="0" priority="1" expand="true">
                 <depend id="21" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="21" name="Executable Architecture Prototype&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2012-03-03" duration="10" complete="0" priority="1" expand="true"/>
+            <task id="21" name="Executable Architecture Prototype" color="#8cb6ce" meeting="false" start="2012-03-03" duration="10" complete="30" priority="1" expand="true"/>
         </task>
         <task id="22" name="Phase 3: Construction" color="#8cb6ce" meeting="false" start="2012-03-13" duration="100" complete="0" priority="1" expand="true">
             <depend id="58" type="3" difference="0" hardness="Strong"/>
