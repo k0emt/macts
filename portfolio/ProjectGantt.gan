@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="MseProject" company="KSU Computer Science Program" webLink="" view-date="2012-03-11" view-index="0" gantt-divider-location="520" resource-divider-location="301" version="2.0">
+<project name="MseProject" company="KSU Computer Science Program" webLink="" view-date="2012-01-22" view-index="0" gantt-divider-location="821" resource-divider-location="301" version="2.0">
     <description><![CDATA[My project plan for my Masters Software Engineering project.]]></description>
-    <view zooming-state="default:6" id="gantt-chart"/>
+    <view zooming-state="default:5" id="gantt-chart"/>
     <view id="resource-table">
         <field id="0" name="Name" width="55" order="0"/>
         <field id="1" name="Default role" width="44" order="1"/>
@@ -107,27 +107,27 @@ how merge?
 working with document and code branches]]></notes>
             </task>
         </task>
-        <task id="13" name="Phase 2: Elaboration" color="#8cb6ce" meeting="false" start="2012-01-27" duration="46" complete="19" priority="1" expand="false">
+        <task id="13" name="Phase 2: Elaboration" color="#8cb6ce" meeting="false" start="2012-01-27" duration="46" complete="61" priority="1" expand="true">
             <depend id="22" type="2" difference="0" hardness="Strong"/>
-            <task id="14" name="Action Items" color="#8cb6ce" meeting="false" start="2012-01-27" duration="5" complete="80" priority="1" expand="true">
+            <task id="14" name="Action Items" color="#8cb6ce" meeting="false" start="2012-01-27" duration="5" complete="100" priority="1" expand="true">
                 <depend id="15" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="15" name="Vision Document Updates&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2012-02-01" duration="3" complete="0" priority="1" expand="true">
+            <task id="15" name="Vision Document Updates&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2012-02-01" duration="3" complete="100" priority="1" expand="true">
                 <depend id="16" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="16" name="Project Plan Updates&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2012-02-04" duration="3" complete="0" priority="1" expand="true">
+            <task id="16" name="Project Plan Updates&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2012-02-04" duration="3" complete="100" priority="1" expand="true">
                 <depend id="17" type="2" difference="0" hardness="Strong"/>
             </task>
             <task id="17" name="Formal Requirement Specification - Metrics Agent or Safety Agent?" color="#8cb6ce" meeting="false" start="2012-02-07" duration="10" complete="0" priority="1" expand="true">
                 <depend id="18" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="18" name="Architecture Design&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2012-02-17" duration="5" complete="0" priority="1" expand="true">
+            <task id="18" name="Architecture Design&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2012-02-17" duration="5" complete="50" priority="1" expand="true">
                 <depend id="19" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="19" name="Test Plan&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2012-02-22" duration="5" complete="0" priority="1" expand="true">
+            <task id="19" name="Test Plan&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2012-02-22" duration="5" complete="100" priority="1" expand="true">
                 <depend id="20" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="20" name="Formal Technical Inspection&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2012-02-27" duration="5" complete="0" priority="1" expand="true">
+            <task id="20" name="Formal Technical Inspection&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2012-02-27" duration="5" complete="100" priority="1" expand="true">
                 <depend id="21" type="2" difference="0" hardness="Strong"/>
             </task>
             <task id="21" name="Executable Architecture Prototype" color="#8cb6ce" meeting="false" start="2012-03-03" duration="10" complete="50" priority="1" expand="true"/>
