@@ -1,0 +1,83 @@
+-- CIS 895 MSE Project Formal Specification MACTS Architecture
+--
+--  macts.use
+--
+-- The MACTS model rendered in USE OCL, 
+--
+-- Author: Bryan Nehl
+--
+
+model Macts
+
+-- classes -------------------
+
+-- external, only one interface to this
+class TraCI
+end
+
+-- abstract, no instances of
+class Agent
+end
+
+-- one
+class CommunicationsAgent < Agent
+end
+
+-- one
+class MetricsAgent < Agent
+end
+
+-- multiple uses of
+class DataStore
+end
+
+-- MAS Node 
+-- abstract
+-- may only have one "PlanningAgent" type
+class MasNode
+attributes
+	planningAgent : PlanningAgent
+	safetyAgent : SafetyAgent
+	collaborator : CollaborationAgent
+end
+
+class PlanningAgent < Agent
+end
+
+class StandardTimingBasedAgent < PlanningAgent
+end
+
+class ReactiveAgent < PlanningAgent
+end
+
+class CollaborativeAgent < PlanningAgent
+end
+
+class GeneticAgent < PlanningAgent
+end
+
+class SafetyAgent < Agent
+end
+
+class CollaborationAgent < Agent
+end
+
+-- associations -----------------
+
+association persists between
+  PlanningAgent[1] role planproducer;
+  DataStore[*] role datastore;
+end
+
+association interacts between
+  TraCI[1] role simulator;
+  CommunicationsAgent[1] role liaison;
+end
+
+-- constraints --------------------
+
+constraints
+
+context mn:MasNode
+  inv planningAgentIsAPlanningAgent:
+         mn.planningAgent.oclIsKindOf(PlanningAgent) 
