@@ -1,0 +1,16 @@
+<edges xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.sf.net/xsd/edges_file.xsd">
+   <edge id="Best~EB" from="TerminalWest" to="JunctionSS" priority="1" numLanes="2" speed="27.78" />
+   <edge id="Best~WB" from="JunctionSS" to="TerminalWest" priority="2" numLanes="2" speed="27.78" />
+
+   <edge id="BAve~EB" from="JunctionSS" to="JunctionRKLN" priority="1" numLanes="2" speed="27.78" />
+   <edge id="BAve~WB" from="JunctionRKLN" to="JunctionSS" priority="2" numLanes="2" speed="27.78" />
+
+   <edge id="Pell~EB" from="JunctionRKLN" to="TerminalEast" priority="1" numLanes="2" speed="27.78" />
+   <edge id="Pell~WB" from="TerminalEast" to="JunctionRKLN" priority="2" numLanes="2" speed="27.78" />
+
+   <edge id="SteS~SB" from="TerminalNorthWest" to="JunctionSS" priority="2" numLanes="1" speed="13.89" />
+   <edge id="SteS~NB" from="JunctionSS" to="TerminalNorthWest" priority="1" numLanes="1" speed="13.89" />
+
+   <edge id="RKL~SB" from="TerminalNorthEast" to="JunctionRKLN" priority="2" numLanes="2" speed="27.78" />
+   <edge id="RKL~NB" from="JunctionRKLN" to="TerminalNorthEast" priority="1" numLanes="2" speed="27.78" />
+</edges>

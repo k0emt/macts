@@ -1,0 +1,9 @@
+<nodes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.sf.net/xsd/nodes_file.xsd">
+   <node id="TerminalWest" x="-100.0" y="0.0" type="priority" />
+   <node id="JunctionSS" x="0.0" y="0.0" type="traffic_light" />
+   <node id="JunctionRKLN" x="+66.0" y="0.0" type="traffic_light" />
+   <node id="TerminalEast" x="+170.0" y="0.0" type="priority" />
+
+   <node id="TerminalNorthWest" x="0.0" y="+320.0" type="priority" />
+   <node id="TerminalNorthEast" x="+66.0" y="+220.0" type="priority" />
+</nodes>
