@@ -1,5 +1,4 @@
 <routes>
-
 	<vTypeDistribution id="typedist1">
         <vType id="type1" accel="3.0" decel="4.5" sigma="0.3" length="5" maxSpeed="80" minGap="1" probability="0.85" guiShape="passenger" color="0.58,0,0.83" />
         <vType id="type2" accel="4.0" decel="5.5" sigma="0.2" length="3" maxSpeed="90" minGap="1" probability="0.1" guiShape="passenger/hatchback" color="1,1,1" />
@@ -52,5 +51,4 @@
 		<route id="12" edges="RKL~SB BAve~WB Best~WB" probability="0.622" />
     </routeDistribution>
     <flow id="RKL" route="rklRoute" vehsPerHour="1504" type="typedist1"/>
-
 </routes>
