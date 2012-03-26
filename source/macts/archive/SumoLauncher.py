@@ -17,7 +17,8 @@ class SumoLauncher:
 
     def __init__(self, sysArgs):
         """
-        single argument: low is 10%, medium is 50% and full is 100% of load specification
+        single argument: low is 10%, medium is 50% and
+        full is 100% of load specification.
         Providing no argument results in a usage display
         """
         sumoExe = "sumo-gui"
@@ -33,11 +34,14 @@ class SumoLauncher:
 
             if "SUMO_HOME" in os.environ:
                 sys.path.append(os.path.join(os.environ["SUMO_HOME"], "tools"))
-            sys.path.append(os.path.join(os.path.dirname(sys.argv[0]), "..", "..", "..", "tools"))
+            sys.path.append(os.path.join(os.path.dirname(sys.argv[0]), "..",
+                "..", "..", "tools"))
             import traci
 
             print("Launching SUMO with config file: %s" % self.sumoConfig)
-            sumoProcess = subprocess.Popen("%s -c %s" % (sumoExe, self.sumoConfig), shell=True, stdout=sys.stdout)
+            sumoProcess = subprocess.Popen("%s -c %s" %
+                                           (sumoExe, self.sumoConfig),
+                shell=True, stdout=sys.stdout)
         else:
             print("Usage is: %s [low|medium|full]" % sysArgs[0])
 
