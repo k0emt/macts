@@ -1,11 +1,19 @@
 -- CIS 895 MSE Project Formal Specification MACTS Architecture
---
---  macts.use
---
--- The MACTS model rendered in USE OCL, 
---
+-- File: macts.use
 -- Author: Bryan Nehl
 --
+-- Description: Aspects of the MultiAgent Control of Traffic Signals 
+-- models specified in USE OCL
+-- 
+-- This section will provide a formal specification that the safety agent 
+-- enforces minimum time per light color and that the lights must change in a 
+-- rotation of green, yellow, red.  The system combines all traffic light 
+-- signals at an intersection into a single command.
+-- 
+-- The interactions involved are Planning Agent sends plan to Safety Agent. 
+-- Safety Agent evaluates.  If ok, the Safety Agent sends the plan on to the 
+-- Communications Agent.  If not ok, the Safety Agent notifies the planning 
+-- agent that the plan is not acceptable and the cause/reason why.
 
 model Macts
 
@@ -23,14 +31,6 @@ end
 class CommunicationsAgent < Agent
 end
 
--- one
-class MetricsAgent < Agent
-end
-
--- multiple uses of
-class DataStore
-end
-
 -- MAS Node 
 -- abstract
 -- may only have one "PlanningAgent" type
@@ -38,36 +38,15 @@ class MasNode
 attributes
 	planningAgent : PlanningAgent
 	safetyAgent : SafetyAgent
-	collaborator : CollaborationAgent
 end
 
 class PlanningAgent < Agent
 end
 
-class StandardTimingBasedAgent < PlanningAgent
-end
-
-class ReactiveAgent < PlanningAgent
-end
-
-class CollaborativeAgent < PlanningAgent
-end
-
-class GeneticAgent < PlanningAgent
-end
-
 class SafetyAgent < Agent
 end
 
-class CollaborationAgent < Agent
-end
-
 -- associations -----------------
-
-association persists between
-  PlanningAgent[1] role planproducer;
-  DataStore[*] role datastore;
-end
 
 association interacts between
   TraCI[1] role simulator;
@@ -79,5 +58,35 @@ end
 constraints
 
 context mn:MasNode
-  inv planningAgentIsAPlanningAgent:
-         mn.planningAgent.oclIsKindOf(PlanningAgent) 
+	inv planningAgentIsAPlanningAgent:
+        mn.planningAgent.oclIsKindOf(PlanningAgent)
+	inv safetyAgentIsSafetyAgent:
+		mn.safetyAgent.oclIsKindOf(SafetyAgent)
+
+-- PLANNING AGENT -----------------------------------------------------
+-- sends a message with plan to the safety agent
+
+-- receives messages with error issues from safety agent		
+		
+-- SAFETY AGENT -------------------------------------------------------		
+-- lights must change in order: green, yellow, red --------------------
+-- valid light colors are: { G, r, y }
+-- plans come in as ordered string for each phase/state		 
+-- simple intersection, two lights: {"Gr","yr","rr","rG","ry",rr" }
+-- the above set meets the progression order, 
+-- however it would fail the minimum time per light
+
+-- minimum time per light color
+-- Map(Color:MinimumTime) {(G:10),(y:2),(r:3)}
+-- for a single light above this minimum would look like:
+-- GGGGGGGGGGyyrrr then repeat
+-- it is permissable to have more than the minimum amount of time
+-- GGGGGGGGGGGGGGGGGGGyyyrrrrrrrr would also be acceptable
+
+-- let the planning agent know if plan is acceptable
+-- if not, give reason why
+
+-- submit the plan to the Communications Agent
+
+-- COMMUNICATIONS AGENT ----------------------------------------------
+-- receives plan from Safety Agent and executes/submits it to TraCI
