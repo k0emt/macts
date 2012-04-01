@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="MseProject" company="KSU Computer Science Program" webLink="" view-date="2012-03-25" view-index="0" gantt-divider-location="818" resource-divider-location="301" version="2.0">
+<project name="MseProject" company="KSU Computer Science Program" webLink="" view-date="2012-03-04" view-index="0" gantt-divider-location="818" resource-divider-location="301" version="2.0">
     <description><![CDATA[My project plan for my Masters Software Engineering project.]]></description>
-    <view zooming-state="default:4" id="gantt-chart"/>
+    <view zooming-state="default:5" id="gantt-chart"/>
     <view id="resource-table">
         <field id="0" name="Name" width="55" order="0"/>
         <field id="1" name="Default role" width="44" order="1"/>
@@ -157,84 +157,86 @@ working with document and code branches]]></notes>
                 <task id="29" name="SR 3" color="#8cb6ce" meeting="false" start="2012-04-03" duration="1" complete="100" priority="1" expand="true">
                     <depend id="30" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="30" name="SR 4 - UC 2" color="#8cb6ce" meeting="false" start="2012-04-04" duration="3" complete="0" priority="1" expand="true">
+                <task id="30" name="SR 4 - UC 2" color="#8cb6ce" meeting="false" start="2012-04-04" duration="1" complete="0" priority="1" expand="true">
                     <depend id="31" type="2" difference="0" hardness="Strong"/>
+                    <task id="85" name="SR 4" color="#8cb6ce" meeting="false" start="2012-04-04" duration="1" complete="0" priority="1" expand="true"/>
+                    <task id="84" name="SR 4b" color="#8cb6ce" meeting="false" start="2012-04-04" duration="1" complete="0" priority="1" expand="true"/>
                 </task>
-                <task id="31" name="SR 5" color="#8cb6ce" meeting="false" start="2012-04-07" duration="3" complete="0" priority="1" expand="true">
+                <task id="31" name="SR 5" color="#8cb6ce" meeting="false" start="2012-04-05" duration="3" complete="0" priority="1" expand="true">
                     <depend id="32" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="32" name="SR 6" color="#8cb6ce" meeting="false" start="2012-04-10" duration="2" complete="0" priority="1" expand="true">
+                <task id="32" name="SR 6" color="#8cb6ce" meeting="false" start="2012-04-08" duration="2" complete="0" priority="1" expand="true">
                     <depend id="33" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="33" name="SR 7" color="#8cb6ce" meeting="false" start="2012-04-12" duration="2" complete="0" priority="1" expand="true">
+                <task id="33" name="SR 7" color="#8cb6ce" meeting="false" start="2012-04-10" duration="2" complete="0" priority="1" expand="true">
                     <depend id="34" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="34" name="SR 8 - UC 3" color="#8cb6ce" meeting="false" start="2012-04-14" duration="5" complete="0" priority="1" expand="true">
+                <task id="34" name="SR 8 - UC 3" color="#8cb6ce" meeting="false" start="2012-04-12" duration="5" complete="0" priority="1" expand="true">
                     <depend id="35" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="35" name="SR 9" color="#8cb6ce" meeting="false" start="2012-04-19" duration="1" complete="0" priority="1" expand="true">
+                <task id="35" name="SR 9" color="#8cb6ce" meeting="false" start="2012-04-17" duration="1" complete="0" priority="1" expand="true">
                     <depend id="36" type="2" difference="0" hardness="Strong"/>
-                    <task id="83" name="SR 9b" color="#8cb6ce" meeting="false" start="2012-04-19" duration="1" complete="0" priority="1" expand="true"/>
+                    <task id="83" name="SR 9b" color="#8cb6ce" meeting="false" start="2012-04-17" duration="1" complete="0" priority="1" expand="true"/>
                 </task>
-                <task id="36" name="SR 10 - UC 4" color="#8cb6ce" meeting="false" start="2012-04-20" duration="1" complete="0" priority="1" expand="true">
+                <task id="36" name="SR 10 - UC 4" color="#8cb6ce" meeting="false" start="2012-04-18" duration="1" complete="0" priority="1" expand="true">
                     <depend id="37" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="37" name="SR 11" color="#8cb6ce" meeting="false" start="2012-04-21" duration="1" complete="0" priority="1" expand="true">
+                <task id="37" name="SR 11" color="#8cb6ce" meeting="false" start="2012-04-19" duration="1" complete="0" priority="1" expand="true">
                     <depend id="38" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="38" name="SR 12 - UC 5" color="#8cb6ce" meeting="false" start="2012-04-22" duration="3" complete="0" priority="1" expand="true">
+                <task id="38" name="SR 12 - UC 5" color="#8cb6ce" meeting="false" start="2012-04-20" duration="3" complete="0" priority="1" expand="true">
                     <depend id="39" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="39" name="SR 13" color="#8cb6ce" meeting="false" start="2012-04-25" duration="2" complete="0" priority="1" expand="true">
+                <task id="39" name="SR 13" color="#8cb6ce" meeting="false" start="2012-04-23" duration="2" complete="0" priority="1" expand="true">
                     <depend id="40" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="40" name="SR 14 - UC 6" color="#8cb6ce" meeting="false" start="2012-04-27" duration="2" complete="0" priority="1" expand="true">
+                <task id="40" name="SR 14 - UC 6" color="#8cb6ce" meeting="false" start="2012-04-25" duration="2" complete="0" priority="1" expand="true">
                     <notes><![CDATA[Use case 3.1.6]]></notes>
                     <depend id="41" type="2" difference="0" hardness="Strong"/>
                     <depend id="42" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="41" name="SR 15 - UC 7" color="#8cb6ce" meeting="false" start="2012-04-29" duration="15" complete="0" priority="1" expand="true">
+                <task id="41" name="SR 15 - UC 7" color="#8cb6ce" meeting="false" start="2012-04-27" duration="15" complete="0" priority="1" expand="true">
                     <depend id="45" type="2" difference="0" hardness="Strong"/>
-                    <task id="42" name="SR 15 - Simple Timings Approach" color="#8cb6ce" meeting="false" start="2012-04-29" duration="3" complete="0" priority="1" expand="true">
+                    <task id="42" name="SR 15 - Simple Timings Approach" color="#8cb6ce" meeting="false" start="2012-04-27" duration="3" complete="0" priority="1" expand="true">
                         <notes><![CDATA[Use SUMO based timing handling]]></notes>
                         <depend id="43" type="2" difference="0" hardness="Strong"/>
                     </task>
-                    <task id="43" name="SR 15 - Reactive Approach" color="#8cb6ce" meeting="false" start="2012-05-02" duration="5" complete="0" priority="1" expand="true">
+                    <task id="43" name="SR 15 - Reactive Approach" color="#8cb6ce" meeting="false" start="2012-04-30" duration="5" complete="0" priority="1" expand="true">
                         <depend id="44" type="2" difference="0" hardness="Strong"/>
                     </task>
-                    <task id="44" name="SR 15 - Genetic Approach" color="#8cb6ce" meeting="false" start="2012-05-07" duration="7" complete="0" priority="1" expand="true"/>
+                    <task id="44" name="SR 15 - Genetic Approach" color="#8cb6ce" meeting="false" start="2012-05-05" duration="7" complete="0" priority="1" expand="true"/>
                 </task>
-                <task id="45" name="SR 16" color="#8cb6ce" meeting="false" start="2012-05-14" duration="2" complete="0" priority="1" expand="true">
+                <task id="45" name="SR 16" color="#8cb6ce" meeting="false" start="2012-05-12" duration="2" complete="0" priority="1" expand="true">
                     <depend id="46" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="46" name="SR 17 - collaborating agents - UC 8" color="#8cb6ce" meeting="false" start="2012-05-16" duration="7" complete="0" priority="1" expand="true">
+                <task id="46" name="SR 17 - collaborating agents - UC 8" color="#8cb6ce" meeting="false" start="2012-05-14" duration="7" complete="0" priority="1" expand="true">
                     <depend id="47" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="47" name="SR 18 - UC 9" color="#8cb6ce" meeting="false" start="2012-05-23" duration="1" complete="0" priority="1" expand="true">
+                <task id="47" name="SR 18 - UC 9" color="#8cb6ce" meeting="false" start="2012-05-21" duration="1" complete="0" priority="1" expand="true">
                     <depend id="48" type="2" difference="0" hardness="Strong"/>
-                    <task id="80" name="SR 18 a" color="#8cb6ce" meeting="false" start="2012-05-23" duration="1" complete="0" priority="1" expand="true">
+                    <task id="80" name="SR 18 a" color="#8cb6ce" meeting="false" start="2012-05-21" duration="1" complete="0" priority="1" expand="true">
                         <notes><![CDATA[no foes active]]></notes>
                     </task>
-                    <task id="81" name="SR 18 b" color="#8cb6ce" meeting="false" start="2012-05-23" duration="1" complete="0" priority="1" expand="true">
+                    <task id="81" name="SR 18 b" color="#8cb6ce" meeting="false" start="2012-05-21" duration="1" complete="0" priority="1" expand="true">
                         <notes><![CDATA[minimum times per light color]]></notes>
                     </task>
-                    <task id="82" name="SR 18 c" color="#8cb6ce" meeting="false" start="2012-05-23" duration="1" complete="0" priority="1" expand="true">
+                    <task id="82" name="SR 18 c" color="#8cb6ce" meeting="false" start="2012-05-21" duration="1" complete="0" priority="1" expand="true">
                         <notes><![CDATA[follows proper light color progression]]></notes>
                     </task>
                 </task>
-                <task id="48" name="SR 19" color="#8cb6ce" meeting="false" start="2012-05-24" duration="2" complete="0" priority="1" expand="true">
+                <task id="48" name="SR 19" color="#8cb6ce" meeting="false" start="2012-05-22" duration="2" complete="0" priority="1" expand="true">
                     <depend id="49" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="49" name="SR 20 - UC 10" color="#8cb6ce" meeting="false" start="2012-05-26" duration="1" complete="0" priority="1" expand="true">
+                <task id="49" name="SR 20 - UC 10" color="#8cb6ce" meeting="false" start="2012-05-24" duration="1" complete="0" priority="1" expand="true">
                     <depend id="50" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="50" name="SR 21 - UC 11" color="#8cb6ce" meeting="false" start="2012-05-27" duration="5" complete="0" priority="1" expand="true">
+                <task id="50" name="SR 21 - UC 11" color="#8cb6ce" meeting="false" start="2012-05-25" duration="5" complete="0" priority="1" expand="true">
                     <depend id="51" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="51" name="SR 22" color="#8cb6ce" meeting="false" start="2012-06-01" duration="2" complete="0" priority="1" expand="true">
+                <task id="51" name="SR 22" color="#8cb6ce" meeting="false" start="2012-05-30" duration="2" complete="0" priority="1" expand="true">
                     <depend id="52" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="52" name="SR 23" color="#8cb6ce" meeting="false" start="2012-06-03" duration="3" complete="0" priority="1" expand="true">
+                <task id="52" name="SR 23" color="#8cb6ce" meeting="false" start="2012-06-01" duration="3" complete="0" priority="1" expand="true">
                     <depend id="53" type="3" difference="0" hardness="Strong"/>
                 </task>
                 <task id="53" name="Supporting coding" color="#8cb6ce" meeting="false" start="2012-03-28" duration="73" complete="0" priority="1" expand="true"/>
