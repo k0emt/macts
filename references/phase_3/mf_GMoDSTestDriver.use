@@ -1,0 +1,314 @@
+-- GMoDS Test Driver Formal Specifications
+--
+-- GMoDSTestDriver.use
+-- 
+-- A formal specification of invariants maintained by EventScriptImpl addEvent and next methods.
+--
+-- Author : Mike Fraka
+-- Date: November 30, 2010
+--
+
+model GMoDSTestDriver
+
+--
+-- E N U M E R A T I O N S
+--
+enum EventType {ACHIEVED, FAILED, POSITIVE_TRIGGER, NEGATIVE_TRIGGER, MODIFIED}
+enum GoalState {TRIGGERED, ACTIVE, ACHIEVED, FAILED, REMOVED, OBVIATED}
+
+
+--
+-- C L A S S E S
+--
+class GoalEventImpl
+attributes
+     type : EventType
+     specEventID : String
+     specGoalID : String
+     instGoalID : Integer
+end
+
+class GoalEventParameter
+attributes
+    id : String
+    value : String
+end
+
+class EventScriptImpl
+attributes
+    index : Integer  
+operations
+    addEvent(e : GoalEventImpl)
+    next()
+end
+
+class GoalTreeImpl 
+operations
+    event(ig : InstanceGoalImpl, event : SpecificationEvent, param : InstanceParameters)
+    modifyInstanceGoal(specID : String, instID : Integer, param : InstanceParameters)
+end
+
+class SpecificationTreeImpl end
+
+class SpecificationEvent
+attributes
+    id : String
+    declaredGoalID : String
+end
+
+class ParameterizedSpecificationGoal
+attributes
+    id : String
+    isLeaf : Boolean
+operations
+    closureChildren(s : Set(ParameterizedSpecificationGoal)) : Set(ParameterizedSpecificationGoal) =
+      if s->includesAll(s.child->asSet()) then s
+      else closureChildren(s->union(s.child->asSet()))
+      endif
+    descendantsAndSelf() : Set(ParameterizedSpecificationGoal) = closureChildren(Set{self})
+end
+
+class SpecificationParameter
+attributes
+    id : String
+end
+
+class InstanceTreeImpl  end
+
+class InstanceGoalImpl
+attributes
+    instID : Integer
+    specID : String
+    state : GoalState
+end
+
+class InstanceParameters end
+
+class InstanceParameter
+attributes
+   id : String
+   value : String
+end
+
+--
+-- A S S O C I A T I O N S
+--
+
+-- GoalEventParameters: a GoalEventImpl has zero or more parameters
+association GoalEventParameters between
+  GoalEventImpl [1] role event
+  GoalEventParameter [0..*] role param
+end
+
+-- Events: a EventScriptImpl has zero or more events
+-- and a GoalEventImpl is associated with zero or one script.
+association Events between
+   EventScriptImpl [0..1] role script
+   GoalEventImpl [0..*] role event ordered
+end
+
+-- GMoDSTree: a EventScriptImpl has 1 GoalTreeImpl
+association GMoDSTree between
+   EventScriptImpl [1] role script
+   GoalTreeImpl [1] role gmods
+end
+
+-- SpecTrees: a GoalTreeImpl has 1 SpecificationTreeImpl      
+association SpecTrees between
+   GoalTreeImpl [1] role goalTree
+   SpecificationTreeImpl [1] role specTree
+end
+
+-- SpecEvents: a SpecificationTreeImpl has 0 or more SpecificationEvents
+association SpecEvents between
+   SpecificationTreeImpl [1] role tree
+   SpecificationEvent [0..*] role event
+end
+
+-- SpecGoals: a SpecificationTreeImpl has 1 or more ParameterizedSpecificationGoals
+association SpecGoals between
+   SpecificationTreeImpl [1] role tree
+   ParameterizedSpecificationGoal [1..*] role goal
+end
+
+-- Offspring: a ParametererizedSpecificationGoal has 0 or 1 parents and 
+--  0 or more children
+association Offspring between
+   ParameterizedSpecificationGoal [0..1] role parent
+   ParameterizedSpecificationGoal [0..*] role child
+end
+
+-- SpecEventParams: a SpecificationEvent has 0 or more SpecificationParameters
+association SpecEventParams between
+   SpecificationEvent [0..1] role event
+   SpecificationParameter [0..*] role param
+end
+
+-- SpecGoalParams: a ParameterizedSpecificationGoal has 0 or more SpecificationParameters
+association SpecGoalParams between
+   ParameterizedSpecificationGoal [0..1] role goal
+   SpecificationParameter [0..*] role param
+end
+
+-- InstTrees: a GoalTreeImpl has 1 InstanceTreeImpl
+association InstTrees between
+   GoalTreeImpl [1] role goalTree
+   InstanceTreeImpl [1] role instTree
+end
+
+-- InstGoals: an InstanceTreeImpl has 1 or more InstanceGoalImpl
+association InstGoals between
+   InstanceTreeImpl [1] role tree
+   InstanceGoalImpl [1..*] role goal
+end
+
+-- InstGoalParams: an InstanceGoalImpl has 1 InstanceParameters
+association InstGoalParams between
+   InstanceGoalImpl [1] role goal
+   InstanceParameters [1] role paramCollctn
+end
+
+-- InstParams: an InstanceParameters has 0 or more InstanceParamter objects
+association InstParams between
+   InstanceParameters [1] role collec
+   InstanceParameter [0..*] role param
+end
+
+--
+-- C O N S T R A I N T S
+--
+
+constraints
+
+-- The index of the event script initially points to just before the first event.
+-- In Java, this is -1.
+-- USE 2.6.2 does not support this legal OCL syntax
+-- context EventScriptImpl::index
+--    init: 0
+
+context EventScriptImpl::addEvent(e : GoalEventImpl)
+-- The event does not already exist in the script
+  pre NotInScript: event->excludes(e)
+-- The added event's type is valid
+  pre ValidType: 
+      e.type = #ACHIEVED or e.type = #FAILED or e.type = #POSITIVE_TRIGGER or
+      e.type = #NEGATIVE_TRIGGER or e.type = #MODIFIED
+-- At least one parameter must be provided if type is #MODIFIED
+  pre ModifiedReqParam: e.type = #MODIFIED implies e.param->size > 0
+-- A #MODIFIED event's parameter names must match specification goal's parameter names
+  pre ValidModifiedParamNames:
+      e.type = #MODIFIED and e.param->size > 0 implies
+      e.param->forAll(ep | gmods.specTree.goal->exists(sg | sg.id = e.specGoalID and 
+                                                       sg.param->exists(sgp | sgp.id = ep.id)))
+-- The added event refers to a ParameterizedSpecificationGoal that
+-- exists in GMoDS' specification tree
+  pre ValidSpecGoal: gmods.specTree.goal->exists(sg | sg.id = e.specGoalID)
+-- An #ACHIEVED event will access the special 'ACHIEVED' event of GMoDS and
+-- must apply to a leaf specification goal.
+  pre ValidAchievedEvent: e.type = #ACHIEVED implies e.specEventID = 'ACHIEVED' and
+      gmods.specTree.goal->exists(sg | sg.id = e.specGoalID and sg.isLeaf = true)
+-- A #FAILED event will access the special 'FAILED' event of GMoDS and
+-- must apply to a leaf specification goal.
+  pre ValidFailedEvent: e.type = #FAILED implies e.specEventID = 'FAILED' and
+      gmods.specTree.goal->exists(sg | sg.id = e.specGoalID and sg.isLeaf = true)
+-- If the type is #POSITIVE_TRIGGER or #NEGATIVE_TRIGGER
+-- the added event refers to a SpecificationEvent that exists in GMoDS specification tree, 
+-- the event's specification goal is a leaf goal, the event's specification event's 
+-- declared goal exists, and the event's specification goal is either the goal on which the
+-- event was declared or a descendant of the declared goal.
+  pre ValidSpecEvent: e.type = #POSITIVE_TRIGGER or e.type = #NEGATIVE_TRIGGER implies
+    (gmods.specTree.event->exists(se | se.id = e.specEventID and 
+                                  gmods.specTree.goal->exists(sg,dg | sg.isLeaf = true and sg.id = e.specGoalID and 
+                             	  dg.id = se.declaredGoalID and dg.descendantsAndSelf()->includes(sg))))
+-- if the type is #POSITIVE_TRIGGER or #NEGATIVE_TRIGGER
+-- then it must provide the parameters required by the specification event
+  pre ValidTriggerParamNames:
+      e.type = #POSITIVE_TRIGGER or e.type = #NEGATIVE_TRIGGER implies
+      (gmods.specTree.event->exists(se | se.id = e.specEventID and
+                                    se.param->forAll(sep | e.param->exists(ep | ep.id = sep.id))))
+-- The event is added to the script if all preconditions are met
+  post NowInScript: event->includes(e)
+-- The number of events is increased by 1
+  post OneMoreEvent: (event->asSet - event@pre->asSet)->size = 1
+-- The new event is appended to the end of the script
+  post Appended: event->last = e
+
+context EventScriptImpl::next()
+-- The script must have at least 1 event
+  pre HasAtLeastOneEvent: event->size > 0
+-- The script has a next event to issue to GMoDS
+  pre HasNextEvent: index < event->size
+-- The next event refers to an InstanceGoal that exists in GMoDS
+  pre ValidInstGoal: let nextEvt : GoalEventImpl = event->at(index + 1) in
+      gmods.instTree.goal->exists(ig | ig.instID = nextEvt.instGoalID and 
+                                       ig.specID = nextEvt.specGoalID)
+-- An event whose type is not #MODIFIED must reference 
+-- an #ACTIVE InstanceGoal
+  pre NotModifiedRefActiveGoal: 
+    let nextEvt : GoalEventImpl = event->at(index + 1) in
+      nextEvt.type <> #MODIFIED implies 
+       gmods.instTree.goal->exists(ig | ig.instID = nextEvt.instGoalID and
+                                        ig.specID = nextEvt.specGoalID and 
+                                        ig.state = #ACTIVE)
+-- If the next event type is #NEGATIVE_TRIGGER then all of its parameter
+-- values must match an existing instance goal's parameter values
+  pre ValidNegativeTrigger: let nextEvt : GoalEventImpl = 
+                              event->at(index + 1) in
+      nextEvt.type = #NEGATIVE_TRIGGER and nextEvt.param->size > 0 implies
+       gmods.instTree.goal->exists(ig | ig.instID = nextEvt.instGoalID and 
+                                        ig.specID = nextEvt.specGoalID and 
+                                   nextEvt.param->forAll( nep | 
+                                    ig.paramCollctn.param->exists(igp | 
+                                                     igp.id = nep.id and
+                                                     igp.value = nep.value)))
+-- Advance the script index
+  post ScriptIndexAdvanced: index = index@pre + 1
+-- If preconditions met and the next event is not #MODIFIED then
+-- the 'event' message is sent to GMoDS with appropriate parameter values.
+  post NotModifiedSendsEvent:
+     let nextEvt : GoalEventImpl = event->at(index@pre + 1)
+         in
+        (nextEvt.type <> #MODIFIED implies 
+          (let 
+               instParams : InstanceParameters = 
+	       gmods.instTree.goal->any(ig | ig.instID = nextEvt.instGoalID and
+                                             ig.specID = nextEvt.specGoalID).paramCollctn 
+-- USE 2.6.2 would not accept these additional local variable declarations needed
+--   to specify the message sent in the next method.
+--             ,
+--               instGoal : InstanceGoalImpl = 
+--                  gmods.instTree.goal->any(ig | ig.instID = nextEvt.instGoalID and 
+--                                                ig.specID = nextEvt.specGoalID),
+--                specEvt : SpecificationEvent =
+--                  gmods.specTree.event->any(se | se.id = nextEvt.specEventID)
+             in 
+             instParams.oclIsNew() and
+                nextEvt.param->forAll(np | instParams.param->exists(ip | ip.oclIsNew() and 
+                                                                         ip.id = np.id and 
+                                                                         ip.value = np.value))
+-- USE 2.6.2 does not appear to support the "isSent" operator denoted by "^" in
+-- Warmer and Kleppe "The Object Constraint Language", 2nd Edition, 2003, Addison Wesley, pp. 156-157.
+-- and gmods^event(instGoal, specEvt, instParams)
+             ))
+-- If preconditions are met and the next event is #MODIFIED then the
+-- 'modifyInstanceGoal' message is sent to GMoDS with appropriate parameter values.
+  post ModifiedSendsModifyInstanceGoal:
+     let nextEvt : GoalEventImpl = event->at(index@pre + 1)
+         in
+        (nextEvt.type = #MODIFIED implies 
+          (let 
+               instParams : InstanceParameters = 
+	       gmods.instTree.goal->any(ig | ig.instID = nextEvt.instGoalID and
+                                             ig.specID = nextEvt.specGoalID).paramCollctn 
+             in 
+             instParams.oclIsNew() and
+                nextEvt.param->forAll(np | instParams.param->exists(ip | ip.oclIsNew() and 
+                                                                         ip.id = np.id and 
+                                                                         ip.value = np.value))
+-- USE 2.6.2 does not appear to support the "isSent" operator denoted by "^" in
+-- Warmer and Kleppe "The Object Constraint Language", 2nd Edition, 2003, Addison Wesley, pp. 156-157.
+-- and gmods^modifyInstanceGoal(nextEvt.specGoalID, nextEvt.instGoalID, instParams)
+             ))
+
+
+
