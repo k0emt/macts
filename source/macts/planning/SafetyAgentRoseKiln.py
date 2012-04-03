@@ -1,5 +1,6 @@
+from planning import SafetyAgent
+
 __author__ = 'k0emt'
-import SafetyAgent
 
 
 class SafetyAgentRoseKiln(SafetyAgent):
