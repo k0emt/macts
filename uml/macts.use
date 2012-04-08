@@ -19,10 +19,6 @@ model Macts
 
 -- classes -------------------
 
--- external, only one interface to this
-class TraCI
-end
-
 -- abstract, no instances of
 class Agent
 end
@@ -33,7 +29,7 @@ end
 
 -- MAS Node 
 -- abstract
--- may only have one "PlanningAgent" type
+-- may only have one "PlanningAgent" type per node
 class MasNode
 attributes
 	planningAgent : PlanningAgent
@@ -57,6 +53,9 @@ end
 
 constraints
 
+context CommunicationsAgent inv OneCommAgent:   
+	CommunicationsAgent.allInstances->size() = 1
+
 context mn:MasNode
 	inv planningAgentIsAPlanningAgent:
         mn.planningAgent.oclIsKindOf(PlanningAgent)
@@ -69,24 +68,24 @@ context mn:MasNode
 -- receives messages with error issues from safety agent		
 		
 -- SAFETY AGENT -------------------------------------------------------		
--- lights must change in order: green, yellow, red --------------------
+-- LIGHTS MUST CHANGE IN CORRECT ORDER: green, yellow, red --------------------
 -- valid light colors are: { G, r, y }
 -- plans come in as ordered string for each phase/state		 
 -- simple intersection, two lights: {"Gr","yr","rr","rG","ry",rr" }
 -- the above set meets the progression order, 
 -- however it would fail the minimum time per light
 
--- minimum time per light color
+-- MINIMUM TIME PER LIGHT COLOR
 -- Map(Color:MinimumTime) {(G:10),(y:2),(r:3)}
 -- for a single light above this minimum would look like:
 -- GGGGGGGGGGyyrrr then repeat
 -- it is permissable to have more than the minimum amount of time
 -- GGGGGGGGGGGGGGGGGGGyyyrrrrrrrr would also be acceptable
 
--- let the planning agent know if plan is acceptable
--- if not, give reason why
+-- SAFE PLAN: let the planning agent know if plan is acceptable
+-- UNSAFE PLANE: if not, give reason why
 
--- submit the plan to the Communications Agent
+-- SUBMIT PLAN: to the Communications Agent
 
 -- COMMUNICATIONS AGENT ----------------------------------------------
 -- receives plan from Safety Agent and executes/submits it to TraCI
