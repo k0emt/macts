@@ -5,19 +5,24 @@
 -- Description: Aspects of the MultiAgent Control of Traffic Signals 
 -- models specified in USE OCL
 -- 
--- This section will provide a formal specification that the safety agent 
--- enforces minimum time per light color and that the lights must change in a 
--- rotation of green, yellow, red.  The system combines all traffic light 
--- signals at an intersection into a single command.
+-- This is a formal specification that:
+-- 	The safety agent enforces minimum time per light color and 
+-- 	The lights must change in a rotation of green, yellow, red.  
+-- 	The system combines all traffic light signals at an intersection into a single command.
 -- 
--- The interactions involved are Planning Agent sends plan to Safety Agent. 
--- Safety Agent evaluates.  If ok, the Safety Agent sends the plan on to the 
--- Communications Agent.  If not ok, the Safety Agent notifies the planning 
--- agent that the plan is not acceptable and the cause/reason why.
+-- The interactions involved are:
+-- Planning Agent sends plan to Safety Agent. 
+-- Safety Agent evaluates.  
+--		If ok, the Safety Agent sends the plan on to the Communications Agent.  
+--		If not ok, the Safety Agent notifies the planning agent that 
+--			the plan is not acceptable and the cause/reason why.
 
 model Macts
 
 -- classes -------------------
+
+class TraCI
+end
 
 -- abstract, no instances of
 class Agent
@@ -25,6 +30,8 @@ end
 
 -- one
 class CommunicationsAgent < Agent
+operations
+	submitToTraci(command : String)
 end
 
 -- MAS Node 
@@ -37,9 +44,31 @@ attributes
 end
 
 class PlanningAgent < Agent
+operations
+	createPlan() : String
+	submitToSafetyAgentForReview(plan : String)
+	gatherSafetyAgentResponse() : String
 end
 
 class SafetyAgent < Agent
+attributes
+	signalState : SignalState
+operations
+	checkSafePlan(plan : String) : String
+end
+
+class SignalState
+attributes
+	minimumGreenTime : Integer
+	minimumRedTime : Integer
+	minimumYellowTime : Integer
+	currentState : String
+	ageOfCurrentState : Integer
+operations
+	SignalState(minRedTime : Integer, minGreenTime : Integer, minYellowTime : Integer, initialState : String) : SignalState
+	getCurrentState() : String
+	getAgeOfCurrentStateInSeconds() : Integer
+	changeStateTo( desiredState : String) : String
 end
 
 -- associations -----------------
@@ -53,7 +82,7 @@ end
 
 constraints
 
-context CommunicationsAgent inv OneCommAgent:   
+context CommunicationsAgent inv OneCommAgent:
 	CommunicationsAgent.allInstances->size() = 1
 
 context mn:MasNode
@@ -61,7 +90,11 @@ context mn:MasNode
         mn.planningAgent.oclIsKindOf(PlanningAgent)
 	inv safetyAgentIsSafetyAgent:
 		mn.safetyAgent.oclIsKindOf(SafetyAgent)
-
+		
+context SignalState
+	inv validCurrentState:
+		Set{'G','r','y'} -> includes(self.currentState)
+	
 -- PLANNING AGENT -----------------------------------------------------
 -- sends a message with plan to the safety agent
 
@@ -69,18 +102,19 @@ context mn:MasNode
 		
 -- SAFETY AGENT -------------------------------------------------------		
 -- LIGHTS MUST CHANGE IN CORRECT ORDER: green, yellow, red --------------------
--- valid light colors are: { G, r, y }
--- plans come in as ordered string for each phase/state		 
--- simple intersection, two lights: {"Gr","yr","rr","rG","ry",rr" }
--- the above set meets the progression order, 
--- however it would fail the minimum time per light
+-- valid light colors are: { G, g, r, y }
+-- post validState:
+--		Set{'G','r','y'}  -> includes(self.currentState)
+context SignalState::changeStateTo(desiredState:String):String
+post yellowFollowsGreen:
+	self.currentState@pre = 'G' implies self.currentState = 'y'
+post redFollowsYellow:
+	self.currentState@pre = 'y' implies self.currentState = 'r'
+post greenFollowsRed:
+	self.currentState@pre = 'r' implies self.currentState = 'G'
 
 -- MINIMUM TIME PER LIGHT COLOR
--- Map(Color:MinimumTime) {(G:10),(y:2),(r:3)}
--- for a single light above this minimum would look like:
--- GGGGGGGGGGyyrrr then repeat
--- it is permissable to have more than the minimum amount of time
--- GGGGGGGGGGGGGGGGGGGyyyrrrrrrrr would also be acceptable
+
 
 -- SAFE PLAN: let the planning agent know if plan is acceptable
 -- UNSAFE PLANE: if not, give reason why
