@@ -34,7 +34,7 @@ operations
 	submitToTraci(command : String)
 end
 
--- MAS Node 
+-- MAS Node -----------------------------------------------------------
 -- abstract
 -- may only have one "PlanningAgent" type per node
 class MasNode
@@ -43,13 +43,7 @@ attributes
 	safetyAgent : SafetyAgent
 end
 
-class PlanningAgent < Agent
-operations
-	createPlan() : String
-	submitToSafetyAgentForReview(plan : String)
-	gatherSafetyAgentResponse() : String
-end
-
+-- SAFETY AGENT -------------------------------------------------------
 class SafetyAgent < Agent
 attributes
 	signalState : SignalState
@@ -57,12 +51,24 @@ operations
 	checkSafePlan(plan : String) : String
 end
 
+-- PLANNING AGENT -----------------------------------------------------
+class PlanningAgent < Agent
+attributes
+	checkResult : String
+	safetyAgent : SafetyAgent
+operations
+	createPlan() : String
+	submitToSafetyAgentForReview(plan : String)
+end
+
+-- SIGNAL STATE --------------------------------------------------------
 class SignalState
 attributes
 	minimumGreenTime : Integer
 	minimumRedTime : Integer
 	minimumYellowTime : Integer
 	currentState : String
+	currentStateMinimumTime : Integer
 	ageOfCurrentState : Integer
 operations
 	SignalState(minRedTime : Integer, minGreenTime : Integer, minYellowTime : Integer, initialState : String) : SignalState
@@ -78,13 +84,31 @@ association interacts between
   CommunicationsAgent[1] role liaison;
 end
 
+association safetyAgentContainsSignalState between
+	SafetyAgent[1] role safetyAgentRole;
+	SignalState[0..*] role signalStateRole;
+end
+
+association masNodeContainsPlanningAgent between
+	MasNode[1] role masNodeRole;
+	PlanningAgent[1] role planningAgentRole;
+end
+
+association masNodeContainsSafetyAgent between
+	MasNode[1] role masNodeRole;
+	SafetyAgent[1] role safetyAgentRole;
+end
+
 -- constraints --------------------
 
 constraints
 
+-- there is only one communications agent
 context CommunicationsAgent inv OneCommAgent:
 	CommunicationsAgent.allInstances->size() = 1
 
+-- the mas node contains two agents.
+-- one is a planning agent and the other a safety agent
 context mn:MasNode
 	inv planningAgentIsAPlanningAgent:
         mn.planningAgent.oclIsKindOf(PlanningAgent)
@@ -92,32 +116,63 @@ context mn:MasNode
 		mn.safetyAgent.oclIsKindOf(SafetyAgent)
 		
 context SignalState
+	-- check that the current state is in the set of valid states
 	inv validCurrentState:
 		Set{'G','r','y'} -> includes(self.currentState)
 	
--- PLANNING AGENT -----------------------------------------------------
--- sends a message with plan to the safety agent
-
--- receives messages with error issues from safety agent		
-		
 -- SAFETY AGENT -------------------------------------------------------		
 -- LIGHTS MUST CHANGE IN CORRECT ORDER: green, yellow, red --------------------
 -- valid light colors are: { G, g, r, y }
--- post validState:
---		Set{'G','r','y'}  -> includes(self.currentState)
-context SignalState::changeStateTo(desiredState:String):String
+-- post condition checks to the changeStateTo operation of the SignalState
+-- the current state should either be the same as the previous state OR
+-- it should be the next state in the cycle
+context SignalState::changeStateTo(desiredState:String):String 
+
 post yellowFollowsGreen:
-	self.currentState@pre = 'G' implies self.currentState = 'y'
+	self.currentState@pre = 'G' implies Set{'G','y'} -> includes(self.currentState)
 post redFollowsYellow:
-	self.currentState@pre = 'y' implies self.currentState = 'r'
+	self.currentState@pre = 'y' implies Set{'y','r'} -> includes(self.currentState)
 post greenFollowsRed:
-	self.currentState@pre = 'r' implies self.currentState = 'G'
+	self.currentState@pre = 'r' implies Set{'r','G'} -> includes(self.currentState)
 
 -- MINIMUM TIME PER LIGHT COLOR
+-- the currentStateMinimumTime should correspond to the current state
+-- Green, yellow and red have different minimum state times
+pre greenMinTime:
+	self.currentState = 'G' implies currentStateMinimumTime = self.minimumGreenTime
 
+pre yellowMinTime:
+	self.currentState = 'y' implies currentStateMinimumTime = self.minimumYellowTime
+
+pre redMinTime:
+	self.currentState = 'r' implies currentStateMinimumTime = self.minimumRedTime
+	
+-- after every state change the new age of current state should be 
+-- 0 if the state changed or incremented by 1 if the state stayed the same
+post ageOfCurrentStateIncrements:
+	Set{0, 1 + self.ageOfCurrentState@pre } -> includes(self.ageOfCurrentState )
+
+-- stated another way, if the state set to is the same as the previous state
+-- then increment by 1, otherwise it is a new state so it should be set to 0
+post ageIncrements: if self.currentState@pre = desiredState then
+			self.ageOfCurrentState = self.ageOfCurrentState@pre + 1
+		else self.ageOfCurrentState = 0 endif
+
+-- again, if the current state is different than the previous current state, the age should be 0		
+post lightStateChangingZerosAge:
+	self.currentState <> self.currentState@pre implies self.ageOfCurrentState = 0
+	
+-- if the age of the current state is less than the previous minimum time
+-- then the current state should be the same as the previous
+post minimumStateTimeEnforced:
+	self.ageOfCurrentState < currentStateMinimumTime@pre implies self.currentState = self.currentState@pre
+	
+-- context SafetyAgent::checkSafePlan(plan : String) : String
+	-- safetyAgent.checkSafePlan(plan)
+	-- receives messages with error issues from safety agent		
 
 -- SAFE PLAN: let the planning agent know if plan is acceptable
--- UNSAFE PLANE: if not, give reason why
+-- UNSAFE PLAN: if not, give reason why
 
 -- SUBMIT PLAN: to the Communications Agent
 
