@@ -1,8 +1,10 @@
 __author__ = 'k0emt'
+from Core import Agent
 
+class MetricsAgent(Agent):
+    """
 
-class MetricsAgent:
-
+    """
     # SR21 Request direct simulation metrics from TraCI via the System Liaison.
 
     # SR22 Do any internal processing necessary for computing metrics.

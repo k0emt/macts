@@ -10,10 +10,17 @@ import os
 import subprocess
 import sys
 
+import pika
+#import json
 
-class CommunicationsAgent:
+from Core import Agent
+from Core import MactsExchange
+from Core import MactsExchangeType
+
+class CommunicationsAgent(Agent):
     """
     This agent is used to:
+    * create the needed RabbitMQ exchanges
     * launch the SUMO-GUI with the selected configuration
     * obtain and publish per iteration metrics
     *
@@ -88,6 +95,26 @@ class CommunicationsAgent:
             print("configuration set: %s" % self.network_set)
             print("max iterations set: %s" % self.iterations_set)
 
+    def setup_message_exchanges(self):
+        """
+        set up the needed messaging exchanges
+        """
+        print("setting up RabbitMQ exchanges")
+        credentials = pika.PlainCredentials(self.NAME, self.PASSWORD)
+        conn_params = pika.ConnectionParameters(host=self.MQ_SERVER,
+            virtual_host=self.VIRTUAL_HOST,
+            credentials=credentials)
+        conn = pika.BlockingConnection(conn_params)
+        self.channel = conn.channel()
+
+        # Metrics exchange
+        self.channel.exchange_declare(exchange=MactsExchange.METRICS,
+            type=MactsExchangeType.FANOUT,
+            passive=False,
+            durable=False,
+            auto_delete=False
+        )
+
     def __init__(self, sysArgs):
         self.network_set = False
         self.iterations_set = False
@@ -97,6 +124,11 @@ class CommunicationsAgent:
             import traci
             traci.init(CommunicationsAgent.PORT)
             counter = 0
+
+            self.NAME = "liaison"
+            self.PASSWORD = "talker"
+            self.setup_message_exchanges()
+
             while  counter < self.MAXIMUM_ITERATIONS:
                 veh = traci.simulationStep(CommunicationsAgent.ONE_SECOND)
                 # SR5/SR10 are there any command requests from MAS?

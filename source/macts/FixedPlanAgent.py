@@ -1,8 +1,11 @@
 __author__ = 'k0emt'
+import PlanningAgent
 
 
-class FixedPlanAgent:
+class FixedPlanAgent(PlanningAgent):
+    """
 
+    """
     # SR15 The planning agent examines incoming data & creates a new TLS plan.
     # SR16 The planning agent submits the plan to the Safety Agent for review.
     # SR17 The Planning agent incorporates data that was shared from other

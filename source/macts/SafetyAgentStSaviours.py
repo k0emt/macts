@@ -1,9 +1,12 @@
+import SafetyAgent
+
 __author__ = 'k0emt'
 
 
-class SafetyAgent:
+class SafetyAgentStSaviours(SafetyAgent):
     """
-    This will be an abstract class encapsulating common behavior and logic
+    Safety Agent specifically built for the St Saviours Junction with
+    B Avenue and B West Avenue.
     """
 
     # SR18a The safety agent examines the TLS plan to verify that there are no

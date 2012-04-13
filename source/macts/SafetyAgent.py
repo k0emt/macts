@@ -1,17 +1,14 @@
-from planning import SafetyAgent
-
 __author__ = 'k0emt'
+from Core import Agent
 
-
-class SafetyAgentRoseKiln(SafetyAgent):
+class SafetyAgent(Agent):
     """
-    Safety Agent specifically built for the Rose Kiln Lane Junction with
-    Pell and B Avenue.
+    This will be an abstract class encapsulating common behavior and logic
     """
 
     # SR18a The safety agent examines the TLS plan to verify that there are no
     # simultaneously active paths that will cross each other in such a way as
-    # to create an unsafe condition.
+    # to create an unsafe condition.  Foes.
 
     # SR18b The safety agent enforces minimum times per light color.
     # Example: a light cannot be green for 1 second then switched to yellow.

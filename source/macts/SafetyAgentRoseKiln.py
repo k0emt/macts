@@ -1,12 +1,12 @@
-from planning import SafetyAgent
+import SafetyAgent
 
 __author__ = 'k0emt'
 
 
-class SafetyAgentStSaviours(SafetyAgent):
+class SafetyAgentRoseKiln(SafetyAgent):
     """
-    Safety Agent specifically built for the St Saviours Junction with
-    B Avenue and B West Avenue.
+    Safety Agent specifically built for the Rose Kiln Lane Junction with
+    Pell and B Avenue.
     """
 
     # SR18a The safety agent examines the TLS plan to verify that there are no
