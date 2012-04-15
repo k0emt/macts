@@ -9,6 +9,7 @@ from Tix import MAX
 import os
 import subprocess
 import sys
+import datetime
 
 import pika
 #import json
@@ -17,6 +18,7 @@ from Core import Agent
 from Core import MactsExchange
 from Core import MactsExchangeType
 from Core import Metric
+from Core import SensorState
 
 
 class CommunicationsAgent(Agent):
@@ -132,8 +134,7 @@ class CommunicationsAgent(Agent):
             routing_key="")
         print " +"
 
-    def gatherMetrics(self, traci, networkSegments, simulationId,
-                      simulationStep):
+    def gatherMetrics(self, traci, networkSegments):
         """
         gather all of the metrics we are interested in and put them together
         """
@@ -157,6 +158,19 @@ class CommunicationsAgent(Agent):
 
         return metrics
 
+    def gatherSensorData(self, traci, junction_sensor_list, junction_name):
+        """
+        gather the sensor data for a junction
+        """
+        sensorState = SensorState(self.simulationId, self.simulationStep,
+            junction_name)
+
+        for sensor in junction_sensor_list:
+            sensorState.sensed.update({
+                sensor: traci.inductionloop.getLastStepVehicleNumber(sensor)})
+
+        return sensorState
+
     def __init__(self, sysArgs):
         self.network_set = False
         self.iterations_set = False
@@ -172,22 +186,38 @@ class CommunicationsAgent(Agent):
             self.PASSWORD = "talker"
             self.setup_message_exchanges()
 
+            # SR 4b the liaison creates a run id and shares it with the MACTS
+            self.simulationId = datetime.datetime.now().strftime(
+                "%Y%m%d|%H%M%S")
+            # TODO share it
+
             roadNetworkSegments = traci.lane.getIDList()
 
             while  self.simulationStep < self.MAXIMUM_ITERATIONS:
                 veh = traci.simulationStep(CommunicationsAgent.ONE_SECOND)
-                # SR5/SR10 are there any command requests from MAS?
-                # SR6/SR11 submits any received plans
-                # SR7 don't continue until all MAS have reported in
-                # and their instructions sent
-                # SR8 parse out data for individual intersections
-                # SR9 publish the individual intersection data to RabbitMQ
 
-                # SR9b gather and publish metrics data
-                stepMetrics = self.gatherMetrics(traci, roadNetworkSegments,
-                    self.simulationId, self.simulationStep)
+                # SR 8 parse out data for individual intersections
+                ss_sensors = self.gatherSensorData(traci,
+                    SensorState.SS_JUNCTION_SENSORS,
+                    SensorState.ST_SAVIORS_JUNCTION)
+
+                rkl_sensors = self.gatherSensorData(traci,
+                    SensorState.RKL_JUNCTION_SENSORS,
+                    SensorState.RKL_JUNCTION)
+
+                # TODO SR 9 publish intersection data to RabbitMQ
+
+                # SR 9b gather and publish metrics data
+                stepMetrics = self.gatherMetrics(traci, roadNetworkSegments)
 
                 self.sendMetrics(stepMetrics)
+
+                # TODO SR 5/SR 10 are there any command requests from MAS?
+
+                # TODO SR 6/SR 11 submits any received plans
+
+                # TODO SR 7 don't continue until all MAS have reported in
+                # TODO SR 7  and their instructions sent
 
                 self.simulationStep += 1
             traci.close()

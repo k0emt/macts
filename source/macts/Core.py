@@ -28,15 +28,48 @@ class Metric:
     subject = ""
     observed = {}
 
+    @classmethod
+    def displayList(cls, metricsList):
+        for metric in metricsList:
+            metric.display()
+
+    def display(self):
+        print "METRIC: %s %d %s" % (
+            self.simulationId, self.simulationStep, self.subject)
+        print self.observed
+
     def __init__(self, simulation_id, simulation_step, observed_subject):
         self.simulationId = simulation_id
         self.simulationStep = simulation_step
         self.subject = observed_subject
 
-## deprecated ?
-#class RoadNetwork:
-#    SEGMENTS = ['BAve~EB_0','BAve~EB_1','BAve~WB_0','BAve~WB_1',
-#                    'Best~EB_0','Best~EB_1','Best~WB_0','Best~WB_1',
-#                    'Pell~EB_0','Pell~EB_1','Pell~WB_0','Pell~WB_1',
-#                    'RKL~NB_0','RKL~NB_1','RKL~SB_0','RKL~SB_1',
-#                    'SteS~NB_0','SteS~SB_0']
+
+class SensorState:
+    simulationId = ""
+    simulationStep = 0
+    junction = ""
+    sensed = {}
+
+    ST_SAVIORS_JUNCTION = "SteSaviors"
+    SS_JUNCTION_SENSORS = {
+        "e1det_Best~EB_0", "e1det_Best~EB_1",
+        "e1det_SteS~SB_0",
+        "e1det_BAve~WB_0", "e1det_BAve~WB_1"
+    }
+
+    RKL_JUNCTION = "RoseKilnLane"
+    RKL_JUNCTION_SENSORS = {
+        "e1det_BAve~EB_0", "e1det_BAve~EB_1",
+        "e1det_RKL~SB_0", "e1det_RKL~SB_1",
+        "e1det_Pell~WB_0", 'e1det_Pell~WB_1'
+    }
+
+    def display(self):
+        print "SENSORS: %s %d %s" % (
+            self.simulationId, self.simulationStep, self.junction)
+        print self.sensed
+
+    def __init__(self, simulation_id, simulation_step, associated_junction):
+        self.simulationId = simulation_id
+        self.simulationStep = simulation_step
+        self.junction = associated_junction
