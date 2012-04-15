@@ -16,6 +16,8 @@ import pika
 from Core import Agent
 from Core import MactsExchange
 from Core import MactsExchangeType
+from Core import Metric
+
 
 class CommunicationsAgent(Agent):
     """
@@ -70,7 +72,6 @@ class CommunicationsAgent(Agent):
             print("SUMO environ/sumo-gui not set")
 
         if len(sysArgs) > 2:
-
             self.set_maximum_iterations(sysArgs)
 
             self.set_network_configuration(sysArgs)
@@ -81,7 +82,7 @@ class CommunicationsAgent(Agent):
                 print("SUMO_HOME environ/sumo-gui not set")
 
             sys.path.append(os.path.join(os.path.dirname(sys.argv[0]), "..",
-                    "..", "..", "tools"))
+                "..", "..", "tools"))
 
         if self.network_set and self.iterations_set:
             print("Launching SUMO with config file: %s" % self.sumoConfig)
@@ -115,13 +116,13 @@ class CommunicationsAgent(Agent):
             auto_delete=False
         )
 
-    def sendMetric(self, metric):
+    def sendMetrics(self, metrics):
         """
         send a metric to the metrics exchange
         """
-        print "Sending metric %s" % metric,
+        print "Sending metric %s" % metrics,
         # put into JSON format?
-        msg = repr(metric)
+        msg = repr(metrics)
         msg_props = pika.BasicProperties()
         msg_props.content_type = "text/plain"
 
@@ -131,31 +132,30 @@ class CommunicationsAgent(Agent):
             routing_key="")
         print " +"
 
-    def gatherMetrics(self, traci, networkSegments, simulationId, simulationStep):
+    def gatherMetrics(self, traci, networkSegments, simulationId,
+                      simulationStep):
         """
         gather all of the metrics we are interested in and put them together
         """
-        print "SIMULATION: %s STEP: %s -------" % (simulationId, simulationStep)
-        # loop through all road segments
+        metrics = []
+
         for segment in networkSegments:
-            # get metrics we're interested in
-            print "segment: %s CO2 %.3f" % (segment, traci.lane.getCO2Emission(segment))
-            print "segment: %s CO  %.3f" % (segment, traci.lane.getCOEmission(segment))
-            print "segment: %s HC  %.3f" % (segment, traci.lane.getHCEmission(segment))
-            print "segment: %s PMx %.3f" % (segment, traci.lane.getPMxEmission(segment))
-            print "segment: %s NOx %.3f" % (segment, traci.lane.getNOxEmission(segment))
-            print "segment: %s Noise %.3f" % (segment, traci.lane.getNoiseEmission(segment))
+            metric = Metric(self.simulationId, self.simulationStep, segment)
+            metric.observed.update({
+                "CO2": traci.lane.getCO2Emission(segment),
+                "CO": traci.lane.getCOEmission(segment),
+                "HC": traci.lane.getHCEmission(segment),
+                "PMx": traci.lane.getPMxEmission(segment),
+                "NOx": traci.lane.getNOxEmission(segment),
+                "Noise": traci.lane.getNoiseEmission(segment),
+                "Fuel": traci.lane.getFuelConsumption(segment),
+                "TravelTime": traci.lane.getTraveltime(segment),
+                "MeanSpeed": traci.lane.getLastStepMeanSpeed(segment),
+                "Occupancy": traci.lane.getLastStepOccupancy(segment),
+                "Halting": traci.lane.getLastStepHaltingNumber(segment)})
+            metrics.append(metric)
 
-            print "segment: %s Fuel %.3f" % (segment, traci.lane.getFuelConsumption(segment))
-            print "segment: %s Travel Time %.3f" % (segment, traci.lane.getTraveltime(segment))
-            print "segment: %s Mean Speed %.3f" % (segment, traci.lane.getLastStepMeanSpeed(segment))
-            print "segment: %s Occupancy %.3f" % (segment, traci.lane.getLastStepOccupancy(segment))
-            print "segment: %s Halting %.3f" % (segment, traci.lane.getLastStepHaltingNumber(segment))
-
-            # container with sim step, sim id, [segment:[metric:value]]
-
-        # publish batched metrics to exchange
-
+        return metrics
 
     def __init__(self, sysArgs):
         self.network_set = False
@@ -164,6 +164,7 @@ class CommunicationsAgent(Agent):
 
         if self.network_set and self.iterations_set:
             import traci
+
             traci.init(CommunicationsAgent.PORT)
             counter = 0
 
@@ -183,10 +184,10 @@ class CommunicationsAgent(Agent):
                 # SR9 publish the individual intersection data to RabbitMQ
 
                 # SR9b gather and publish metrics data
-                self.gatherMetrics(traci,roadNetworkSegments, self.simulationId, self.simulationStep)
-                # this returns a Metrics
+                stepMetrics = self.gatherMetrics(traci, roadNetworkSegments,
+                    self.simulationId, self.simulationStep)
 
-                # self.publishMetrics
+                self.sendMetrics(stepMetrics)
 
                 self.simulationStep += 1
             traci.close()

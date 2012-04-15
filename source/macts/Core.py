@@ -13,11 +13,25 @@ class Agent:
     simulationId = "NotSet"
     simulationStep = 1
 
+
 class MactsExchange:
     METRICS = "metrics"
 
+
 class MactsExchangeType:
     FANOUT = "fanout"
+
+
+class Metric:
+    simulationId = ""
+    simulationStep = 0
+    subject = ""
+    observed = {}
+
+    def __init__(self, simulation_id, simulation_step, observed_subject):
+        self.simulationId = simulation_id
+        self.simulationStep = simulation_step
+        self.subject = observed_subject
 
 ## deprecated ?
 #class RoadNetwork:
