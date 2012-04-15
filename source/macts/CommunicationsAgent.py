@@ -115,6 +115,48 @@ class CommunicationsAgent(Agent):
             auto_delete=False
         )
 
+    def sendMetric(self, metric):
+        """
+        send a metric to the metrics exchange
+        """
+        print "Sending metric %s" % metric,
+        # put into JSON format?
+        msg = repr(metric)
+        msg_props = pika.BasicProperties()
+        msg_props.content_type = "text/plain"
+
+        self.channel.basic_publish(body=msg,
+            exchange=MactsExchange.METRICS,
+            properties=msg_props,
+            routing_key="")
+        print " +"
+
+    def gatherMetrics(self, traci, networkSegments, simulationId, simulationStep):
+        """
+        gather all of the metrics we are interested in and put them together
+        """
+        print "SIMULATION: %s STEP: %s -------" % (simulationId, simulationStep)
+        # loop through all road segments
+        for segment in networkSegments:
+            # get metrics we're interested in
+            print "segment: %s CO2 %.3f" % (segment, traci.lane.getCO2Emission(segment))
+            print "segment: %s CO  %.3f" % (segment, traci.lane.getCOEmission(segment))
+            print "segment: %s HC  %.3f" % (segment, traci.lane.getHCEmission(segment))
+            print "segment: %s PMx %.3f" % (segment, traci.lane.getPMxEmission(segment))
+            print "segment: %s NOx %.3f" % (segment, traci.lane.getNOxEmission(segment))
+            print "segment: %s Noise %.3f" % (segment, traci.lane.getNoiseEmission(segment))
+
+            print "segment: %s Fuel %.3f" % (segment, traci.lane.getFuelConsumption(segment))
+            print "segment: %s Travel Time %.3f" % (segment, traci.lane.getTraveltime(segment))
+            print "segment: %s Mean Speed %.3f" % (segment, traci.lane.getLastStepMeanSpeed(segment))
+            print "segment: %s Occupancy %.3f" % (segment, traci.lane.getLastStepOccupancy(segment))
+            print "segment: %s Halting %.3f" % (segment, traci.lane.getLastStepHaltingNumber(segment))
+
+            # container with sim step, sim id, [segment:[metric:value]]
+
+        # publish batched metrics to exchange
+
+
     def __init__(self, sysArgs):
         self.network_set = False
         self.iterations_set = False
@@ -129,7 +171,9 @@ class CommunicationsAgent(Agent):
             self.PASSWORD = "talker"
             self.setup_message_exchanges()
 
-            while  counter < self.MAXIMUM_ITERATIONS:
+            roadNetworkSegments = traci.lane.getIDList()
+
+            while  self.simulationStep < self.MAXIMUM_ITERATIONS:
                 veh = traci.simulationStep(CommunicationsAgent.ONE_SECOND)
                 # SR5/SR10 are there any command requests from MAS?
                 # SR6/SR11 submits any received plans
@@ -137,9 +181,14 @@ class CommunicationsAgent(Agent):
                 # and their instructions sent
                 # SR8 parse out data for individual intersections
                 # SR9 publish the individual intersection data to RabbitMQ
-                # SR9b gather and publish metrics data
 
-                counter += 1
+                # SR9b gather and publish metrics data
+                self.gatherMetrics(traci,roadNetworkSegments, self.simulationId, self.simulationStep)
+                # this returns a Metrics
+
+                # self.publishMetrics
+
+                self.simulationStep += 1
             traci.close()
 
 if __name__ == "__main__":
