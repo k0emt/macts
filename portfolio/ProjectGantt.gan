@@ -75,9 +75,9 @@
             </task>
             <task id="77" name="new sensors" color="#8cb6ce" meeting="false" start="2011-12-30" duration="3" complete="100" priority="1" expand="true"/>
         </task>
-        <task id="62" name="Project: Risk Management" color="#ffcccc" meeting="false" start="2011-08-22" duration="131" complete="81" priority="1" expand="false">
+        <task id="62" name="Project: Risk Management" color="#ffcccc" meeting="false" start="2011-08-22" duration="131" complete="86" priority="1" expand="false">
             <depend id="13" type="2" difference="0" hardness="Rubber"/>
-            <task id="66" name="SUMO" color="#8cb6ce" meeting="false" start="2011-10-17" duration="75" complete="85" priority="1" expand="true">
+            <task id="66" name="SUMO" color="#8cb6ce" meeting="false" start="2011-10-17" duration="75" complete="95" priority="1" expand="true">
                 <notes><![CDATA[Need better understanding of TLS light definitions and "foes".
 
 Done:
@@ -89,7 +89,7 @@ doing simulations
 capturing metrics
 customizing car display]]></notes>
             </task>
-            <task id="63" name="Python" color="#8cb6ce" meeting="false" start="2011-08-31" duration="122" complete="40" priority="1" expand="true">
+            <task id="63" name="Python" color="#8cb6ce" meeting="false" start="2011-08-31" duration="122" complete="50" priority="1" expand="true">
                 <notes><![CDATA[unittest
 mocking
 looping, flow control
@@ -107,7 +107,7 @@ how merge?
 working with document and code branches]]></notes>
             </task>
         </task>
-        <task id="13" name="Phase 2: Elaboration" color="#8cb6ce" meeting="false" start="2012-01-27" duration="46" complete="73" priority="1" expand="true">
+        <task id="13" name="Phase 2: Elaboration" color="#8cb6ce" meeting="false" start="2012-01-27" duration="46" complete="95" priority="1" expand="false">
             <depend id="22" type="2" difference="0" hardness="Strong"/>
             <task id="14" name="Action Items" color="#8cb6ce" meeting="false" start="2012-01-27" duration="5" complete="100" priority="1" expand="true">
                 <depend id="15" type="2" difference="0" hardness="Strong"/>
@@ -118,10 +118,10 @@ working with document and code branches]]></notes>
             <task id="16" name="Project Plan Updates&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2012-02-04" duration="3" complete="100" priority="1" expand="true">
                 <depend id="17" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="17" name="Formal Requirement Specification - Metrics Agent or Safety Agent?" color="#8cb6ce" meeting="false" start="2012-02-07" duration="10" complete="5" priority="1" expand="true">
+            <task id="17" name="Formal Requirement Specification - Metrics Agent or Safety Agent?" color="#8cb6ce" meeting="false" start="2012-02-07" duration="10" complete="80" priority="1" expand="true">
                 <depend id="18" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="18" name="System Architecture Design (SAD)&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2012-02-17" duration="5" complete="50" priority="1" expand="true">
+            <task id="18" name="System Architecture Design (SAD)&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2012-02-17" duration="5" complete="95" priority="1" expand="true">
                 <depend id="19" type="2" difference="0" hardness="Strong"/>
             </task>
             <task id="19" name="Test Plan&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2012-02-22" duration="5" complete="100" priority="1" expand="true">
@@ -132,10 +132,10 @@ working with document and code branches]]></notes>
             </task>
             <task id="21" name="Executable Architecture Prototype" color="#8cb6ce" meeting="false" start="2012-03-03" duration="10" complete="100" priority="1" expand="true"/>
         </task>
-        <task id="22" name="Phase 3: Construction" color="#8cb6ce" meeting="false" start="2012-03-13" duration="97" complete="5" priority="1" expand="true">
+        <task id="22" name="Phase 3: Construction" color="#8cb6ce" meeting="false" start="2012-03-13" duration="97" complete="22" priority="1" expand="true">
             <depend id="58" type="3" difference="0" hardness="Strong"/>
             <depend id="60" type="3" difference="0" hardness="Strong"/>
-            <task id="23" name="Action Items&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2012-03-13" duration="5" complete="50" priority="1" expand="true">
+            <task id="23" name="Action Items&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2012-03-13" duration="5" complete="80" priority="1" expand="true">
                 <depend id="24" type="2" difference="0" hardness="Strong"/>
             </task>
             <task id="24" name="User Manual&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2012-03-18" duration="5" complete="0" priority="1" expand="true">
@@ -145,7 +145,7 @@ working with document and code branches]]></notes>
                 <depend id="26" type="2" difference="0" hardness="Strong"/>
                 <depend id="27" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="26" name="Source Code&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2012-03-28" duration="73" complete="4" priority="1" expand="true">
+            <task id="26" name="Source Code&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2012-03-28" duration="73" complete="24" priority="1" expand="true">
                 <depend id="54" type="2" difference="0" hardness="Strong"/>
                 <task id="27" name="SR 1 - UC 1" color="#8cb6ce" meeting="false" start="2012-03-28" duration="3" complete="100" priority="1" expand="true">
                     <depend id="28" type="2" difference="0" hardness="Strong"/>
@@ -157,9 +157,9 @@ working with document and code branches]]></notes>
                 <task id="29" name="SR 3" color="#8cb6ce" meeting="false" start="2012-04-03" duration="1" complete="100" priority="1" expand="true">
                     <depend id="30" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="30" name="SR 4 - UC 2" color="#8cb6ce" meeting="false" start="2012-04-04" duration="1" complete="0" priority="1" expand="true">
+                <task id="30" name="SR 4 - UC 2" color="#8cb6ce" meeting="false" start="2012-04-04" duration="1" complete="50" priority="1" expand="true">
                     <depend id="31" type="2" difference="0" hardness="Strong"/>
-                    <task id="85" name="SR 4" color="#8cb6ce" meeting="false" start="2012-04-04" duration="1" complete="0" priority="1" expand="true"/>
+                    <task id="85" name="SR 4" color="#8cb6ce" meeting="false" start="2012-04-04" duration="1" complete="100" priority="1" expand="true"/>
                     <task id="84" name="SR 4b" color="#8cb6ce" meeting="false" start="2012-04-04" duration="1" complete="0" priority="1" expand="true"/>
                 </task>
                 <task id="31" name="SR 5" color="#8cb6ce" meeting="false" start="2012-04-05" duration="3" complete="0" priority="1" expand="true">
@@ -171,13 +171,13 @@ working with document and code branches]]></notes>
                 <task id="33" name="SR 7" color="#8cb6ce" meeting="false" start="2012-04-10" duration="2" complete="0" priority="1" expand="true">
                     <depend id="34" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="34" name="SR 8 - UC 3" color="#8cb6ce" meeting="false" start="2012-04-12" duration="5" complete="0" priority="1" expand="true">
+                <task id="34" name="SR 8 - UC 3" color="#8cb6ce" meeting="false" start="2012-04-12" duration="5" complete="100" priority="1" expand="true">
                     <depend id="35" type="2" difference="0" hardness="Strong"/>
                 </task>
                 <task id="35" name="SR 9" color="#8cb6ce" meeting="false" start="2012-04-17" duration="1" complete="0" priority="1" expand="true">
                     <depend id="36" type="2" difference="0" hardness="Strong"/>
-                    <task id="83" name="SR 9b" color="#8cb6ce" meeting="false" start="2012-04-17" duration="1" complete="0" priority="1" expand="true"/>
                 </task>
+                <task id="83" name="SR 9b" color="#8cb6ce" meeting="false" start="2012-04-17" duration="1" complete="100" priority="1" expand="true"/>
                 <task id="36" name="SR 10 - UC 4" color="#8cb6ce" meeting="false" start="2012-04-18" duration="1" complete="0" priority="1" expand="true">
                     <depend id="37" type="2" difference="0" hardness="Strong"/>
                 </task>
@@ -239,7 +239,7 @@ working with document and code branches]]></notes>
                 <task id="52" name="SR 23" color="#8cb6ce" meeting="false" start="2012-06-01" duration="3" complete="0" priority="1" expand="true">
                     <depend id="53" type="3" difference="0" hardness="Strong"/>
                 </task>
-                <task id="53" name="Supporting coding" color="#8cb6ce" meeting="false" start="2012-03-28" duration="73" complete="0" priority="1" expand="true"/>
+                <task id="53" name="Supporting coding" color="#8cb6ce" meeting="false" start="2012-03-28" duration="73" complete="30" priority="1" expand="true"/>
             </task>
             <task id="54" name="Assessment Evaluation&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2012-06-09" duration="3" complete="0" priority="1" expand="true">
                 <depend id="55" type="2" difference="0" hardness="Strong"/>
@@ -249,9 +249,9 @@ working with document and code branches]]></notes>
             </task>
             <task id="56" name="Formal Technical Inspection Letters&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2012-06-15" duration="3" complete="0" priority="1" expand="true"/>
         </task>
-        <task id="57" name="Project: Maintenance" color="#99ff99" meeting="false" start="2011-08-21" duration="302" complete="48" priority="1" expand="false">
-            <task id="58" name="Engineering Notebook" color="#8cb6ce" meeting="false" start="2011-11-07" duration="224" complete="55" priority="1" expand="true"/>
-            <task id="60" name="Status Reporting" color="#8cb6ce" meeting="false" start="2011-11-07" duration="224" complete="55" priority="1" expand="true"/>
+        <task id="57" name="Project: Maintenance" color="#99ff99" meeting="false" start="2011-08-21" duration="302" complete="61" priority="1" expand="true">
+            <task id="58" name="Engineering Notebook" color="#8cb6ce" meeting="false" start="2011-11-07" duration="224" complete="75" priority="1" expand="true"/>
+            <task id="60" name="Status Reporting" color="#8cb6ce" meeting="false" start="2011-11-07" duration="224" complete="75" priority="1" expand="true"/>
             <task id="59" name="Research Reading" color="#8cb6ce" meeting="false" start="2011-08-21" duration="132" complete="50" priority="1" expand="true"/>
             <task id="61" name="Bibliography and References&#9;&#9;&#9;" color="#8cb6ce" meeting="false" start="2011-08-21" duration="132" complete="25" priority="1" expand="true"/>
         </task>
