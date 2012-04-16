@@ -16,6 +16,7 @@ class Agent:
 
 class MactsExchange:
     METRICS = "metrics"
+    SENSOR_PREFIX = "sensor-"
 
 
 class MactsExchangeType:

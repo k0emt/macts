@@ -118,21 +118,24 @@ class CommunicationsAgent(Agent):
             auto_delete=False
         )
 
-    def sendMetrics(self, metrics):
-        """
-        send a metric to the metrics exchange
-        """
-        print "Sending metric %s" % metrics,
-        # put into JSON format?
-        msg = repr(metrics)
-        msg_props = pika.BasicProperties()
-        msg_props.content_type = "text/plain"
+        # Sensor Data exchanges
+        self.channel.exchange_declare(
+            exchange=MactsExchange.SENSOR_PREFIX +
+                     SensorState.ST_SAVIORS_JUNCTION,
+            type=MactsExchangeType.FANOUT,
+            passive=False,
+            durable=False,
+            auto_delete=False
+        )
 
-        self.channel.basic_publish(body=msg,
-            exchange=MactsExchange.METRICS,
-            properties=msg_props,
-            routing_key="")
-        print " +"
+        self.channel.exchange_declare(
+            exchange=MactsExchange.SENSOR_PREFIX +
+                     SensorState.RKL_JUNCTION,
+            type=MactsExchangeType.FANOUT,
+            passive=False,
+            durable=False,
+            auto_delete=False
+        )
 
     def gatherMetrics(self, traci, networkSegments):
         """
@@ -171,6 +174,32 @@ class CommunicationsAgent(Agent):
 
         return sensorState
 
+    def sendMetrics(self, metrics):
+        """
+        send a metric to the metrics exchange
+        """
+        msg = repr(metrics)
+        msg_props = pika.BasicProperties()
+        msg_props.content_type = "text/plain"
+
+        self.channel.basic_publish(body=msg,
+            exchange=MactsExchange.METRICS,
+            properties=msg_props,
+            routing_key="")
+
+    def sendSensorData(self, traci, sensor_data, junction):
+        """
+        send a metric to the metrics exchange
+        """
+        msg = repr(sensor_data)
+        msg_props = pika.BasicProperties()
+        msg_props.content_type = "text/plain"
+
+        self.channel.basic_publish(body=msg,
+            exchange=MactsExchange.SENSOR_PREFIX + junction,
+            properties=msg_props,
+            routing_key="")
+
     def __init__(self, sysArgs):
         self.network_set = False
         self.iterations_set = False
@@ -205,11 +234,15 @@ class CommunicationsAgent(Agent):
                     SensorState.RKL_JUNCTION_SENSORS,
                     SensorState.RKL_JUNCTION)
 
-                # TODO SR 9 publish intersection data to RabbitMQ
+                # SR 9 publish intersection data to RabbitMQ
+                self.sendSensorData(traci, ss_sensors,
+                    SensorState.ST_SAVIORS_JUNCTION)
+
+                self.sendSensorData(traci, rkl_sensors,
+                    SensorState.RKL_JUNCTION)
 
                 # SR 9b gather and publish metrics data
                 stepMetrics = self.gatherMetrics(traci, roadNetworkSegments)
-
                 self.sendMetrics(stepMetrics)
 
                 # TODO SR 5/SR 10 are there any command requests from MAS?
