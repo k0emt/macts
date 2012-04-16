@@ -4,7 +4,7 @@ rem VHost, Users and permissions used by the MACTS project
 @pause
 
 rem change to the RabbitMQ directory
-cd "C:\Program Files (x86)\RabbitMQ Server\rabbitmq_server-2.6.0\sbin"
+cd "C:\Program Files (x86)\RabbitMQ Server\rabbitmq_server-2.8.1\sbin"
 
 rem create the VHOST
 call rabbitmqctl.bat delete_vhost macts
@@ -19,4 +19,5 @@ call rabbitmqctl delete_user safety
 
 call rabbitmqctl list_users
 
+cd \macts\source\macts\
 @pause

@@ -222,7 +222,7 @@ class CommunicationsAgent(Agent):
 
             roadNetworkSegments = traci.lane.getIDList()
 
-            while  self.simulationStep < self.MAXIMUM_ITERATIONS:
+            while  self.simulationStep <= self.MAXIMUM_ITERATIONS:
                 veh = traci.simulationStep(CommunicationsAgent.ONE_SECOND)
 
                 # SR 8 parse out data for individual intersections
