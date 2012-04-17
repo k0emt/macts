@@ -10,6 +10,12 @@ class Agent:
     VIRTUAL_HOST = "macts"
     MQ_SERVER = "localhost"
 
+    COMM_AGENT_NAME = "liaison"
+    COMM_AGENT_PASSWORD = "talker"
+
+    METRICS_AGENT_NAME = "metrics"
+    METRICS_AGENT_PASSWORD = "countem"
+
     simulationId = "NotSet"
     simulationStep = 1
 
@@ -24,9 +30,6 @@ class MactsExchangeType:
 
 
 class Metric:
-    simulationId = ""
-    simulationStep = 0
-    subject = ""
     observed = {}
 
     @classmethod
@@ -36,21 +39,16 @@ class Metric:
 
     def display(self):
         print "METRIC: %s %d %s" % (
-            self.simulationId, self.simulationStep, self.subject)
+            self.observed.get('SimulationId'),
+            self.observed.get('SimulationStep'),
+            self.observed.get('Observed'))
         print self.observed
 
-    def __init__(self, simulation_id, simulation_step, observed_subject):
-        self.simulationId = simulation_id
-        self.simulationStep = simulation_step
-        self.subject = observed_subject
+    def __init__(self, observationData):
+        self.observed.update(observationData)
 
 
 class SensorState:
-    simulationId = ""
-    simulationStep = 0
-    junction = ""
-    sensed = {}
-
     ST_SAVIORS_JUNCTION = "SteSaviors"
     SS_JUNCTION_SENSORS = {
         "e1det_Best~EB_0", "e1det_Best~EB_1",
@@ -65,12 +63,24 @@ class SensorState:
         "e1det_Pell~WB_0", 'e1det_Pell~WB_1'
     }
 
+    SIMULATION_ID = "SimulationId"
+    SIMULATION_STEP = "SimulationStep"
+    JUNCTION = "Junction"
+
+    sensed = {}
+
     def display(self):
         print "SENSORS: %s %d %s" % (
-            self.simulationId, self.simulationStep, self.junction)
+            self.sensed.get(self.SIMULATION_ID),
+            self.sensed.get(self.SIMULATION_STEP),
+            self.sensed.get(self.JUNCTION))
         print self.sensed
 
-    def __init__(self, simulation_id, simulation_step, associated_junction):
-        self.simulationId = simulation_id
-        self.simulationStep = simulation_step
-        self.junction = associated_junction
+    def __init__(self, simulationId, simulationStep, associatedJunction):
+        self.sensed.update({
+            self.SIMULATION_ID: simulationId,
+            self.SIMULATION_STEP: simulationStep,
+            self.JUNCTION: associatedJunction
+        })
+
+        self.junction = associatedJunction

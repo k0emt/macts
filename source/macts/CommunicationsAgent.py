@@ -12,7 +12,7 @@ import sys
 import datetime
 
 import pika
-#import json
+import json
 
 from Core import Agent
 from Core import MactsExchange
@@ -144,8 +144,10 @@ class CommunicationsAgent(Agent):
         metrics = []
 
         for segment in networkSegments:
-            metric = Metric(self.simulationId, self.simulationStep, segment)
-            metric.observed.update({
+            metric = Metric({
+                "SimulationId": self.simulationId,
+                "SimulationStep": self.simulationStep,
+                "Observed": segment,
                 "CO2": traci.lane.getCO2Emission(segment),
                 "CO": traci.lane.getCOEmission(segment),
                 "HC": traci.lane.getHCEmission(segment),
@@ -176,22 +178,23 @@ class CommunicationsAgent(Agent):
 
     def sendMetrics(self, metrics):
         """
-        send a metric to the metrics exchange
+        send metrics to the metrics exchange
         """
-        msg = repr(metrics)
-        msg_props = pika.BasicProperties()
-        msg_props.content_type = "text/plain"
+        for metric in metrics:
+            msg = repr(json.dumps(metric.observed))
+            msg_props = pika.BasicProperties()
+            msg_props.content_type = "text/plain"
 
-        self.channel.basic_publish(body=msg,
-            exchange=MactsExchange.METRICS,
-            properties=msg_props,
-            routing_key="")
+            self.channel.basic_publish(body=msg,
+                exchange=MactsExchange.METRICS,
+                properties=msg_props,
+                routing_key="")
 
     def sendSensorData(self, traci, sensor_data, junction):
         """
-        send a metric to the metrics exchange
+        send a sensor data to the appropriate junction exchange
         """
-        msg = repr(sensor_data)
+        msg = repr(json.dumps(sensor_data.sensed))
         msg_props = pika.BasicProperties()
         msg_props.content_type = "text/plain"
 
@@ -211,8 +214,8 @@ class CommunicationsAgent(Agent):
             traci.init(CommunicationsAgent.PORT)
             counter = 0
 
-            self.NAME = "liaison"
-            self.PASSWORD = "talker"
+            self.NAME = Agent.COMM_AGENT_NAME
+            self.PASSWORD = Agent.COMM_AGENT_PASSWORD
             self.setup_message_exchanges()
 
             # SR 4b the liaison creates a run id and shares it with the MACTS
