@@ -1,5 +1,12 @@
 __author__ = 'k0emt'
 
+import pika
+import json
+
+MQ_SERVER = "localhost"  # YOUR RABBITMQ SERVER NAME/IP HERE
+VIRTUAL_HOST = "macts"
+STOP_PROCESSING_MESSAGE = "QRT"
+
 
 class Agent:
     """
@@ -7,8 +14,6 @@ class Agent:
     """
     NAME = None
     PASSWORD = None
-    VIRTUAL_HOST = "macts"
-    MQ_SERVER = "localhost"
 
     COMM_AGENT_NAME = "liaison"
     COMM_AGENT_PASSWORD = "talker"
@@ -18,6 +23,60 @@ class Agent:
 
     simulationId = "NotSet"
     simulationStep = 1
+    verbose_level = 0
+
+    def Connect_RabbitMQ(self):
+        print "Connecting to RabbitMQ...",
+        credentials = pika.PlainCredentials(self.NAME, self.PASSWORD)
+        conn_params = pika.ConnectionParameters(
+            host=MQ_SERVER,
+            virtual_host=VIRTUAL_HOST,
+            credentials=credentials)
+        conn = pika.BlockingConnection(conn_params)
+        channel = conn.channel()
+        self.publishChannel = conn.channel()
+        print "CONNECTED"
+        return channel
+
+    def establish_connection(self, message_consumer, subscribed_exchange):
+        channel = self.Connect_RabbitMQ()
+
+        print "Creating Queue for %s exchange..." % subscribed_exchange,
+        ourChan = channel.queue_declare(exclusive=True)
+        channel.queue_bind(exchange=subscribed_exchange,
+            queue=ourChan.method.queue)
+        print "DONE"
+        print "Setting up callback...",
+
+        channel.basic_qos(prefetch_count=1)
+        channel.basic_consume(message_consumer)
+        print "DONE"
+
+        print "Monitoring Queue"
+        channel.start_consuming()
+        print "%s %s FINISHED" % (self.NAME, subscribed_exchange)
+
+    def verbose_display(self, format, message, level):
+        if level < self.verbose_level:
+            print format % message
+
+    def sendMessage(self, message, message_exchange):
+        self.verbose_display("TX %s ", message, 1)
+
+        msg = json.dumps(message)
+        msg_props = pika.BasicProperties()
+        msg_props.content_type = "text/plain"
+
+        self.publishChannel.basic_publish(
+            exchange=message_exchange,
+            routing_key="",
+            properties=msg_props,
+            body=msg)
+
+        self.verbose_display("+", message, 2)
+
+    def isStopProcessingMessage(self, body):
+        return STOP_PROCESSING_MESSAGE == json.loads(body)
 
 
 class MactsExchange:

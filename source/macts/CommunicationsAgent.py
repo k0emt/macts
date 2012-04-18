@@ -4,7 +4,7 @@
 @author  Bryan Nehl
 @date    2012.03.17
 """
-from Tix import MAX
+# from Tix import MAX
 
 import os
 import subprocess
@@ -14,6 +14,7 @@ import datetime
 import pika
 import json
 
+import Core
 from Core import Agent
 from Core import MactsExchange
 from Core import MactsExchangeType
@@ -61,7 +62,7 @@ class CommunicationsAgent(Agent):
             print("Couldn't convert %s to an integer for Max Iterations" %
                   sysArgs[2])
 
-    def launch_sumo(self, sysArgs):
+    def initiateSimulation(self, sysArgs):
         """
         single argument: low is 10%, medium is 50% and
         full is 100% of load specification.
@@ -102,16 +103,17 @@ class CommunicationsAgent(Agent):
         """
         set up the needed messaging exchanges
         """
+
         print("setting up RabbitMQ exchanges")
         credentials = pika.PlainCredentials(self.NAME, self.PASSWORD)
-        conn_params = pika.ConnectionParameters(host=self.MQ_SERVER,
-            virtual_host=self.VIRTUAL_HOST,
+        conn_params = pika.ConnectionParameters(host=Core.MQ_SERVER,
+            virtual_host=Core.VIRTUAL_HOST,
             credentials=credentials)
         conn = pika.BlockingConnection(conn_params)
-        self.channel = conn.channel()
+        self.publishChannel = conn.channel()
 
         # Metrics exchange
-        self.channel.exchange_declare(exchange=MactsExchange.METRICS,
+        self.publishChannel.exchange_declare(exchange=MactsExchange.METRICS,
             type=MactsExchangeType.FANOUT,
             passive=False,
             durable=False,
@@ -119,7 +121,7 @@ class CommunicationsAgent(Agent):
         )
 
         # Sensor Data exchanges
-        self.channel.exchange_declare(
+        self.publishChannel.exchange_declare(
             exchange=MactsExchange.SENSOR_PREFIX +
                      SensorState.ST_SAVIORS_JUNCTION,
             type=MactsExchangeType.FANOUT,
@@ -128,7 +130,7 @@ class CommunicationsAgent(Agent):
             auto_delete=False
         )
 
-        self.channel.exchange_declare(
+        self.publishChannel.exchange_declare(
             exchange=MactsExchange.SENSOR_PREFIX +
                      SensorState.RKL_JUNCTION,
             type=MactsExchangeType.FANOUT,
@@ -137,7 +139,7 @@ class CommunicationsAgent(Agent):
             auto_delete=False
         )
 
-    def gatherMetrics(self, traci, networkSegments):
+    def gatherRawMetrics(self, traci, networkSegments):
         """
         gather all of the metrics we are interested in and put them together
         """
@@ -153,17 +155,16 @@ class CommunicationsAgent(Agent):
                 "HC": traci.lane.getHCEmission(segment),
                 "PMx": traci.lane.getPMxEmission(segment),
                 "NOx": traci.lane.getNOxEmission(segment),
-                "Noise": traci.lane.getNoiseEmission(segment),
                 "Fuel": traci.lane.getFuelConsumption(segment),
-                "TravelTime": traci.lane.getTraveltime(segment),
+                "Noise": traci.lane.getNoiseEmission(segment),
                 "MeanSpeed": traci.lane.getLastStepMeanSpeed(segment),
-                "Occupancy": traci.lane.getLastStepOccupancy(segment),
                 "Halting": traci.lane.getLastStepHaltingNumber(segment)})
             metrics.append(metric)
 
         return metrics
 
-    def gatherSensorData(self, traci, junction_sensor_list, junction_name):
+    def gatherDetectorInformation(self, traci, junction_sensor_list,
+                                  junction_name):
         """
         gather the sensor data for a junction
         """
@@ -176,37 +177,50 @@ class CommunicationsAgent(Agent):
 
         return sensorState
 
-    def sendMetrics(self, metrics):
+    def publishRawMetrics(self, metrics):
         """
         send metrics to the metrics exchange
         """
         for metric in metrics:
-            msg = repr(json.dumps(metric.observed))
-            msg_props = pika.BasicProperties()
-            msg_props.content_type = "text/plain"
+        #            msg = repr(json.dumps(metric.observed))
+        #            msg_props = pika.BasicProperties()
+        #            msg_props.content_type = "text/plain"
+        #
+        #            self.channel.basic_publish(body=msg,
+        #                exchange=MactsExchange.METRICS,
+        #                properties=msg_props,
+        #                routing_key="")
 
-            self.channel.basic_publish(body=msg,
-                exchange=MactsExchange.METRICS,
-                properties=msg_props,
-                routing_key="")
+            self.sendMessage(metric.observed, MactsExchange.METRICS)
 
-    def sendSensorData(self, traci, sensor_data, junction):
+    def shareDetectorInformation(self, traci, sensor_data, junction):
         """
         send a sensor data to the appropriate junction exchange
         """
-        msg = repr(json.dumps(sensor_data.sensed))
-        msg_props = pika.BasicProperties()
-        msg_props.content_type = "text/plain"
+        self.sendMessage(sensor_data.sensed,
+            MactsExchange.SENSOR_PREFIX + junction)
 
-        self.channel.basic_publish(body=msg,
-            exchange=MactsExchange.SENSOR_PREFIX + junction,
-            properties=msg_props,
-            routing_key="")
+    #        msg = repr(json.dumps(sensor_data.sensed))
+    #        msg_props = pika.BasicProperties()
+    #        msg_props.content_type = "text/plain"
+    #
+    #        self.channel.basic_publish(body=msg,
+    #            exchange=MactsExchange.SENSOR_PREFIX + junction,
+    #            properties=msg_props,
+    #            routing_key="")
+
+    def sendStopMessage(self):
+        self.sendMessage(Core.STOP_PROCESSING_MESSAGE,
+            MactsExchange.METRICS)
+        self.sendMessage(Core.STOP_PROCESSING_MESSAGE,
+            MactsExchange.SENSOR_PREFIX + SensorState.ST_SAVIORS_JUNCTION)
+        self.sendMessage(Core.STOP_PROCESSING_MESSAGE,
+            MactsExchange.SENSOR_PREFIX + SensorState.RKL_JUNCTION)
 
     def __init__(self, sysArgs):
         self.network_set = False
         self.iterations_set = False
-        self.launch_sumo(sysArgs)
+        self.initiateSimulation(sysArgs)
 
         if self.network_set and self.iterations_set:
             import traci
@@ -229,24 +243,24 @@ class CommunicationsAgent(Agent):
                 veh = traci.simulationStep(CommunicationsAgent.ONE_SECOND)
 
                 # SR 8 parse out data for individual intersections
-                ss_sensors = self.gatherSensorData(traci,
+                ss_sensors = self.gatherDetectorInformation(traci,
                     SensorState.SS_JUNCTION_SENSORS,
                     SensorState.ST_SAVIORS_JUNCTION)
 
-                rkl_sensors = self.gatherSensorData(traci,
+                rkl_sensors = self.gatherDetectorInformation(traci,
                     SensorState.RKL_JUNCTION_SENSORS,
                     SensorState.RKL_JUNCTION)
 
                 # SR 9 publish intersection data to RabbitMQ
-                self.sendSensorData(traci, ss_sensors,
+                self.shareDetectorInformation(traci, ss_sensors,
                     SensorState.ST_SAVIORS_JUNCTION)
 
-                self.sendSensorData(traci, rkl_sensors,
+                self.shareDetectorInformation(traci, rkl_sensors,
                     SensorState.RKL_JUNCTION)
 
                 # SR 9b gather and publish metrics data
-                stepMetrics = self.gatherMetrics(traci, roadNetworkSegments)
-                self.sendMetrics(stepMetrics)
+                stepMetrics = self.gatherRawMetrics(traci, roadNetworkSegments)
+                self.publishRawMetrics(stepMetrics)
 
                 # TODO SR 5/SR 10 are there any command requests from MAS?
 
@@ -257,6 +271,8 @@ class CommunicationsAgent(Agent):
 
                 self.simulationStep += 1
             traci.close()
+
+            self.sendStopMessage()
 
 if __name__ == "__main__":
     CommunicationsAgent(sys.argv)
