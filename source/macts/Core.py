@@ -73,7 +73,7 @@ class Agent:
             properties=msg_props,
             body=msg)
 
-        self.verbose_display("+", message, 2)
+        self.verbose_display("%s", "+", 2)
 
     def isStopProcessingMessage(self, body):
         return STOP_PROCESSING_MESSAGE == json.loads(body)
@@ -104,7 +104,7 @@ class Metric:
         print self.observed
 
     def __init__(self, observationData):
-        self.observed.update(observationData)
+        self.observed = observationData
 
 
 class SensorState:

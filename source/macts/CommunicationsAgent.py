@@ -33,6 +33,8 @@ class CommunicationsAgent(Agent):
     * close the session
     """
 
+    verbose_level = 0
+
     PORT = 8813
     ONE_SECOND = 1000
 
@@ -143,23 +145,27 @@ class CommunicationsAgent(Agent):
         """
         gather all of the metrics we are interested in and put them together
         """
-        metrics = []
 
-        for segment in networkSegments:
-            metric = Metric({
-                "SimulationId": self.simulationId,
-                "SimulationStep": self.simulationStep,
-                "Observed": segment,
-                "CO2": traci.lane.getCO2Emission(segment),
-                "CO": traci.lane.getCOEmission(segment),
-                "HC": traci.lane.getHCEmission(segment),
-                "PMx": traci.lane.getPMxEmission(segment),
-                "NOx": traci.lane.getNOxEmission(segment),
-                "Fuel": traci.lane.getFuelConsumption(segment),
-                "Noise": traci.lane.getNoiseEmission(segment),
-                "MeanSpeed": traci.lane.getLastStepMeanSpeed(segment),
-                "Halting": traci.lane.getLastStepHaltingNumber(segment)})
-            metrics.append(metric)
+        # Metric container for every segment
+        metrics = [Metric({"SimulationId": self.simulationId,
+                           "SimulationStep": self.simulationStep,
+                           "Observed": segment,
+                           "CO2": traci.lane.getCO2Emission(segment),
+                           "CO": traci.lane.getCOEmission(segment),
+                           "HC": traci.lane.getHCEmission(segment),
+                           "PMx": traci.lane.getPMxEmission(segment),
+                           "NOx": traci.lane.getNOxEmission(segment),
+                           "Fuel": traci.lane.getFuelConsumption(segment),
+                           "Noise": traci.lane.getNoiseEmission(segment),
+                           "MeanSpeed": traci.lane.getLastStepMeanSpeed(segment),
+                           "Halting": traci.lane.getLastStepHaltingNumber(
+                               segment)})
+                   for segment in networkSegments]
+
+        self.verbose_display("Metrics: %s", metrics, 4)
+
+        for metric_check in metrics:
+            self.verbose_display("grm_MC post: %s", metric_check.observed, 3)
 
         return metrics
 
@@ -181,16 +187,9 @@ class CommunicationsAgent(Agent):
         """
         send metrics to the metrics exchange
         """
+        self.verbose_display("prm MO OBJ: %s", metrics, 4)
         for metric in metrics:
-        #            msg = repr(json.dumps(metric.observed))
-        #            msg_props = pika.BasicProperties()
-        #            msg_props.content_type = "text/plain"
-        #
-        #            self.channel.basic_publish(body=msg,
-        #                exchange=MactsExchange.METRICS,
-        #                properties=msg_props,
-        #                routing_key="")
-
+            self.verbose_display("prm MO: %s", metric.observed, 3)
             self.sendMessage(metric.observed, MactsExchange.METRICS)
 
     def shareDetectorInformation(self, traci, sensor_data, junction):
@@ -238,6 +237,7 @@ class CommunicationsAgent(Agent):
             # TODO share it
 
             roadNetworkSegments = traci.lane.getIDList()
+            self.verbose_display("segments: %s", roadNetworkSegments, 2)
 
             while  self.simulationStep <= self.MAXIMUM_ITERATIONS:
                 veh = traci.simulationStep(CommunicationsAgent.ONE_SECOND)
