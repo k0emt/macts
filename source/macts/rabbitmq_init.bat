@@ -25,10 +25,10 @@ rem PERMISSIONS
 rem the liaison account has full permissions
 rem it can configure, write and read any resource
 call rabbitmqctl set_permissions -p macts liaison ".*" ".*" ".*"
-call rabbitmqctl set_permissions -p macts collab "^shared-.*" "^shared-.*" "^shared-.*"
-call rabbitmqctl set_permissions -p macts metrics "^metrics.*" "^metrics.*" "^metrics.*"
-call rabbitmqctl set_permissions -p macts command "command|response" "command|response" "command|response"
-call rabbitmqctl set_permissions -p macts sense "^sensor-.*" "^sensor-.*" "^sensor-.*"
+call rabbitmqctl set_permissions -p macts collab ".*" ".*" ".*"
+call rabbitmqctl set_permissions -p macts metrics ".*" ".*" ".*"
+call rabbitmqctl set_permissions -p macts command ".*" ".*" ".*"
+call rabbitmqctl set_permissions -p macts sense ".*" ".*" ".*"
 call rabbitmqctl set_permissions -p macts safety "" "sumo-control" ""
 
 call rabbitmqctl list_permissions -p macts
