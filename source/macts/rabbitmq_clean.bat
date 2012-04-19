@@ -11,11 +11,13 @@ call rabbitmqctl.bat delete_vhost macts
 
 rem delete the USERS
 call rabbitmqctl delete_user liaison
-call rabbitmqctl delete_user collab
 call rabbitmqctl delete_user metrics
-call rabbitmqctl delete_user command
-call rabbitmqctl delete_user sense
-call rabbitmqctl delete_user safety
+call rabbitmqctl delete_user agent
+
+rem call rabbitmqctl delete_user collab
+rem call rabbitmqctl delete_user command
+rem call rabbitmqctl delete_user sense
+rem call rabbitmqctl delete_user safety
 
 call rabbitmqctl list_users
 
