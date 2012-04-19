@@ -3,17 +3,13 @@ __author__ = 'k0emt'
 import pika
 import json
 
-MQ_SERVER = "localhost"  # YOUR RABBITMQ SERVER NAME/IP HERE
-VIRTUAL_HOST = "macts"
-STOP_PROCESSING_MESSAGE = "QRT"
-
 
 class Agent:
     """
     Base class for all Agents in the system
     """
-    NAME = None
-    PASSWORD = None
+    BASE_AGENT_NAME = "agent"
+    BASE_AGENT_PASSWORD = "xrosslite"
 
     COMM_AGENT_NAME = "liaison"
     COMM_AGENT_PASSWORD = "talker"
@@ -21,16 +17,25 @@ class Agent:
     METRICS_AGENT_NAME = "metrics"
     METRICS_AGENT_PASSWORD = "countem"
 
+    name = BASE_AGENT_NAME
+    password = BASE_AGENT_PASSWORD
+
+    COMMAND_PING = "ping"
+    COMMAND_BEGIN = "begin"
+    COMMAND_END = "end"
+
     simulationId = "NotSet"
     simulationStep = 1
     verbose_level = 0
 
+    consumer_tags = []
+
     def Connect_RabbitMQ(self):
         print "Connecting to RabbitMQ...",
-        credentials = pika.PlainCredentials(self.NAME, self.PASSWORD)
+        credentials = pika.PlainCredentials(self.name, self.password)
         conn_params = pika.ConnectionParameters(
-            host=MQ_SERVER,
-            virtual_host=VIRTUAL_HOST,
+            host=MactsExchange.MQ_SERVER,
+            virtual_host=MactsExchange.VIRTUAL_HOST,
             credentials=credentials)
         conn = pika.BlockingConnection(conn_params)
         channel = conn.channel()
@@ -38,23 +43,56 @@ class Agent:
         print "CONNECTED"
         return channel
 
-    def establish_connection(self, message_consumer, subscribed_exchange):
-        channel = self.Connect_RabbitMQ()
-
+    def establish_connection(self, channel, queue_name, message_consumer,
+                             subscribed_exchange):
         print "Creating Queue for %s exchange..." % subscribed_exchange,
-        ourChan = channel.queue_declare(exclusive=True)
-        channel.queue_bind(exchange=subscribed_exchange,
-            queue=ourChan.method.queue)
+        channel.queue_declare(queue=queue_name, exclusive=True)
+        channel.queue_bind(exchange=subscribed_exchange, queue=queue_name)
         print "DONE"
         print "Setting up callback...",
 
         channel.basic_qos(prefetch_count=1)
-        channel.basic_consume(message_consumer)
+        channel.basic_consume(message_consumer, queue=queue_name,
+            consumer_tag=queue_name)
+
+        self.consumer_tags.append(queue_name)
         print "DONE"
 
-        print "Monitoring Queue"
+    def start_consuming(self, channel):
+        print "%s CONSUMING" % self.name
         channel.start_consuming()
-        print "%s %s FINISHED" % (self.NAME, subscribed_exchange)
+        print "%s FINISHED" % self.name
+
+    def command_consumer(self, channel, method, header, body):
+        channel.basic_ack(delivery_tag=method.delivery_tag)
+
+        message_received = json.loads(body)
+        self.verbose_display("CmdC: %s", message_received, 3)
+
+        command = message_received.get('Command', "")
+
+        # command is start simulation, capture simulation id, reset step count
+        if Agent.COMMAND_BEGIN == command:
+            self.simulationStep = 0
+            self.simulationId = message_received.get('SimulationId', "")
+            self.verbose_display("CmdC ssid set: %s %d",
+                (self.simulationId, self.simulationStep), 3)
+            # TODO local hooks for begin?
+
+        # command is end simulation, stop consuming
+        if Agent.COMMAND_END == command:
+            self.verbose_display("CmdC END %s", self.simulationId, 3)
+
+            for consumer in self.consumer_tags:
+                channel.basic_cancel(consumer_tag=consumer)
+
+            channel.stop_consuming()
+            # TODO local hooks for sim end? useful for SR23
+
+        # command is ping - discovery protocol
+        if Agent.COMMAND_PING == command:
+            # TODO Discovery protocol
+            self.verbose_display("CmdC PING %s", self.simulationId, 3)
 
     def verbose_display(self, format, message, level):
         if level < self.verbose_level:
@@ -75,13 +113,64 @@ class Agent:
 
         self.verbose_display("%s", "+", 2)
 
-    def isStopProcessingMessage(self, body):
-        return STOP_PROCESSING_MESSAGE == json.loads(body)
-
 
 class MactsExchange:
+    MQ_SERVER = "localhost"  # YOUR RABBITMQ SERVER NAME/IP HERE
+    VIRTUAL_HOST = "macts"
+
+    COMMAND_DISCOVERY = "command_discovery"
     METRICS = "metrics"
     SENSOR_PREFIX = "sensor-"
+
+    @classmethod
+    def setup_message_exchanges(cls, rabbit_user, rabbit_password):
+        """
+        set up the needed messaging exchanges
+        """
+
+        print("setting up RabbitMQ exchanges")
+        credentials = pika.PlainCredentials(rabbit_user, rabbit_password)
+        conn_params = pika.ConnectionParameters(host=MactsExchange.MQ_SERVER,
+            virtual_host=MactsExchange.VIRTUAL_HOST,
+            credentials=credentials)
+        conn = pika.BlockingConnection(conn_params)
+        publishChannel = conn.channel()
+
+        # command_discovery exchange
+        publishChannel.exchange_declare(
+            exchange=MactsExchange.COMMAND_DISCOVERY,
+            type=MactsExchangeType.FANOUT,
+            passive=False,
+            durable=False,
+            auto_delete=False
+        )
+
+        # Metrics exchange
+        publishChannel.exchange_declare(exchange=MactsExchange.METRICS,
+            type=MactsExchangeType.FANOUT,
+            passive=False,
+            durable=False,
+            auto_delete=False
+        )
+
+        # Sensor Data exchanges
+        publishChannel.exchange_declare(
+            exchange=MactsExchange.SENSOR_PREFIX +
+                     SensorState.ST_SAVIORS_JUNCTION,
+            type=MactsExchangeType.FANOUT,
+            passive=False,
+            durable=False,
+            auto_delete=False
+        )
+
+        publishChannel.exchange_declare(
+            exchange=MactsExchange.SENSOR_PREFIX +
+                     SensorState.RKL_JUNCTION,
+            type=MactsExchangeType.FANOUT,
+            passive=False,
+            durable=False,
+            auto_delete=False
+        )
 
 
 class MactsExchangeType:

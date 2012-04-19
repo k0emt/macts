@@ -4,20 +4,17 @@
 @author  Bryan Nehl
 @date    2012.03.17
 """
-# from Tix import MAX
-
 import os
 import subprocess
 import sys
 import datetime
 
-import pika
-import json
+# import pika
+# import json
 
-import Core
 from Core import Agent
 from Core import MactsExchange
-from Core import MactsExchangeType
+# from Core import MactsExchangeType
 from Core import Metric
 from Core import SensorState
 
@@ -101,66 +98,28 @@ class CommunicationsAgent(Agent):
             print("configuration set: %s" % self.network_set)
             print("max iterations set: %s" % self.iterations_set)
 
-    def setup_message_exchanges(self):
-        """
-        set up the needed messaging exchanges
-        """
-
-        print("setting up RabbitMQ exchanges")
-        credentials = pika.PlainCredentials(self.NAME, self.PASSWORD)
-        conn_params = pika.ConnectionParameters(host=Core.MQ_SERVER,
-            virtual_host=Core.VIRTUAL_HOST,
-            credentials=credentials)
-        conn = pika.BlockingConnection(conn_params)
-        self.publishChannel = conn.channel()
-
-        # Metrics exchange
-        self.publishChannel.exchange_declare(exchange=MactsExchange.METRICS,
-            type=MactsExchangeType.FANOUT,
-            passive=False,
-            durable=False,
-            auto_delete=False
-        )
-
-        # Sensor Data exchanges
-        self.publishChannel.exchange_declare(
-            exchange=MactsExchange.SENSOR_PREFIX +
-                     SensorState.ST_SAVIORS_JUNCTION,
-            type=MactsExchangeType.FANOUT,
-            passive=False,
-            durable=False,
-            auto_delete=False
-        )
-
-        self.publishChannel.exchange_declare(
-            exchange=MactsExchange.SENSOR_PREFIX +
-                     SensorState.RKL_JUNCTION,
-            type=MactsExchangeType.FANOUT,
-            passive=False,
-            durable=False,
-            auto_delete=False
-        )
-
     def gatherRawMetrics(self, traci, networkSegments):
         """
         gather all of the metrics we are interested in and put them together
         """
 
         # Metric container for every segment
-        metrics = [Metric({"SimulationId": self.simulationId,
-                           "SimulationStep": self.simulationStep,
-                           "Observed": segment,
-                           "CO2": traci.lane.getCO2Emission(segment),
-                           "CO": traci.lane.getCOEmission(segment),
-                           "HC": traci.lane.getHCEmission(segment),
-                           "PMx": traci.lane.getPMxEmission(segment),
-                           "NOx": traci.lane.getNOxEmission(segment),
-                           "Fuel": traci.lane.getFuelConsumption(segment),
-                           "Noise": traci.lane.getNoiseEmission(segment),
-                           "MeanSpeed": traci.lane.getLastStepMeanSpeed(segment),
-                           "Halting": traci.lane.getLastStepHaltingNumber(
-                               segment)})
-                   for segment in networkSegments]
+        metrics = [
+        Metric({
+            "SimulationId": self.simulationId,
+            "SimulationStep": self.simulationStep,
+            "Observed": segment,
+            "CO2": traci.lane.getCO2Emission(segment),
+            "CO": traci.lane.getCOEmission(segment),
+            "HC": traci.lane.getHCEmission(segment),
+            "PMx": traci.lane.getPMxEmission(segment),
+            "NOx": traci.lane.getNOxEmission(segment),
+            "Fuel": traci.lane.getFuelConsumption(segment),
+            "Noise": traci.lane.getNoiseEmission(segment),
+            "MeanSpeed": traci.lane.getLastStepMeanSpeed(segment),
+            "Halting": traci.lane.getLastStepHaltingNumber(segment)
+        })
+        for segment in networkSegments]
 
         self.verbose_display("Metrics: %s", metrics, 4)
 
@@ -192,29 +151,21 @@ class CommunicationsAgent(Agent):
             self.verbose_display("prm MO: %s", metric.observed, 3)
             self.sendMessage(metric.observed, MactsExchange.METRICS)
 
-    def shareDetectorInformation(self, traci, sensor_data, junction):
+    def shareDetectorInformation(self, sensor_data, junction):
         """
         send a sensor data to the appropriate junction exchange
         """
         self.sendMessage(sensor_data.sensed,
             MactsExchange.SENSOR_PREFIX + junction)
 
-    #        msg = repr(json.dumps(sensor_data.sensed))
-    #        msg_props = pika.BasicProperties()
-    #        msg_props.content_type = "text/plain"
-    #
-    #        self.channel.basic_publish(body=msg,
-    #            exchange=MactsExchange.SENSOR_PREFIX + junction,
-    #            properties=msg_props,
-    #            routing_key="")
+    def sendCommand(self, command):
+        decorated_command = {"SimulationId": self.simulationId,
+                             "Authority": self.name,
+                             "Command": command}
+        self.sendMessage(decorated_command, MactsExchange.COMMAND_DISCOVERY)
 
     def sendStopMessage(self):
-        self.sendMessage(Core.STOP_PROCESSING_MESSAGE,
-            MactsExchange.METRICS)
-        self.sendMessage(Core.STOP_PROCESSING_MESSAGE,
-            MactsExchange.SENSOR_PREFIX + SensorState.ST_SAVIORS_JUNCTION)
-        self.sendMessage(Core.STOP_PROCESSING_MESSAGE,
-            MactsExchange.SENSOR_PREFIX + SensorState.RKL_JUNCTION)
+        self.sendCommand(Agent.COMMAND_END)
 
     def __init__(self, sysArgs):
         self.network_set = False
@@ -227,14 +178,15 @@ class CommunicationsAgent(Agent):
             traci.init(CommunicationsAgent.PORT)
             counter = 0
 
-            self.NAME = Agent.COMM_AGENT_NAME
-            self.PASSWORD = Agent.COMM_AGENT_PASSWORD
-            self.setup_message_exchanges()
+            self.name = Agent.COMM_AGENT_NAME
+            self.password = Agent.COMM_AGENT_PASSWORD
+            my_channel = self.Connect_RabbitMQ()
+            # self.setup_message_exchanges()
 
             # SR 4b the liaison creates a run id and shares it with the MACTS
             self.simulationId = datetime.datetime.now().strftime(
                 "%Y%m%d|%H%M%S")
-            # TODO share it
+            self.sendCommand(Agent.COMMAND_BEGIN)
 
             roadNetworkSegments = traci.lane.getIDList()
             self.verbose_display("segments: %s", roadNetworkSegments, 2)
@@ -252,10 +204,10 @@ class CommunicationsAgent(Agent):
                     SensorState.RKL_JUNCTION)
 
                 # SR 9 publish intersection data to RabbitMQ
-                self.shareDetectorInformation(traci, ss_sensors,
+                self.shareDetectorInformation(ss_sensors,
                     SensorState.ST_SAVIORS_JUNCTION)
 
-                self.shareDetectorInformation(traci, rkl_sensors,
+                self.shareDetectorInformation(rkl_sensors,
                     SensorState.RKL_JUNCTION)
 
                 # SR 9b gather and publish metrics data

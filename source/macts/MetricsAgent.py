@@ -35,17 +35,17 @@ class MetricsAgent(Agent):
     def gatherRawMetrics(self, channel, method, header, body):
         channel.basic_ack(delivery_tag=method.delivery_tag)
 
-        if self.isStopProcessingMessage(body):
-            channel.basic_cancel(consumer_tag=self.NAME)
-            channel.stop_consuming()
-        else:
-            newMetric = Metric(json.loads(body))
-            self.verbose_display("NM: %s", newMetric.observed, 3)
-            self.aggregateMetrics(newMetric)
+        #        if self.isStopProcessingMessage(body):
+        #            channel.basic_cancel(consumer_tag=self.name)
+        #            channel.stop_consuming()
+        #        else:
+        newMetric = Metric(json.loads(body))
+        self.verbose_display("NM: %s", newMetric.observed, 3)
+        self.aggregateMetrics(newMetric)
 
     # SR 22
     def aggregateMetrics(self, metric):
-        # TODO verify that the SimulationId matches this agent
+        # TODO verify that the SimulationId matches this agent?
         # "SimulationStep": 1,
         # "SimulationId": "20120417|205827",
 
@@ -65,6 +65,7 @@ class MetricsAgent(Agent):
 
     # SR 23
     def getEnvironmentInformation(self):
+        # Discovery protocol
         pass
 
     # SR 23
@@ -89,21 +90,29 @@ class MetricsAgent(Agent):
         pass
 
     def __init__(self):
-        self.NAME = Agent.METRICS_AGENT_NAME
-        self.PASSWORD = Agent.METRICS_AGENT_PASSWORD
+        self.name = Agent.METRICS_AGENT_NAME
+        self.password = Agent.METRICS_AGENT_PASSWORD
 
-        print self.NAME + " Agent ONLINE"
+        print self.name + " Agent ONLINE"
 
         # SR21 Gather simulation metrics from TraCI via the System Liaison.
         # SR22 Do any internal processing necessary for computing metrics.
         consumer = self.gatherRawMetrics
-        Agent.establish_connection(self, consumer, MactsExchange.METRICS)
+        metrics_channel = self.Connect_RabbitMQ()
+        self.establish_connection(metrics_channel, "metrics", consumer,
+            MactsExchange.METRICS)
+
+        self.establish_connection(metrics_channel, "commands",
+            self.command_consumer,
+            MactsExchange.COMMAND_DISCOVERY)
+
+        self.start_consuming(metrics_channel)
 
         # SR23 On simulation run completion, persist the run metrics to MongoDB
         # network configuration information will be stored with the metrics
         self.persistSimulation()
 
-        print self.NAME + " Agent OFFLINE"
+        print self.name + " Agent OFFLINE"
 
 if __name__ == "__main__":
     MetricsAgent()
