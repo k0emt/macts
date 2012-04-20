@@ -21,6 +21,7 @@ class Agent:
     password = BASE_AGENT_PASSWORD
 
     COMMAND_PING = "ping"
+    RESPONSE_PONG = "pong"
     COMMAND_BEGIN = "begin"
     COMMAND_END = "end"
 
@@ -29,6 +30,12 @@ class Agent:
     verbose_level = 0
 
     consumer_tags = []
+
+    def sim_init(self):
+        pass
+
+    def sim_end(self):
+        pass
 
     def Connect_RabbitMQ(self):
         print "Connecting to RabbitMQ...",
@@ -53,9 +60,9 @@ class Agent:
 
         channel.basic_qos(prefetch_count=1)
         channel.basic_consume(message_consumer, queue=queue_name,
-            consumer_tag=queue_name)
+            consumer_tag=queue_name + self.name)
 
-        self.consumer_tags.append(queue_name)
+        self.consumer_tags.append(queue_name + self.name)
         print "DONE"
 
     def start_consuming(self, channel):
@@ -77,7 +84,7 @@ class Agent:
             self.simulationId = message_received.get('SimulationId', "")
             self.verbose_display("CmdC ssid set: %s %d",
                 (self.simulationId, self.simulationStep), 3)
-            # TODO local hooks for begin?
+            self.sim_init()
 
         # command is end simulation, stop consuming
         if Agent.COMMAND_END == command:
@@ -87,12 +94,13 @@ class Agent:
                 channel.basic_cancel(consumer_tag=consumer)
 
             channel.stop_consuming()
-            # TODO local hooks for sim end? useful for SR23
+            self.sim_end()
 
         # command is ping - discovery protocol
         if Agent.COMMAND_PING == command:
-            # TODO Discovery protocol
             self.verbose_display("CmdC PING %s", self.simulationId, 3)
+            self.sendMessage({Agent.RESPONSE_PONG: self.name},
+                MactsExchange.COMMAND_RESPONSE)
 
     def verbose_display(self, format, message, level):
         if level < self.verbose_level:
@@ -119,6 +127,7 @@ class MactsExchange:
     VIRTUAL_HOST = "macts"
 
     COMMAND_DISCOVERY = "command_discovery"
+    COMMAND_RESPONSE = "command_response"
     METRICS = "metrics"
     SENSOR_PREFIX = "sensor-"
 
@@ -128,7 +137,7 @@ class MactsExchange:
         set up the needed messaging exchanges
         """
 
-        print("setting up RabbitMQ exchanges")
+        print "setting up RabbitMQ exchanges",
         credentials = pika.PlainCredentials(rabbit_user, rabbit_password)
         conn_params = pika.ConnectionParameters(host=MactsExchange.MQ_SERVER,
             virtual_host=MactsExchange.VIRTUAL_HOST,
@@ -137,6 +146,7 @@ class MactsExchange:
         publishChannel = conn.channel()
 
         # command_discovery exchange
+        print ".",
         publishChannel.exchange_declare(
             exchange=MactsExchange.COMMAND_DISCOVERY,
             type=MactsExchangeType.FANOUT,
@@ -145,7 +155,18 @@ class MactsExchange:
             auto_delete=False
         )
 
+        # command_response exchange
+        print ".",
+        publishChannel.exchange_declare(
+            exchange=MactsExchange.COMMAND_RESPONSE,
+            type=MactsExchangeType.DIRECT,
+            passive=False,
+            durable=False,
+            auto_delete=False
+        )
+
         # Metrics exchange
+        print ".",
         publishChannel.exchange_declare(exchange=MactsExchange.METRICS,
             type=MactsExchangeType.FANOUT,
             passive=False,
@@ -154,6 +175,7 @@ class MactsExchange:
         )
 
         # Sensor Data exchanges
+        print ".",
         publishChannel.exchange_declare(
             exchange=MactsExchange.SENSOR_PREFIX +
                      SensorState.ST_SAVIORS_JUNCTION,
@@ -163,6 +185,7 @@ class MactsExchange:
             auto_delete=False
         )
 
+        print ".",
         publishChannel.exchange_declare(
             exchange=MactsExchange.SENSOR_PREFIX +
                      SensorState.RKL_JUNCTION,
@@ -172,9 +195,11 @@ class MactsExchange:
             auto_delete=False
         )
 
+        print "DONE!"
 
 class MactsExchangeType:
     FANOUT = "fanout"
+    DIRECT = "direct"
 
 
 class Metric:

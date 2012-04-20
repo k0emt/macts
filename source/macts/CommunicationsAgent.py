@@ -188,6 +188,9 @@ class CommunicationsAgent(Agent):
                 "%Y%m%d|%H%M%S")
             self.sendCommand(Agent.COMMAND_BEGIN)
 
+            # SR 12 Network Configuration Discovery
+            self.sendCommand(Agent.COMMAND_PING)
+
             roadNetworkSegments = traci.lane.getIDList()
             self.verbose_display("segments: %s", roadNetworkSegments, 2)
 
