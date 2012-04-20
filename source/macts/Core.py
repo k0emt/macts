@@ -20,6 +20,7 @@ class Agent:
     name = BASE_AGENT_NAME
     password = BASE_AGENT_PASSWORD
 
+    COMMAND_KEY = "Command"
     COMMAND_PING = "ping"
     RESPONSE_PONG = "pong"
     COMMAND_BEGIN = "begin"
@@ -45,29 +46,28 @@ class Agent:
             virtual_host=MactsExchange.VIRTUAL_HOST,
             credentials=credentials)
         conn = pika.BlockingConnection(conn_params)
-        channel = conn.channel()
         self.publishChannel = conn.channel()
         print "CONNECTED"
-        return channel
+        return self.publishChannel
 
-    def establish_connection(self, channel, queue_name, message_consumer,
+    def establish_connection(self, queue_name, message_consumer,
                              subscribed_exchange):
         print "Creating Queue for %s exchange..." % subscribed_exchange,
-        channel.queue_declare(queue=queue_name, exclusive=True)
-        channel.queue_bind(exchange=subscribed_exchange, queue=queue_name)
+        self.publishChannel.queue_declare(queue=queue_name, exclusive=True)
+        self.publishChannel.queue_bind(exchange=subscribed_exchange, queue=queue_name)
         print "DONE"
         print "Setting up callback...",
 
-        channel.basic_qos(prefetch_count=1)
-        channel.basic_consume(message_consumer, queue=queue_name,
+        self.publishChannel.basic_qos(prefetch_count=1)
+        self.publishChannel.basic_consume(message_consumer, queue=queue_name,
             consumer_tag=queue_name + self.name)
 
         self.consumer_tags.append(queue_name + self.name)
         print "DONE"
 
-    def start_consuming(self, channel):
+    def start_consuming(self):
         print "%s CONSUMING" % self.name
-        channel.start_consuming()
+        self.publishChannel.start_consuming()
         print "%s FINISHED" % self.name
 
     def command_consumer(self, channel, method, header, body):
@@ -103,7 +103,7 @@ class Agent:
                 MactsExchange.COMMAND_RESPONSE)
 
     def verbose_display(self, format, message, level):
-        if level < self.verbose_level:
+        if level <= self.verbose_level:
             print format % message
 
     def sendMessage(self, message, message_exchange):
@@ -159,7 +159,7 @@ class MactsExchange:
         print ".",
         publishChannel.exchange_declare(
             exchange=MactsExchange.COMMAND_RESPONSE,
-            type=MactsExchangeType.DIRECT,
+            type=MactsExchangeType.FANOUT,
             passive=False,
             durable=False,
             auto_delete=False

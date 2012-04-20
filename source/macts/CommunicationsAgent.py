@@ -8,9 +8,11 @@ import os
 import subprocess
 import sys
 import datetime
+import thread
+import time
+import json
 
 # import pika
-# import json
 
 from Core import Agent
 from Core import MactsExchange
@@ -30,10 +32,11 @@ class CommunicationsAgent(Agent):
     * close the session
     """
 
-    verbose_level = 0
+    verbose_level = 1
 
     PORT = 8813
     ONE_SECOND = 1000
+    network_agents = []
 
     def set_network_configuration(self, sysArgs):
         """
@@ -161,11 +164,34 @@ class CommunicationsAgent(Agent):
     def sendCommand(self, command):
         decorated_command = {"SimulationId": self.simulationId,
                              "Authority": self.name,
-                             "Command": command}
+                             Agent.COMMAND_KEY: command}
         self.sendMessage(decorated_command, MactsExchange.COMMAND_DISCOVERY)
 
     def sendStopMessage(self):
         self.sendCommand(Agent.COMMAND_END)
+
+    def command_response_consumer(self, channel, method, header, body):
+        channel.basic_ack(delivery_tag=method.delivery_tag)
+
+        message_received = json.loads(body)
+        self.verbose_display("Cmd Resp C: %s", message_received, 1)
+
+        response = message_received.get(Agent.RESPONSE_PONG, "")
+        self.verbose_display("Cmd Resp value: %s", response, 1)
+        if response:
+            self.network_agents.append(response)
+            self.verbose_display("CRC Agents: %s", self.network_agents, 1)
+
+    def command_response_handler(self):
+        # SR 12 Network Configuration Discovery
+        self.verbose_display("%s", "CRH - setting up", 1)
+        self.establish_connection(self.name + "_command_response",
+            self.command_response_consumer,
+            MactsExchange.COMMAND_RESPONSE)
+        self.verbose_display("%s", "CRH - consuming", 1)
+
+        self.start_consuming()
+        self.verbose_display("%s", "CRH - DONE", 1)
 
     def __init__(self, sysArgs):
         self.network_set = False
@@ -181,15 +207,19 @@ class CommunicationsAgent(Agent):
             self.name = Agent.COMM_AGENT_NAME
             self.password = Agent.COMM_AGENT_PASSWORD
             my_channel = self.Connect_RabbitMQ()
-            # self.setup_message_exchanges()
 
             # SR 4b the liaison creates a run id and shares it with the MACTS
             self.simulationId = datetime.datetime.now().strftime(
                 "%Y%m%d|%H%M%S")
             self.sendCommand(Agent.COMMAND_BEGIN)
 
-            # SR 12 Network Configuration Discovery
+            # SR 12 Network Configuration Discovery / Command Response Handler
+            thread.start_new_thread(self.command_response_handler, ( ))
+            time.sleep(1)
+
+            print "sending PING"
             self.sendCommand(Agent.COMMAND_PING)
+            time.sleep(1)
 
             roadNetworkSegments = traci.lane.getIDList()
             self.verbose_display("segments: %s", roadNetworkSegments, 2)

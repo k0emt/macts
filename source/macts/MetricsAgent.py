@@ -97,16 +97,14 @@ class MetricsAgent(Agent):
 
         # SR21 Gather simulation metrics from TraCI via the System Liaison.
         # SR22 Do any internal processing necessary for computing metrics.
-        consumer = self.gatherRawMetrics
-        metrics_channel = self.Connect_RabbitMQ()
-        self.establish_connection(metrics_channel, "metrics", consumer,
+        self.Connect_RabbitMQ()
+        self.establish_connection(self.name + "_metrics", self.gatherRawMetrics,
             MactsExchange.METRICS)
 
-        self.establish_connection(metrics_channel, "commands",
-            self.command_consumer,
-            MactsExchange.COMMAND_DISCOVERY)
+        self.establish_connection(self.name + "_commands", self.command_consumer
+            , MactsExchange.COMMAND_DISCOVERY)
 
-        self.start_consuming(metrics_channel)
+        self.start_consuming()
 
         # SR23 On simulation run completion, persist the run metrics to MongoDB
         # network configuration information will be stored with the metrics
