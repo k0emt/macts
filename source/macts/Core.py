@@ -2,7 +2,7 @@ __author__ = 'k0emt'
 
 import pika
 import json
-
+import traceback
 
 class Agent:
     """
@@ -17,25 +17,32 @@ class Agent:
     METRICS_AGENT_NAME = "metrics"
     METRICS_AGENT_PASSWORD = "countem"
 
+    agent_name = ""
     name = BASE_AGENT_NAME
     password = BASE_AGENT_PASSWORD
 
     COMMAND_KEY = "Command"
+    COMMAND_PARAMETERS_KEY = "Parameters"
     COMMAND_PING = "ping"
     RESPONSE_PONG = "pong"
     COMMAND_BEGIN = "begin"
     COMMAND_END = "end"
+    COMMAND_NET_CONFIG_INFO = "net_config_info"
 
     simulationId = "NotSet"
     simulationStep = 1
     verbose_level = 0
 
+    channel_lock = None
     consumer_tags = []
 
     def sim_init(self):
         pass
 
     def sim_end(self):
+        pass
+
+    def enhanced_command_consumer(self, message_received):
         pass
 
     def Connect_RabbitMQ(self):
@@ -52,17 +59,24 @@ class Agent:
 
     def establish_connection(self, queue_name, message_consumer,
                              subscribed_exchange):
-        print "Creating Queue for %s exchange..." % subscribed_exchange,
-        self.publishChannel.queue_declare(queue=queue_name, exclusive=True)
-        self.publishChannel.queue_bind(exchange=subscribed_exchange, queue=queue_name)
+        internal_queue_name = self.agent_name + "_" + queue_name
+
+        print "Creating Queue %s on %s Exchange..." % (
+        internal_queue_name, subscribed_exchange),
+        self.publishChannel.queue_declare(queue=internal_queue_name,
+            exclusive=True)
+        self.publishChannel.queue_bind(exchange=subscribed_exchange,
+            queue=internal_queue_name)
+
         print "DONE"
         print "Setting up callback...",
 
         self.publishChannel.basic_qos(prefetch_count=1)
-        self.publishChannel.basic_consume(message_consumer, queue=queue_name,
-            consumer_tag=queue_name + self.name)
+        self.publishChannel.basic_consume(message_consumer,
+            queue=internal_queue_name,
+            consumer_tag=internal_queue_name)
 
-        self.consumer_tags.append(queue_name + self.name)
+        self.consumer_tags.append(internal_queue_name)
         print "DONE"
 
     def start_consuming(self):
@@ -74,40 +88,50 @@ class Agent:
         channel.basic_ack(delivery_tag=method.delivery_tag)
 
         message_received = json.loads(body)
-        self.verbose_display("CmdC: %s", message_received, 3)
+        self.verbose_display("CmdC: %s", message_received, 2)
 
-        command = message_received.get('Command', "")
+        command = message_received.get(Agent.COMMAND_KEY, "")
 
         # command is start simulation, capture simulation id, reset step count
         if Agent.COMMAND_BEGIN == command:
             self.simulationStep = 0
             self.simulationId = message_received.get('SimulationId', "")
             self.verbose_display("CmdC ssid set: %s %d",
-                (self.simulationId, self.simulationStep), 3)
+                (self.simulationId, self.simulationStep), 2)
             self.sim_init()
-
-        # command is end simulation, stop consuming
-        if Agent.COMMAND_END == command:
-            self.verbose_display("CmdC END %s", self.simulationId, 3)
-
-            for consumer in self.consumer_tags:
-                channel.basic_cancel(consumer_tag=consumer)
-
-            channel.stop_consuming()
-            self.sim_end()
 
         # command is ping - discovery protocol
         if Agent.COMMAND_PING == command:
-            self.verbose_display("CmdC PING %s", self.simulationId, 3)
-            self.sendMessage({Agent.RESPONSE_PONG: self.name},
+            self.verbose_display("CmdC PING %s", self.simulationId, 2)
+            self.sendMessage({Agent.RESPONSE_PONG: self.agent_name},
                 MactsExchange.COMMAND_RESPONSE)
+
+        # call local class enhancements
+        self.enhanced_command_consumer(message_received)
+
+        # command is end simulation, stop consuming
+        if Agent.COMMAND_END == command:
+            self.verbose_display("CmdC END %s", self.simulationId, 2)
+
+            self.sim_end()
+
+            try:
+                for q_tag in channel.consumer_tags[:]:
+                    self.verbose_display("CmdC channel cancel %s", q_tag, 2)
+                    channel.basic_cancel(consumer_tag=q_tag)
+            except Exception, e:
+                traceback.print_exc()
+
+            self.verbose_display("CmdC calling %s", "stop consuming", 2)
+            channel.stop_consuming()
+            self.verbose_display("CmdC calling %s", "sim_end", 2)
 
     def verbose_display(self, format, message, level):
         if level <= self.verbose_level:
             print format % message
 
     def sendMessage(self, message, message_exchange):
-        self.verbose_display("TX %s ", message, 1)
+        self.verbose_display("TX %s ", message, 3)
 
         msg = json.dumps(message)
         msg_props = pika.BasicProperties()
@@ -119,7 +143,7 @@ class Agent:
             properties=msg_props,
             body=msg)
 
-        self.verbose_display("%s", "+", 2)
+        self.verbose_display("%s", "+", 3)
 
 
 class MactsExchange:
@@ -159,7 +183,7 @@ class MactsExchange:
         print ".",
         publishChannel.exchange_declare(
             exchange=MactsExchange.COMMAND_RESPONSE,
-            type=MactsExchangeType.FANOUT,
+            type=MactsExchangeType.DIRECT,
             passive=False,
             durable=False,
             auto_delete=False
@@ -196,6 +220,7 @@ class MactsExchange:
         )
 
         print "DONE!"
+
 
 class MactsExchangeType:
     FANOUT = "fanout"

@@ -13,6 +13,7 @@ import time
 import json
 
 # import pika
+from warnings import simplefilter
 
 from Core import Agent
 from Core import MactsExchange
@@ -32,11 +33,12 @@ class CommunicationsAgent(Agent):
     * close the session
     """
 
-    verbose_level = 1
+    verbose_level = 2
 
     PORT = 8813
     ONE_SECOND = 1000
     network_agents = []
+    safety_agents = ["SA_RKLJ", "SA_SSJ"]
 
     def set_network_configuration(self, sysArgs):
         """
@@ -161,26 +163,31 @@ class CommunicationsAgent(Agent):
         self.sendMessage(sensor_data.sensed,
             MactsExchange.SENSOR_PREFIX + junction)
 
-    def sendCommand(self, command):
+    def sendCommand(self, command, parameters=None):
         decorated_command = {"SimulationId": self.simulationId,
                              "Authority": self.name,
-                             Agent.COMMAND_KEY: command}
+                             Agent.COMMAND_KEY: command,
+                             Agent.COMMAND_PARAMETERS_KEY: parameters}
         self.sendMessage(decorated_command, MactsExchange.COMMAND_DISCOVERY)
 
     def sendStopMessage(self):
         self.sendCommand(Agent.COMMAND_END)
 
     def command_response_consumer(self, channel, method, header, body):
-        channel.basic_ack(delivery_tag=method.delivery_tag)
+        local_lock = thread.allocate_lock()
+        with local_lock:
+            channel.basic_ack(delivery_tag=method.delivery_tag)
 
-        message_received = json.loads(body)
-        self.verbose_display("Cmd Resp C: %s", message_received, 1)
+            message_received = json.loads(body)
+            self.verbose_display("Cmd Resp C: %s", message_received, 1)
 
-        response = message_received.get(Agent.RESPONSE_PONG, "")
-        self.verbose_display("Cmd Resp value: %s", response, 1)
-        if response:
-            self.network_agents.append(response)
-            self.verbose_display("CRC Agents: %s", self.network_agents, 1)
+            response = message_received.get(Agent.RESPONSE_PONG, "")
+            self.verbose_display("Cmd Resp value: %s", response, 1)
+            if response:
+                self.network_agents.append(response)
+                self.verbose_display("CRC Agents: %s", self.network_agents, 1)
+                self.sendCommand(Agent.COMMAND_NET_CONFIG_INFO,
+                    self.network_agents)
 
     def command_response_handler(self):
         # SR 12 Network Configuration Discovery
@@ -192,6 +199,52 @@ class CommunicationsAgent(Agent):
 
         self.start_consuming()
         self.verbose_display("%s", "CRH - DONE", 1)
+
+    def working_loop(self, traci):
+        print "sending PING"
+        time.sleep(1)
+        self.sendCommand(Agent.COMMAND_PING)
+
+        roadNetworkSegments = traci.lane.getIDList()
+        self.verbose_display("segments: %s", roadNetworkSegments, 2)
+
+        simplefilter("ignore", "user")
+
+        while  self.simulationStep <= self.MAXIMUM_ITERATIONS:
+            self.verbose_display("Simulation Step %d", self.simulationStep, 1)
+            veh = traci.simulationStep(CommunicationsAgent.ONE_SECOND)
+
+            # SR 8 parse out data for individual intersections
+            # SR 9 publish intersection data to RabbitMQ
+
+            ss_sensors = self.gatherDetectorInformation(traci,
+                SensorState.SS_JUNCTION_SENSORS,
+                SensorState.ST_SAVIORS_JUNCTION)
+
+            self.shareDetectorInformation(ss_sensors,
+                SensorState.ST_SAVIORS_JUNCTION)
+
+            rkl_sensors = self.gatherDetectorInformation(traci,
+                SensorState.RKL_JUNCTION_SENSORS,
+                SensorState.RKL_JUNCTION)
+
+            self.shareDetectorInformation(rkl_sensors,
+                SensorState.RKL_JUNCTION)
+
+            # SR 9b gather and publish metrics data
+            stepMetrics = self.gatherRawMetrics(traci, roadNetworkSegments)
+            self.publishRawMetrics(stepMetrics)
+
+            # TODO SR 5/SR 10 are there any command requests from MAS?
+
+            # TODO SR 6/SR 11 submits any received plans
+
+            # TODO SR 7 don't continue until all MAS have reported in
+            # TODO SR 7  and their instructions sent
+
+            self.simulationStep += 1
+        traci.close()
+        self.sendStopMessage()
 
     def __init__(self, sysArgs):
         self.network_set = False
@@ -205,57 +258,22 @@ class CommunicationsAgent(Agent):
             counter = 0
 
             self.name = Agent.COMM_AGENT_NAME
+            self.agent_name = "CommAgent"
             self.password = Agent.COMM_AGENT_PASSWORD
-            my_channel = self.Connect_RabbitMQ()
+            self.respond_to_ping = False
+
+            self.Connect_RabbitMQ()
 
             # SR 4b the liaison creates a run id and shares it with the MACTS
             self.simulationId = datetime.datetime.now().strftime(
                 "%Y%m%d|%H%M%S")
             self.sendCommand(Agent.COMMAND_BEGIN)
 
+            # spin up the main working loop in its own thread
+            thread.start_new_thread(self.working_loop, (traci, ))
+
             # SR 12 Network Configuration Discovery / Command Response Handler
-            thread.start_new_thread(self.command_response_handler, ( ))
-            time.sleep(1)
-
-            print "sending PING"
-            self.sendCommand(Agent.COMMAND_PING)
-            time.sleep(1)
-
-            roadNetworkSegments = traci.lane.getIDList()
-            self.verbose_display("segments: %s", roadNetworkSegments, 2)
-
-            while  self.simulationStep <= self.MAXIMUM_ITERATIONS:
-                veh = traci.simulationStep(CommunicationsAgent.ONE_SECOND)
-
-                # SR 8 parse out data for individual intersections
-                ss_sensors = self.gatherDetectorInformation(traci,
-                    SensorState.SS_JUNCTION_SENSORS,
-                    SensorState.ST_SAVIORS_JUNCTION)
-
-                rkl_sensors = self.gatherDetectorInformation(traci,
-                    SensorState.RKL_JUNCTION_SENSORS,
-                    SensorState.RKL_JUNCTION)
-
-                # SR 9 publish intersection data to RabbitMQ
-                self.shareDetectorInformation(ss_sensors,
-                    SensorState.ST_SAVIORS_JUNCTION)
-
-                self.shareDetectorInformation(rkl_sensors,
-                    SensorState.RKL_JUNCTION)
-
-                # SR 9b gather and publish metrics data
-                stepMetrics = self.gatherRawMetrics(traci, roadNetworkSegments)
-                self.publishRawMetrics(stepMetrics)
-
-                # TODO SR 5/SR 10 are there any command requests from MAS?
-
-                # TODO SR 6/SR 11 submits any received plans
-
-                # TODO SR 7 don't continue until all MAS have reported in
-                # TODO SR 7  and their instructions sent
-
-                self.simulationStep += 1
-            traci.close()
+            self.command_response_handler()
 
             self.sendStopMessage()
 
