@@ -52,10 +52,6 @@ class MetricsAgent(Agent):
     def gatherRawMetrics(self, channel, method, header, body):
         channel.basic_ack(delivery_tag=method.delivery_tag)
 
-        #        if self.isStopProcessingMessage(body):
-        #            channel.basic_cancel(consumer_tag=self.name)
-        #            channel.stop_consuming()
-        #        else:
         newMetric = Metric(json.loads(body))
         self.verbose_display("NM: %s", newMetric.observed, 3)
         self.aggregateMetrics(newMetric)

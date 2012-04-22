@@ -21,6 +21,7 @@ class Agent:
     name = BASE_AGENT_NAME
     password = BASE_AGENT_PASSWORD
 
+    AUTHORITY_KEY = "Authority"
     COMMAND_KEY = "Command"
     COMMAND_PARAMETERS_KEY = "Parameters"
     COMMAND_PING = "ping"
@@ -28,6 +29,13 @@ class Agent:
     COMMAND_BEGIN = "begin"
     COMMAND_END = "end"
     COMMAND_NET_CONFIG_INFO = "net_config_info"
+    COMMAND_PLAN = "plan"
+
+    PLAN_KEY = "tls_plan"
+    PLAN_JUNCTION_KEY = "tls_junction"
+
+    SIMULATION_ID_KEY = "SimulationID"
+    SIMULATION_STEP_KEY = "SimulationStep"
 
     simulationId = "NotSet"
     simulationStep = 1
@@ -145,6 +153,13 @@ class Agent:
 
         self.verbose_display("%s", "+", 3)
 
+    def sendCommand(self, channel, command, parameters=None):
+        decorated_command = {Agent.SIMULATION_ID_KEY: self.simulationId,
+                             Agent.AUTHORITY_KEY: self.name,
+                             Agent.COMMAND_KEY: command,
+                             Agent.COMMAND_PARAMETERS_KEY: parameters}
+        self.sendMessage(decorated_command, MactsExchange.COMMAND_DISCOVERY,
+        channel)
 
 class MactsExchange:
     MQ_SERVER = "localhost"  # YOUR RABBITMQ SERVER NAME/IP HERE

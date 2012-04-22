@@ -9,8 +9,8 @@ class JSS_ReactiveAgent(BasePlanningAgent):
     """
     Reactive Agent for Ste Saviors Junction
     """
-    # SR15 The planning agent examines incoming data and creates a new TLS plan.
-    # SR16 The planning agent submits the plan to the Safety Agent for review.
+    # SR 15 The planning agent examines incoming data and creates a new TLS plan.
+    # SR 16 The planning agent submits the plan to the Safety Agent for review.
     # SR 17 is not applicable to this agent
 
     verbose_level = 1
@@ -19,7 +19,7 @@ class JSS_ReactiveAgent(BasePlanningAgent):
         channel.basic_ack(delivery_tag=method.delivery_tag)
 
         message_received = json.loads(body)
-        self.verbose_display("SC: %s", message_received, 3)
+        self.verbose_display("SC: %s", message_received, 1)
 
     def __init__(self):
         BasePlanningAgent.__init__(self)

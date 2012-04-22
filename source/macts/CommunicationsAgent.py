@@ -16,7 +16,6 @@ from warnings import simplefilter
 
 from Core import Agent
 from Core import MactsExchange
-# from Core import MactsExchangeType
 from Core import Metric
 from Core import SensorState
 
@@ -31,13 +30,18 @@ class CommunicationsAgent(Agent):
     * request the next simulation step be run, up to MAXIMUM_ITERATIONS
     * close the session
     """
+    PORT = 8813
+    ONE_SECOND = 1000
+    SAFETY_AGENTS = ["JRKL_SafetyAgent", "JSS_SafetyAgent"]
+
+    # TODO +1 when add a safety agent ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    EXPECTED_NUMBER_SAFETY_AGENT_COMMANDS = 1
 
     verbose_level = 2
 
-    PORT = 8813
-    ONE_SECOND = 1000
     network_agents = []
-    safety_agents = ["SA_RKLJ", "SA_SSJ"]
+    safety_agents_commands_received = 0
+    do_move_next_step = True
     network_set = False
     iterations_set = False
 
@@ -164,31 +168,36 @@ class CommunicationsAgent(Agent):
         self.sendMessage(sensor_data.sensed,
             MactsExchange.SENSOR_PREFIX + junction, channel)
 
-    def sendCommand(self, channel, command, parameters=None):
-        decorated_command = {"SimulationId": self.simulationId,
-                             "Authority": self.name,
-                             Agent.COMMAND_KEY: command,
-                             Agent.COMMAND_PARAMETERS_KEY: parameters}
-        self.sendMessage(decorated_command, MactsExchange.COMMAND_DISCOVERY, channel)
-
     def sendStopMessage(self, channel):
         self.sendCommand(channel, Agent.COMMAND_END)
 
     def command_response_consumer(self, channel, method, header, body):
-#        local_lock = thread.allocate_lock()
-#        with local_lock:
+    #        local_lock = thread.allocate_lock()
+    #        with local_lock:
         channel.basic_ack(delivery_tag=method.delivery_tag)
 
         message_received = json.loads(body)
         self.verbose_display("Cmd Resp C: %s", message_received, 1)
 
         response = message_received.get(Agent.RESPONSE_PONG, "")
-        self.verbose_display("Cmd Resp value: %s", response, 1)
+        self.verbose_display("Cmd Resp Pong value: %s", response, 1)
         if response:
             self.network_agents.append(response)
             self.verbose_display("CRC Agents: %s", self.network_agents, 1)
             self.sendCommand(channel, Agent.COMMAND_NET_CONFIG_INFO,
                 self.network_agents)
+
+        cmd = message_received.get(Agent.COMMAND_KEY, "")
+        self.verbose_display("Cmd Resp C, cmd value: %s", cmd, 1)
+
+        if Agent.COMMAND_PLAN == cmd:
+            # get the junction and plan from the parameters
+            self.verbose_display("Cmd parameters value: %s",
+                message_received.get(Agent.COMMAND_PARAMETERS_KEY, ""), 2)
+            self.safety_agents_commands_received += 1
+            if self.safety_agents_commands_received == CommunicationsAgent.EXPECTED_NUMBER_SAFETY_AGENT_COMMANDS:
+                self.safety_agents_commands_received = 0
+                self.do_move_next_step = True
 
     def command_response_handler(self):
         # SR 12 Network Configuration Discovery
@@ -223,38 +232,39 @@ class CommunicationsAgent(Agent):
         self.sendCommand(localChannel, Agent.COMMAND_PING)
 
         while  self.simulationStep <= self.MAXIMUM_ITERATIONS:
-            self.verbose_display("Simulation Step %d", self.simulationStep, 1)
-            veh = traci.simulationStep(CommunicationsAgent.ONE_SECOND)
+            self.verbose_display("Sim Step %d", self.simulationStep, 1)
+            if self.do_move_next_step:
+                self.do_move_next_step = False
+                veh = traci.simulationStep(CommunicationsAgent.ONE_SECOND)
 
-            # SR 8 parse out data for individual intersections
-            # SR 9 publish intersection data to RabbitMQ
-            ss_sensors = self.gatherDetectorInformation(traci,
-                SensorState.SS_JUNCTION_SENSORS,
-                SensorState.ST_SAVIORS_JUNCTION)
+                # SR 8 parse out data for individual intersections
+                # SR 9 publish intersection data to RabbitMQ
+                ss_sensors = self.gatherDetectorInformation(traci,
+                    SensorState.SS_JUNCTION_SENSORS,
+                    SensorState.ST_SAVIORS_JUNCTION)
 
-            self.shareDetectorInformation(ss_sensors,
-                SensorState.ST_SAVIORS_JUNCTION, localChannel)
+                self.shareDetectorInformation(ss_sensors,
+                    SensorState.ST_SAVIORS_JUNCTION, localChannel)
 
-            rkl_sensors = self.gatherDetectorInformation(traci,
-                SensorState.RKL_JUNCTION_SENSORS,
-                SensorState.RKL_JUNCTION)
+                rkl_sensors = self.gatherDetectorInformation(traci,
+                    SensorState.RKL_JUNCTION_SENSORS,
+                    SensorState.RKL_JUNCTION)
 
-            self.shareDetectorInformation(rkl_sensors,
-                SensorState.RKL_JUNCTION, localChannel)
+                self.shareDetectorInformation(rkl_sensors,
+                    SensorState.RKL_JUNCTION, localChannel)
 
-            # SR 9b gather and publish metrics data
-            stepMetrics = self.gatherRawMetrics(traci, roadNetworkSegments)
-            self.publishRawMetrics(stepMetrics, localChannel)
+                # SR 9b gather and publish metrics data
+                stepMetrics = self.gatherRawMetrics(traci, roadNetworkSegments)
+                self.publishRawMetrics(stepMetrics, localChannel)
 
-            # TODO SR 5/SR 10 are there any command requests from MAS?
+                # TODO SR 5/SR 10 are there any command requests from MAS?
 
-            # TODO SR 6/SR 11 submits any received plans
+                # TODO SR 6/SR 11 submits any received plans
 
-            # TODO SR 7 don't continue until all MAS have reported in
-            # TODO SR 7  and their instructions sent
+                # TODO SR 7 don't continue until all MAS have reported in
+                # TODO SR 7  and their instructions sent
 
-            self.simulationStep += 1
-
+                self.simulationStep += 1
         traci.close()
         self.sendStopMessage(localChannel)
 
