@@ -11,8 +11,7 @@ import datetime
 import thread
 import time
 import json
-
-# import pika
+import pika
 from warnings import simplefilter
 
 from Core import Agent
@@ -39,18 +38,20 @@ class CommunicationsAgent(Agent):
     ONE_SECOND = 1000
     network_agents = []
     safety_agents = ["SA_RKLJ", "SA_SSJ"]
+    network_set = False
+    iterations_set = False
 
     def set_network_configuration(self, sysArgs):
         """
         determine/set the network configuration to use
         """
-        if sysArgs[1] == "low":
+        if sysArgs[1].lower() == "low":
             self.sumoConfig = "double_t_low.sumo.cfg"
             self.network_set = True
-        if sysArgs[1] == "medium":
+        if sysArgs[1].lower() == "medium":
             self.sumoConfig = "double_t_medium.sumo.cfg"
             self.network_set = True
-        if sysArgs[1] == "full":
+        if sysArgs[1].lower() == "full":
             self.sumoConfig = "double_t.sumo.cfg"
             self.network_set = True
 
@@ -79,9 +80,8 @@ class CommunicationsAgent(Agent):
             print("SUMO environ/sumo-gui not set")
 
         if len(sysArgs) > 2:
-            self.set_maximum_iterations(sysArgs)
-
             self.set_network_configuration(sysArgs)
+            self.set_maximum_iterations(sysArgs)
 
             if "SUMO_HOME" in os.environ:
                 sys.path.append(os.path.join(os.environ["SUMO_HOME"], "tools"))
@@ -102,6 +102,7 @@ class CommunicationsAgent(Agent):
                 sysArgs[0])
             print("configuration set: %s" % self.network_set)
             print("max iterations set: %s" % self.iterations_set)
+            sys.exit()
 
     def gatherRawMetrics(self, traci, networkSegments):
         """
@@ -147,47 +148,47 @@ class CommunicationsAgent(Agent):
 
         return sensorState
 
-    def publishRawMetrics(self, metrics):
+    def publishRawMetrics(self, metrics, channel):
         """
         send metrics to the metrics exchange
         """
         self.verbose_display("prm MO OBJ: %s", metrics, 4)
         for metric in metrics:
             self.verbose_display("prm MO: %s", metric.observed, 3)
-            self.sendMessage(metric.observed, MactsExchange.METRICS)
+            self.sendMessage(metric.observed, MactsExchange.METRICS, channel)
 
-    def shareDetectorInformation(self, sensor_data, junction):
+    def shareDetectorInformation(self, sensor_data, junction, channel):
         """
         send a sensor data to the appropriate junction exchange
         """
         self.sendMessage(sensor_data.sensed,
-            MactsExchange.SENSOR_PREFIX + junction)
+            MactsExchange.SENSOR_PREFIX + junction, channel)
 
-    def sendCommand(self, command, parameters=None):
+    def sendCommand(self, channel, command, parameters=None):
         decorated_command = {"SimulationId": self.simulationId,
                              "Authority": self.name,
                              Agent.COMMAND_KEY: command,
                              Agent.COMMAND_PARAMETERS_KEY: parameters}
-        self.sendMessage(decorated_command, MactsExchange.COMMAND_DISCOVERY)
+        self.sendMessage(decorated_command, MactsExchange.COMMAND_DISCOVERY, channel)
 
-    def sendStopMessage(self):
-        self.sendCommand(Agent.COMMAND_END)
+    def sendStopMessage(self, channel):
+        self.sendCommand(channel, Agent.COMMAND_END)
 
     def command_response_consumer(self, channel, method, header, body):
-        local_lock = thread.allocate_lock()
-        with local_lock:
-            channel.basic_ack(delivery_tag=method.delivery_tag)
+#        local_lock = thread.allocate_lock()
+#        with local_lock:
+        channel.basic_ack(delivery_tag=method.delivery_tag)
 
-            message_received = json.loads(body)
-            self.verbose_display("Cmd Resp C: %s", message_received, 1)
+        message_received = json.loads(body)
+        self.verbose_display("Cmd Resp C: %s", message_received, 1)
 
-            response = message_received.get(Agent.RESPONSE_PONG, "")
-            self.verbose_display("Cmd Resp value: %s", response, 1)
-            if response:
-                self.network_agents.append(response)
-                self.verbose_display("CRC Agents: %s", self.network_agents, 1)
-                self.sendCommand(Agent.COMMAND_NET_CONFIG_INFO,
-                    self.network_agents)
+        response = message_received.get(Agent.RESPONSE_PONG, "")
+        self.verbose_display("Cmd Resp value: %s", response, 1)
+        if response:
+            self.network_agents.append(response)
+            self.verbose_display("CRC Agents: %s", self.network_agents, 1)
+            self.sendCommand(channel, Agent.COMMAND_NET_CONFIG_INFO,
+                self.network_agents)
 
     def command_response_handler(self):
         # SR 12 Network Configuration Discovery
@@ -201,14 +202,25 @@ class CommunicationsAgent(Agent):
         self.verbose_display("%s", "CRH - DONE", 1)
 
     def working_loop(self, traci):
-        print "sending PING"
-        time.sleep(1)
-        self.sendCommand(Agent.COMMAND_PING)
-
         roadNetworkSegments = traci.lane.getIDList()
         self.verbose_display("segments: %s", roadNetworkSegments, 2)
 
+        # set up local channel for working with RabbitMQ
+        print "Working Loop connecting to RabbitMQ...",
+        credentials = pika.PlainCredentials(self.name, self.password)
+        conn_params = pika.ConnectionParameters(
+            host=MactsExchange.MQ_SERVER,
+            virtual_host=MactsExchange.VIRTUAL_HOST,
+            credentials=credentials)
+        conn = pika.BlockingConnection(conn_params)
+        localChannel = conn.channel()
+        print "CONNECTED"
+
         simplefilter("ignore", "user")
+
+        print "sending PING"
+        time.sleep(1)
+        self.sendCommand(localChannel, Agent.COMMAND_PING)
 
         while  self.simulationStep <= self.MAXIMUM_ITERATIONS:
             self.verbose_display("Simulation Step %d", self.simulationStep, 1)
@@ -216,24 +228,23 @@ class CommunicationsAgent(Agent):
 
             # SR 8 parse out data for individual intersections
             # SR 9 publish intersection data to RabbitMQ
-
             ss_sensors = self.gatherDetectorInformation(traci,
                 SensorState.SS_JUNCTION_SENSORS,
                 SensorState.ST_SAVIORS_JUNCTION)
 
             self.shareDetectorInformation(ss_sensors,
-                SensorState.ST_SAVIORS_JUNCTION)
+                SensorState.ST_SAVIORS_JUNCTION, localChannel)
 
             rkl_sensors = self.gatherDetectorInformation(traci,
                 SensorState.RKL_JUNCTION_SENSORS,
                 SensorState.RKL_JUNCTION)
 
             self.shareDetectorInformation(rkl_sensors,
-                SensorState.RKL_JUNCTION)
+                SensorState.RKL_JUNCTION, localChannel)
 
             # SR 9b gather and publish metrics data
             stepMetrics = self.gatherRawMetrics(traci, roadNetworkSegments)
-            self.publishRawMetrics(stepMetrics)
+            self.publishRawMetrics(stepMetrics, localChannel)
 
             # TODO SR 5/SR 10 are there any command requests from MAS?
 
@@ -243,8 +254,9 @@ class CommunicationsAgent(Agent):
             # TODO SR 7  and their instructions sent
 
             self.simulationStep += 1
+
         traci.close()
-        self.sendStopMessage()
+        self.sendStopMessage(localChannel)
 
     def __init__(self, sysArgs):
         self.network_set = False
@@ -267,7 +279,7 @@ class CommunicationsAgent(Agent):
             # SR 4b the liaison creates a run id and shares it with the MACTS
             self.simulationId = datetime.datetime.now().strftime(
                 "%Y%m%d|%H%M%S")
-            self.sendCommand(Agent.COMMAND_BEGIN)
+            self.sendCommand(self.publishChannel, Agent.COMMAND_BEGIN)
 
             # spin up the main working loop in its own thread
             thread.start_new_thread(self.working_loop, (traci, ))
@@ -275,7 +287,7 @@ class CommunicationsAgent(Agent):
             # SR 12 Network Configuration Discovery / Command Response Handler
             self.command_response_handler()
 
-            self.sendStopMessage()
+        self.sendStopMessage(self.publishChannel)
 
 if __name__ == "__main__":
     CommunicationsAgent(sys.argv)

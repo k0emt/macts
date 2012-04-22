@@ -104,7 +104,7 @@ class Agent:
         if Agent.COMMAND_PING == command:
             self.verbose_display("CmdC PING %s", self.simulationId, 2)
             self.sendMessage({Agent.RESPONSE_PONG: self.agent_name},
-                MactsExchange.COMMAND_RESPONSE)
+                MactsExchange.COMMAND_RESPONSE, channel)
 
         # call local class enhancements
         self.enhanced_command_consumer(message_received)
@@ -130,14 +130,14 @@ class Agent:
         if level <= self.verbose_level:
             print format % message
 
-    def sendMessage(self, message, message_exchange):
+    def sendMessage(self, message, message_exchange, channel):
         self.verbose_display("TX %s ", message, 3)
 
         msg = json.dumps(message)
         msg_props = pika.BasicProperties()
         msg_props.content_type = "text/plain"
 
-        self.publishChannel.basic_publish(
+        channel.basic_publish(
             exchange=message_exchange,
             routing_key="",
             properties=msg_props,

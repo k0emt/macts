@@ -5,7 +5,7 @@ from PlanningAgent import BasePlanningAgent
 from Core import MactsExchange
 from Core import SensorState
 
-class SSJ_ReactiveAgent(BasePlanningAgent):
+class JSS_ReactiveAgent(BasePlanningAgent):
     """
     Reactive Agent for Ste Saviors Junction
     """
@@ -23,7 +23,7 @@ class SSJ_ReactiveAgent(BasePlanningAgent):
 
     def __init__(self):
         BasePlanningAgent.__init__(self)
-        self.agent_name = "SSJ_ReactiveAgent"
+        self.agent_name = "JSS_ReactiveAgent"
         print self.agent_name + " Agent ONLINE"
 
         self.Connect_RabbitMQ()
@@ -42,4 +42,4 @@ class SSJ_ReactiveAgent(BasePlanningAgent):
         print self.agent_name + " Agent OFFLINE"
 
 if __name__ == "__main__":
-    SSJ_ReactiveAgent()
+    JSS_ReactiveAgent()

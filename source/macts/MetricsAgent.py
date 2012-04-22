@@ -124,7 +124,7 @@ class MetricsAgent(Agent):
         db = cn.macts
         metrics = db.metrics
         metrics.insert(simulationTotals)
-        db.close()
+        cn.disconnect()
 
     def __init__(self):
         self.name = Agent.METRICS_AGENT_NAME
@@ -139,8 +139,8 @@ class MetricsAgent(Agent):
         self.establish_connection("metrics", self.gatherRawMetrics,
             MactsExchange.METRICS)
 
-        self.establish_connection("commands", self.command_consumer
-            , MactsExchange.COMMAND_DISCOVERY)
+        self.establish_connection("commands", self.command_consumer,
+            MactsExchange.COMMAND_DISCOVERY)
 
         self.start_consuming()
 
