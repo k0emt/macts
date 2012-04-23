@@ -42,7 +42,14 @@ class SignalState:
         self.minimum_times.update({SignalState.YELLOW: minYellowTime})
         self.minimum_times.update({SignalState.RED: minRedTime})
 
-        self.changeStateTo(initialState)
+        if initialState in SignalState.VALID_STATES:
+            self.current_state = initialState
+            self.change_status = SignalState.STATUS_OK
+        else:
+            self.current_state = SignalState.RED
+            self.change_status = SignalState.STATUS_INVALID_STATE
+
+        self.current_state_age = 1
 
     def minimumTimeInStateMet(self):
         return self.current_state_age >= self.minimum_times.get(
@@ -77,5 +84,46 @@ class SignalState:
 
 class SignalPhase:
     """
-    object regarding the changing/handling of overal signal phase
+    object regarding the changing/handling of overall signal phase
     """
+    STATUS_OK = "OK"
+    STATUS_NO_CHANGE = "NO CHANGE"
+    status_last_change_request = []
+
+    current_phase = ""
+    current_states = []
+    current_phase_age = 0
+
+    def __init__(self, initial_phase):
+        self.status_last_change_request = []
+
+        self.current_phase = ""
+        self.current_states = []
+        self.current_phase_age = 0
+
+        for state in initial_phase:
+            self.current_states.append(SignalState(3, 3, 2, 3, state))
+
+        self.setPhase(initial_phase)
+
+    def setPhase(self, desired_phase):
+        new_phase = ""
+        change_status = []
+
+        for i, new_state in enumerate(desired_phase):
+            self.current_states[i].changeStateTo(new_state)
+            new_phase += self.current_states[i].current_state
+            change_status.append(self.current_states[i].change_status)
+
+        self.status_last_change_request = change_status
+
+        if new_phase == desired_phase:
+            if self.current_phase == desired_phase:
+                self.current_phase_age += 1
+            else:
+                self.current_phase = desired_phase
+                self.current_phase_age = 1
+            return SignalPhase.STATUS_OK
+        else:
+            self.current_phase_age += 1
+            return SignalPhase.STATUS_NO_CHANGE

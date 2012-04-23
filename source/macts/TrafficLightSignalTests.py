@@ -10,6 +10,10 @@ class SignalStateTests(unittest.TestCase):
     def setUp(self):
         self.signal_state = SignalState(1, 1, 2, 3, SignalState.RED)
 
+    def testCanStartInAnyState(self):
+        my_signal_state = SignalState(1, 1, 2, 3, SignalState.GREEN)
+        self.assertEqual(SignalState.GREEN, my_signal_state.current_state)
+
     def testMinTimesSet(self):
         self.assertEqual(self.signal_state.minimum_times.
         get(SignalState.GREEN), 1)
@@ -88,11 +92,89 @@ class SignalStateTests(unittest.TestCase):
 
 
 class SignalPhaseTests(unittest.TestCase):
-    def setUp(self):
-        self.signal_phase = SignalPhase()
+    INITIAL_PHASE = "rrGGGGGg"
+    GOOD_NEXT_PHASE = "rryyyyyg"
 
-#    def testGetItem(self):
-#        self.assertEqual(self.a_typedlist[1], 2)
+    def setUp(self):
+        self.signal_phase = SignalPhase(SignalPhaseTests.INITIAL_PHASE)
+
+    def tearDown(self):
+        self.signal_phase = None
+
+    def testGetPhase(self):
+        self.assertEqual(SignalPhaseTests.INITIAL_PHASE,
+            self.signal_phase.current_phase)
+
+    def testValidPhaseChange(self):
+        result = self.signal_phase.setPhase(SignalPhaseTests.INITIAL_PHASE)
+        self.assertEqual(2, self.signal_phase.current_phase_age)
+
+        self.assertEqual(SignalPhaseTests.INITIAL_PHASE,
+            self.signal_phase.current_phase)
+
+        for status in self.signal_phase.status_last_change_request:
+            self.assertEqual(SignalState.STATUS_OK, status)
+
+        self.assertEqual(SignalPhase.STATUS_OK, result)
+
+    def testValidDifferentPhaseChange(self):
+        self.signal_phase.setPhase(SignalPhaseTests.INITIAL_PHASE)
+        self.signal_phase.setPhase(SignalPhaseTests.INITIAL_PHASE)
+
+        self.signal_phase.setPhase(SignalPhaseTests.GOOD_NEXT_PHASE)
+        self.assertEqual(SignalPhaseTests.GOOD_NEXT_PHASE,
+            self.signal_phase.current_phase)
+
+        for status in self.signal_phase.status_last_change_request:
+            self.assertEqual(SignalState.STATUS_OK, status)
+
+        self.assertEqual(1, self.signal_phase.current_phase_age)
+
+    def testBadTransitionLeavesPhaseUnchanged(self):
+        self.signal_phase.setPhase(SignalPhaseTests.INITIAL_PHASE)
+        self.signal_phase.setPhase(SignalPhaseTests.INITIAL_PHASE)
+
+        self.assertEqual(SignalPhase.STATUS_NO_CHANGE,
+            self.signal_phase.setPhase("ryGGGGGg"))
+        self.assertEqual(SignalPhaseTests.INITIAL_PHASE,
+            self.signal_phase.current_phase)
+
+        self.assertEqual([SignalState.STATUS_OK,
+                          SignalState.STATUS_INVALID_PROGRESSION,
+                          SignalState.STATUS_OK, SignalState.STATUS_OK,
+                          SignalState.STATUS_OK, SignalState.STATUS_OK,
+                          SignalState.STATUS_OK, SignalState.STATUS_OK],
+            self.signal_phase.status_last_change_request)
+
+        self.assertEqual(4, self.signal_phase.current_phase_age)
+
+    def testOfJunctionSsDefaultProgram(self):
+        duration = [30, 2, 6, 2, 31, 2]
+        phase = ["rrGGGGGg", "rryyyyyg", "rrrrrrrG", "rrrrrrry", "GGGrrrrr",
+                 "yyyrrrrr"]
+
+        myPhase = SignalPhase(phase[0])
+
+        for outer, repeat in enumerate(duration):
+            for inner in range(0, duration[outer]):
+                myPhase.setPhase(phase[outer])
+
+                for status in myPhase.status_last_change_request:
+                    self.assertEqual(SignalState.STATUS_OK, status)
+
+    def testOfJunctionRklnDefaultProgram(self):
+        duration = [30, 2, 6, 2, 31, 2]
+        phase = ["rrrGGGGGg", "rrryyyyyg", "rrrrrrrrG", "rrrrrrrry",
+                 "GGGGrrrrr", "yyyyrrrrr"]
+
+        myPhase = SignalPhase(phase[0])
+
+        for outer, repeat in enumerate(duration):
+            for inner in range(0, duration[outer]):
+                myPhase.setPhase(phase[outer])
+
+                for status in myPhase.status_last_change_request:
+                    self.assertEqual(SignalState.STATUS_OK, status)
 
 if __name__ == '__main__':
     unittest.main()
