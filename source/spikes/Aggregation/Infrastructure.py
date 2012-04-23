@@ -34,6 +34,7 @@ APP_PASS = "putthemtogether"
 STOP_PROCESSING_MESSAGE = "QRT"
 FOLLOW_K0EMT_MESSAGE = "follow @k0emt on twitter! (that's a zero after the k)"
 
+
 class InfrastructureBuilder:
     def __init__(self):
         print "Aggregate Spike Infrastructure Builder"

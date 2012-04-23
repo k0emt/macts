@@ -4,6 +4,7 @@ import Infrastructure
 from Infrastructure import MessageContainer
 from Infrastructure import Agent
 
+
 class EvenAgent(Agent):
 
     def local_init(self):
