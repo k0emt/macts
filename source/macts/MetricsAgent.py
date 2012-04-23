@@ -16,7 +16,7 @@ class MetricsAgent(Agent):
         persist summary metrics
         reset summary metrics
     """
-    verbose_level = 2
+    verbose_level = 1
 
     total_CO2_mg = 0.0
     total_CO_mg = 0.0
@@ -73,7 +73,7 @@ class MetricsAgent(Agent):
         self.total_MeanSpeed_m_per_s += metric.observed.get("MeanSpeed")
 
         # TODO better approach to capturing number of simulation steps?
-        self.simulation_steps = metric.observed.get("SimulationStep")
+        self.simulation_steps = metric.observed.get(Agent.SIMULATION_STEP_KEY)
 
     def enhanced_command_consumer(self, message_received):
         # SR 23 -- need the network configuration information
@@ -88,7 +88,8 @@ class MetricsAgent(Agent):
             self.verbose_display("E CmdC net agents %s",
                 self.visible_network_agents, 2)
 
-    # SR 23
+    # SR23 On simulation run completion, persist the run metrics to MongoDB
+    # network configuration information will be stored with the metrics
     def sim_end(self):
         self.verbose_display("sim_end %s", "called", 1)
         self.persistSimulation()
@@ -97,7 +98,7 @@ class MetricsAgent(Agent):
     def persistSimulation(self):
         # TODO include the result from getEnvironmentInformation
         simulationTotals = {
-            "SimulationId": self.simulationId,
+            "SimulationId": self.simulationId.encode('utf-8'),
             "CO2": self.total_CO2_mg,
             "CO": self.total_CO_mg,
             "HC": self.total_HC_mg,
@@ -136,10 +137,6 @@ class MetricsAgent(Agent):
             MactsExchange.COMMAND_DISCOVERY)
 
         self.start_consuming()
-
-        # SR23 On simulation run completion, persist the run metrics to MongoDB
-        # network configuration information will be stored with the metrics
-        self.persistSimulation()
 
         print self.name + " Agent OFFLINE"
 

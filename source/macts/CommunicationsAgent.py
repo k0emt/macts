@@ -192,9 +192,6 @@ class CommunicationsAgent(Agent):
         cmd = message_received.get(Agent.COMMAND_KEY, "")
         self.verbose_display("Cmd Resp C, cmd value: %s", cmd, 1)
 
-        if self.FIXED_PLAN_NO_SAFETY_AGENTS:
-            self.do_move_next_step = True
-
         if Agent.COMMAND_PLAN == cmd:
             # get the junction and plan from the parameters
             plan = message_received.get(Agent.PLAN_KEY, "").encode('utf-8')
@@ -247,6 +244,10 @@ class CommunicationsAgent(Agent):
 
         while  self.simulationStep <= self.MAXIMUM_ITERATIONS:
             self.verbose_display("Sim Step %d", self.simulationStep, 1)
+
+            if self.FIXED_PLAN_NO_SAFETY_AGENTS:
+                self.do_move_next_step = True
+
             if self.do_move_next_step:
                 self.do_move_next_step = False
                 veh = traci.simulationStep(CommunicationsAgent.ONE_SECOND)

@@ -32,6 +32,8 @@ class Agent:
     COMMAND_NET_CONFIG_INFO = "net_config_info"
     COMMAND_PLAN = "plan"
 
+    JUNCTION_KEY = "junction"
+
     PLAN_KEY = "tls_plan"
     PLAN_JUNCTION_KEY = "tls_junction"
 
@@ -104,7 +106,8 @@ class Agent:
         # command is start simulation, capture simulation id, reset step count
         if Agent.COMMAND_BEGIN == command:
             self.simulationStep = 0
-            self.simulationId = message_received.get('SimulationId', "")
+            self.simulationId = message_received.get(Agent.SIMULATION_ID_KEY,
+                "")
             self.verbose_display("CmdC ssid set: %s %d",
                 (self.simulationId, self.simulationStep), 2)
             self.sim_init()
@@ -254,8 +257,8 @@ class Metric:
 
     def display(self):
         print "METRIC: %s %d %s" % (
-            self.observed.get('SimulationId'),
-            self.observed.get('SimulationStep'),
+            self.observed.get(Agent.SIMULATION_ID_KEY),
+            self.observed.get(Agent.SIMULATION_STEP_KEY),
             self.observed.get('Observed'))
         print self.observed
 
@@ -278,24 +281,20 @@ class SensorState:
         "e1det_Pell~WB_0", 'e1det_Pell~WB_1'
     }
 
-    SIMULATION_ID = "SimulationId"
-    SIMULATION_STEP = "SimulationStep"
-    JUNCTION = "Junction"
-
     sensed = {}
 
     def display(self):
         print "SENSORS: %s %d %s" % (
-            self.sensed.get(self.SIMULATION_ID),
-            self.sensed.get(self.SIMULATION_STEP),
-            self.sensed.get(self.JUNCTION))
+            self.sensed.get(Agent.SIMULATION_ID_KEY),
+            self.sensed.get(Agent.SIMULATION_STEP_KEY),
+            self.sensed.get(Agent.JUNCTION_KEY))
         print self.sensed
 
     def __init__(self, simulationId, simulationStep, associatedJunction):
         self.sensed.update({
-            self.SIMULATION_ID: simulationId,
-            self.SIMULATION_STEP: simulationStep,
-            self.JUNCTION: associatedJunction
+            Agent.SIMULATION_ID_KEY: simulationId,
+            Agent.SIMULATION_STEP_KEY: simulationStep,
+            Agent.JUNCTION_KEY: associatedJunction
         })
 
         self.junction = associatedJunction
