@@ -4,6 +4,7 @@ __author__ = 'k0emt'
 
 # TODO increment CommAgent EXPECTED_NUMBER_SAFETY_AGENT_COMMANDS ***********
 
+
 class SafetyAgentRoseKiln(SafetyAgent):
     """
     Safety Agent specifically built for the Rose Kiln Lane Junction with

@@ -16,7 +16,6 @@ class MetricsAgent(Agent):
         persist summary metrics
         reset summary metrics
     """
-
     verbose_level = 2
 
     total_CO2_mg = 0.0
@@ -109,13 +108,11 @@ class MetricsAgent(Agent):
             "Halting": self.total_Halting_vehicles,
             "MeanSpeed": self.total_MeanSpeed_m_per_s,
             "SimulationSteps": self.simulation_steps,
-            "NetworkConfiguration" : self.visible_network_agents
+            "NetworkConfiguration": self.visible_network_agents
         }
         self.verbose_display("Simulation Totals: %s", simulationTotals, 1)
 
-        # TODO the actual save to MongoDB
-        # include: self.simulationId, simulationTotals and
-        # self.visible_network_agents
+        # Persist to MongoDB
         cn = Connection('localhost')
         db = cn.macts
         metrics = db.metrics

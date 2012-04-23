@@ -4,6 +4,7 @@ import pika
 import json
 import traceback
 
+
 class Agent:
     """
     Base class for all Agents in the system
@@ -160,6 +161,7 @@ class Agent:
                              Agent.COMMAND_PARAMETERS_KEY: parameters}
         self.sendMessage(decorated_command, MactsExchange.COMMAND_DISCOVERY,
         channel)
+
 
 class MactsExchange:
     MQ_SERVER = "localhost"  # YOUR RABBITMQ SERVER NAME/IP HERE

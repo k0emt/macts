@@ -2,6 +2,7 @@ __author__ = 'k0emt'
 from Core import Agent
 from Core import MactsExchange
 
+
 class SafetyAgent(Agent):
     """
     This will be an abstract class encapsulating common behavior and logic
@@ -38,6 +39,7 @@ class SafetyAgent(Agent):
         self.sendMessage(decorated_command, MactsExchange.COMMAND_RESPONSE,
             self.publishChannel)
 
+#   pulled from the double_t.net.xml file
 #    <tlLogic id="JunctionRKLN" type="static" programID="0" offset="0">
 #    <phase duration="31" state="rrrGGGGGg"/>
 #    <phase duration="2" state="rrryyyyyg"/>
@@ -55,7 +57,13 @@ class SafetyAgent(Agent):
 #    <phase duration="2" state="yyyrrrrr"/>
 #    </tlLogic>
 #
-#    <junction id="JunctionRKLN" type="traffic_light" x="166.00" y="0.00" incLanes="RKL~SB_0 RKL~SB_1 Pell~WB_0 Pell~WB_1 BAve~EB_0 BAve~EB_1" intLanes=":JunctionRKLN_0_0 :JunctionRKLN_1_0 :JunctionRKLN_9_0 :JunctionRKLN_3_0 :JunctionRKLN_4_0 :JunctionRKLN_5_0 :JunctionRKLN_6_0 :JunctionRKLN_7_0 :JunctionRKLN_10_0" shape="159.45,8.05 172.55,8.05 174.05,6.55 174.05,-6.55 157.95,-6.55 157.95,6.55">
+#    <junction id="JunctionRKLN" type="traffic_light" x="166.00" y="0.00"
+#       incLanes="RKL~SB_0 RKL~SB_1 Pell~WB_0 Pell~WB_1 BAve~EB_0 BAve~EB_1"
+#       intLanes=":JunctionRKLN_0_0 :JunctionRKLN_1_0 :JunctionRKLN_9_0
+#                 :JunctionRKLN_3_0 :JunctionRKLN_4_0 :JunctionRKLN_5_0
+#                 :JunctionRKLN_6_0 :JunctionRKLN_7_0 :JunctionRKLN_10_0"
+#       shape="159.45,8.05 172.55,8.05 174.05,6.55 174.05,-6.55 157.95,
+#               -6.55 157.95,6.55">
 #    <request index="0" response="000000000" foes="000110000" cont="0"/>
 #    <request index="1" response="000000000" foes="000110000" cont="0"/>
 #    <request index="2" response="000110000" foes="111110000" cont="1"/>
@@ -66,7 +74,13 @@ class SafetyAgent(Agent):
 #    <request index="7" response="000000100" foes="000000100" cont="0"/>
 #    <request index="8" response="000111100" foes="000111100" cont="1"/>
 #    </junction>
-#    <junction id="JunctionSS" type="traffic_light" x="100.00" y="0.00" incLanes="SteS~SB_0 BAve~WB_0 BAve~WB_1 Best~EB_0 Best~EB_1" intLanes=":JunctionSS_0_0 :JunctionSS_8_0 :JunctionSS_2_0 :JunctionSS_3_0 :JunctionSS_4_0 :JunctionSS_5_0 :JunctionSS_6_0 :JunctionSS_9_0" shape="96.75,8.05 103.25,8.05 104.75,6.55 104.75,-6.55 95.25,-6.55 95.25,6.55">
+#    <junction id="JunctionSS" type="traffic_light" x="100.00" y="0.00"
+#       incLanes="SteS~SB_0 BAve~WB_0 BAve~WB_1 Best~EB_0 Best~EB_1"
+#       intLanes=":JunctionSS_0_0 :JunctionSS_8_0 :JunctionSS_2_0
+#                 :JunctionSS_3_0 :JunctionSS_4_0 :JunctionSS_5_0
+#                 :JunctionSS_6_0 :JunctionSS_9_0"
+#       shape="96.75,8.05 103.25,8.05 104.75,6.55 104.75,-6.55 95.25,
+#               -6.55 95.25,6.55">
 #    <request index="0" response="00011000" foes="00011000" cont="0"/>
 #    <request index="1" response="11111000" foes="11111000" cont="1"/>
 #    <request index="2" response="00000000" foes="10000000" cont="0"/>
@@ -76,4 +90,3 @@ class SafetyAgent(Agent):
 #    <request index="6" response="00000000" foes="00000010" cont="0"/>
 #    <request index="7" response="00011100" foes="00011110" cont="1"/>
 #    </junction>
-

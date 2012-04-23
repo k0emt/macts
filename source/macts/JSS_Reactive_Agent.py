@@ -5,11 +5,12 @@ from PlanningAgent import BasePlanningAgent
 from Core import MactsExchange
 from Core import SensorState
 
+
 class JSS_ReactiveAgent(BasePlanningAgent):
     """
     Reactive Agent for Ste Saviors Junction
     """
-    # SR 15 The planning agent examines incoming data and creates a new TLS plan.
+    # SR 15 The planning agent examines incoming data and creates a TLS plan.
     # SR 16 The planning agent submits the plan to the Safety Agent for review.
     # SR 17 is not applicable to this agent
 
@@ -29,8 +30,7 @@ class JSS_ReactiveAgent(BasePlanningAgent):
         self.Connect_RabbitMQ()
 
         self.establish_connection("commands",
-            self.command_consumer
-            , MactsExchange.COMMAND_DISCOVERY)
+            self.command_consumer, MactsExchange.COMMAND_DISCOVERY)
 
         self.establish_connection("sensor",
             self.sensor_consumer,

@@ -34,6 +34,7 @@ class CommunicationsAgent(Agent):
     PORT = 8813
     ONE_SECOND = 1000
     SAFETY_AGENTS = ["JRKL_SafetyAgent", "JSS_SafetyAgent"]
+    FIXED_PLAN_NO_SAFETY_AGENTS = True
 
     # TODO +1 when add a safety agent ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     EXPECTED_NUMBER_SAFETY_AGENT_COMMANDS = 1
@@ -191,16 +192,22 @@ class CommunicationsAgent(Agent):
         cmd = message_received.get(Agent.COMMAND_KEY, "")
         self.verbose_display("Cmd Resp C, cmd value: %s", cmd, 1)
 
+        if self.FIXED_PLAN_NO_SAFETY_AGENTS:
+            self.do_move_next_step = True
+
         if Agent.COMMAND_PLAN == cmd:
             # get the junction and plan from the parameters
             plan = message_received.get(Agent.PLAN_KEY, "").encode('utf-8')
-            junction = message_received.get(Agent.PLAN_JUNCTION_KEY, "").encode('utf-8')
-            self.verbose_display("TLS Junction %s Plan %s ", (junction, plan), 1)
+            junction = message_received.get(Agent.PLAN_JUNCTION_KEY, "").\
+            encode('utf-8')
+            self.verbose_display("TLS Junction %s Plan %s ", (junction, plan),
+                1)
             if junction and plan:
                 self.TRACI.trafficlights.setRedYellowGreenState(junction, plan)
 
             self.safety_agents_commands_received += 1
-            if self.safety_agents_commands_received == CommunicationsAgent.EXPECTED_NUMBER_SAFETY_AGENT_COMMANDS:
+            if self.safety_agents_commands_received ==\
+               CommunicationsAgent.EXPECTED_NUMBER_SAFETY_AGENT_COMMANDS:
                 self.safety_agents_commands_received = 0
                 self.do_move_next_step = True
 
