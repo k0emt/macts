@@ -47,7 +47,8 @@ import random
 
 if "SUMO_HOME" in os.environ:
     sys.path.append(os.path.join(os.environ["SUMO_HOME"], "tools"))
-sys.path.append(os.path.join(os.path.dirname(sys.argv[0]), "..", "..", "..", "tools"))
+sys.path.append(
+    os.path.join(os.path.dirname(sys.argv[0]), "..", "..", "..", "tools"))
 import traci
 
 PORT = 8813
@@ -89,7 +90,8 @@ bumpCounter = 0
 #if "SUMO" in os.environ:
 #    sumoExe = os.path.join(os.environ["SUMO"], "sumo-gui")
 #sumoConfig = "double_t.sumo.cfg"
-#sumoProcess = subprocess.Popen("%s -c %s" % (sumoExe, sumoConfig), shell=True, stdout=sys.stdout)
+#sumoProcess = subprocess.Popen("%s -c %s" % (sumoExe, sumoConfig), shell=True,
+#                                   stdout=sys.stdout)
 
 traci.init(PORT)
 
@@ -99,12 +101,14 @@ print >> logfile, "starting loop"
 while step < MAXSTEPS:
     veh = traci.simulationStep(ONE_SECOND)
     programPointer = ((programPointer + 1) % programLength)
-    vehCountedOverInduction = traci.inductionloop.getLastStepVehicleNumber("e1det_RKL~SB_0") \
-                            + traci.inductionloop.getLastStepVehicleNumber("e1det_RKL~SB_1")
-    print >> logfile, "step: %i e1det_RKL~SB_0 & 1 detected: %i" % \
+    vehCountedOverInduction = traci.inductionloop.getLastStepVehicleNumber(
+        "e1det_RKL~SB_0")\
+    + traci.inductionloop.getLastStepVehicleNumber("e1det_RKL~SB_1")
+    print >> logfile, "step: %i e1det_RKL~SB_0 & 1 detected: %i" %\
                       (step, vehCountedOverInduction)
-    print >> logfile, "RKL emissions lane 0: %f  1: %f" % \
-                      (traci.lane.getCO2Emission('RKL~SB_0'), traci.lane.getCO2Emission('RKL~SB_1'))
+    print >> logfile, "RKL emissions lane 0: %f  1: %f" %\
+                      (traci.lane.getCO2Emission('RKL~SB_0'),
+                       traci.lane.getCO2Emission('RKL~SB_1'))
     if vehCountedOverInduction == 2:
         print >> logfile, "e1det_RKL~SB inductor(s) tripped"
         if bumpCounter < MAX_BUMPS:
@@ -122,7 +126,8 @@ while step < MAXSTEPS:
                 bumpCounter = 0
 
     print >> logfile, "TLS cmd: %s" % PROGRAM[programPointer]
-    traci.trafficlights.setRedYellowGreenState("JunctionRKLN", PROGRAM[programPointer])
+    traci.trafficlights.setRedYellowGreenState("JunctionRKLN",
+        PROGRAM[programPointer])
     step += 1
 
 print >> logfile, "closing traci"
