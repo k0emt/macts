@@ -30,6 +30,7 @@ class CommunicationsAgent(Agent):
     * request the next simulation step be run, up to MAXIMUM_ITERATIONS
     * close the session
     """
+    TRACI = None
     PORT = 8813
     ONE_SECOND = 1000
     SAFETY_AGENTS = ["JRKL_SafetyAgent", "JSS_SafetyAgent"]
@@ -192,8 +193,12 @@ class CommunicationsAgent(Agent):
 
         if Agent.COMMAND_PLAN == cmd:
             # get the junction and plan from the parameters
-            self.verbose_display("Cmd parameters value: %s",
-                message_received.get(Agent.COMMAND_PARAMETERS_KEY, ""), 2)
+            plan = message_received.get(Agent.PLAN_KEY, "").encode('utf-8')
+            junction = message_received.get(Agent.PLAN_JUNCTION_KEY, "").encode('utf-8')
+            self.verbose_display("TLS Junction %s Plan %s ", (junction, plan), 1)
+            if junction and plan:
+                self.TRACI.trafficlights.setRedYellowGreenState(junction, plan)
+
             self.safety_agents_commands_received += 1
             if self.safety_agents_commands_received == CommunicationsAgent.EXPECTED_NUMBER_SAFETY_AGENT_COMMANDS:
                 self.safety_agents_commands_received = 0
@@ -230,6 +235,8 @@ class CommunicationsAgent(Agent):
         print "sending PING"
         time.sleep(1)
         self.sendCommand(localChannel, Agent.COMMAND_PING)
+
+        self.TRACI = traci
 
         while  self.simulationStep <= self.MAXIMUM_ITERATIONS:
             self.verbose_display("Sim Step %d", self.simulationStep, 1)
