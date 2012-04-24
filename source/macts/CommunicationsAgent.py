@@ -38,7 +38,7 @@ class CommunicationsAgent(Agent):
     FIXED_PLAN_NO_SAFETY_AGENTS = False
 
     # NOTE: SET TO THE CORRECT NUMBER OF SAFETY AGENTS ~~~~~~~~~~~~~~~~~~~~~~~
-    EXPECTED_NUMBER_SAFETY_AGENT_COMMANDS = 1
+    EXPECTED_NUMBER_SAFETY_AGENT_COMMANDS = 2
 
     verbose_level = 2
 
