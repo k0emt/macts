@@ -5,6 +5,7 @@ __author__ = 'k0emt'
 
 # NOTE increment Communications Agent EXPECTED_NUMBER_SAFETY_AGENT_COMMANDS
 
+
 class SafetyAgentStSaviours(SafetyAgent):
     """
     Safety Agent specifically built for the St Saviours Junction with
@@ -31,8 +32,8 @@ class SafetyAgentStSaviours(SafetyAgent):
     def checkSafePlan(self, plan):
         self.phase_manager.setPhase(plan)
 
-        self.verbose_display("SSSA %s %s %d",
-            (self.agent_name, self.simulationId, self.simulationStep),1)
+        self.verbose_display("SA %s %s %d",
+            (self.agent_name, self.simulationId, self.simulationStep), 1)
 
         # SR20 Submit verified safe plan to TLS command queue.
         self.sendTrafficLightSignalCommand(self.phase_manager.current_phase)
@@ -40,8 +41,10 @@ class SafetyAgentStSaviours(SafetyAgent):
     def __init__(self, initial_phase):
         self.junction = "JunctionSS"
         self.agent_name = "SafetyAgentStSaviours"
+
         self.Connect_RabbitMQ()
         self.phase_manager = SignalPhase(initial_phase)
         if self.phase_manager.status_last_change_request ==\
            SignalPhase.STATUS_OK:
-            self.sendTrafficLightSignalCommand(self.phase_manager.current_phase)
+            self.sendTrafficLightSignalCommand(
+                self.phase_manager.current_phase)

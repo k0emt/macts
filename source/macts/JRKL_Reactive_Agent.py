@@ -1,4 +1,18 @@
 __author__ = 'k0emt'
+
+#'e1det_Pell~WB_0',
+#'e1det_Pell~WB_1',
+#'e1det_SteS~SB_0',
+#'e1det_BAve~WB_1',
+#'e1det_BAve~WB_0',
+#'e1det_Best~EB_1',
+#'e1det_Best~EB_0',
+#'e1det_RKL~SB_1',
+#'e1det_RKL~SB_0',
+#'e1det_BAve~EB_1',
+#'e1det_BAve~EB_0',
+
+__author__ = 'k0emt'
 import json
 
 from PlanningAgent import BasePlanningAgent
@@ -8,19 +22,19 @@ from Core import Agent
 from JSS_SafetyAgent import SafetyAgentStSaviours
 
 
-class JSS_ReactiveAgent(BasePlanningAgent):
+class JRKL_ReactiveAgent(BasePlanningAgent):
     """
     Reactive Agent for Ste Saviors Junction
     """
 
     verbose_level = 1
 
-    P_EAST_WEST = "rrGGGGGg"
-    P_CLEARING_FOR_NB = "rryyyyyg"
-    P_PROTECTED_NB = "rrrrrrrG"
-    P_CLEARING_ALL = "rrrrrrry"
-    P_SB_WEST_TO_NORTH = "GGGrrrrr"
-    P_SLOWING = "yyyrrrrr"
+    P_EAST_WEST = "rrrGGGGGg"
+    P_CLEARING_FOR_NB = "rrryyyyyg"
+    P_PROTECTED_NB = "rrrrrrrrG"
+    P_CLEARING_ALL = "rrrrrrrry"
+    P_SB_WEST_TO_NORTH = "GGGGrrrrr"
+    P_SLOWING = "yyyyrrrrr"
 
     # default program duration = [31, 2, 6, 2, 31, 2]
     # this program default duration = [15, 2, 2, 2, 15, 2]
@@ -46,18 +60,21 @@ class JSS_ReactiveAgent(BasePlanningAgent):
     bump_counter = {"phase": "", "count": 0}
 
     bump_map = {
-        P_EAST_WEST: ['e1det_Best~EB_1', 'e1det_Best~EB_0',
-                      'e1det_BAve~WB_1', 'e1det_BAve~WB_0'],
-        P_CLEARING_FOR_NB: ['e1det_BAve~WB_1', 'e1det_BAve~WB_0'],
-        P_PROTECTED_NB: ['e1det_BAve~WB_1', 'e1det_BAve~WB_0'],
-        P_SB_WEST_TO_NORTH: ['e1det_SteS~SB_0', 'e1det_BAve~WB_1',
-                             'e1det_BAve~WB_0']
+        P_EAST_WEST: ['e1det_Pell~WB_0', 'e1det_Pell~WB_1',
+                      'e1det_BAve~EB_1', 'e1det_BAve~EB_0'],
+        P_CLEARING_FOR_NB: ['e1det_Pell~WB_0', 'e1det_Pell~WB_1'],
+        P_PROTECTED_NB: ['e1det_Pell~WB_0', 'e1det_Pell~WB_1'],
+
+        P_SB_WEST_TO_NORTH: ['e1det_RKL~SB_1', 'e1det_RKL~SB_0',
+                             'e1det_Pell~WB_0', 'e1det_Pell~WB_1']
     }
 
     def should_bump(self, current_state, raw_sensor_data):
-        # Note: may want to add code to consider
-        # the bump/don't bump strategy if still within
-        # the normal cycle of the phase
+        # don't bump if the next state is the same as the current state
+        next_index = ((self.program_pointer + 1) % self.program_length)
+        if current_state == self.PROGRAM[next_index]:
+            return False
+
         if current_state in [self.P_CLEARING_ALL, self.P_SLOWING]:
             return False
 
@@ -110,7 +127,7 @@ class JSS_ReactiveAgent(BasePlanningAgent):
 
     def __init__(self):
         BasePlanningAgent.__init__(self)
-        self.agent_name = "JSS_ReactiveAgent"
+        self.agent_name = "JRKL_ReactiveAgent"
         print self.agent_name + " Agent ONLINE"
 
         self.Connect_RabbitMQ()
@@ -120,7 +137,7 @@ class JSS_ReactiveAgent(BasePlanningAgent):
 
         self.establish_connection("sensor",
             self.sensor_consumer,
-            MactsExchange.SENSOR_PREFIX + SensorState.ST_SAVIORS_JUNCTION
+            MactsExchange.SENSOR_PREFIX + SensorState.RKL_JUNCTION
         )
 
         self.safety_agent = SafetyAgentStSaviours(
@@ -132,4 +149,4 @@ class JSS_ReactiveAgent(BasePlanningAgent):
         print self.agent_name + " Agent OFFLINE"
 
 if __name__ == "__main__":
-    JSS_ReactiveAgent()
+    JRKL_ReactiveAgent()

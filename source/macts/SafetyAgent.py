@@ -48,6 +48,7 @@ class SafetyAgent(Agent):
 #    <phase duration="31" state="GGGGrrrrr"/>
 #    <phase duration="2"  state="yyyyrrrrr"/>
 #    </tlLogic>
+
 #    <tlLogic id="JunctionSS" type="static" programID="0" offset="0">
 #    <phase duration="31" state="rrGGGGGg"/>
 #    <phase duration="2" state="rryyyyyg"/>
