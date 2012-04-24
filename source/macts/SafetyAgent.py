@@ -30,7 +30,7 @@ class SafetyAgent(Agent):
     def sendTrafficLightSignalCommand(self, plan):
         decorated_command = {Agent.SIMULATION_ID_KEY: self.simulationId,
                              Agent.SIMULATION_STEP_KEY: self.simulationStep,
-                             Agent.AUTHORITY_KEY: self.name,
+                             Agent.AUTHORITY_KEY: self.agent_name,
                              Agent.COMMAND_KEY: Agent.COMMAND_PLAN,
                              Agent.PLAN_KEY: plan,
                              Agent.PLAN_JUNCTION_KEY: self.junction
@@ -42,11 +42,11 @@ class SafetyAgent(Agent):
 #   pulled from the double_t.net.xml file
 #    <tlLogic id="JunctionRKLN" type="static" programID="0" offset="0">
 #    <phase duration="31" state="rrrGGGGGg"/>
-#    <phase duration="2" state="rrryyyyyg"/>
-#    <phase duration="6" state="rrrrrrrrG"/>
-#    <phase duration="2" state="rrrrrrrry"/>
+#    <phase duration="2"  state="rrryyyyyg"/>
+#    <phase duration="6"  state="rrrrrrrrG"/>
+#    <phase duration="2"  state="rrrrrrrry"/>
 #    <phase duration="31" state="GGGGrrrrr"/>
-#    <phase duration="2" state="yyyyrrrrr"/>
+#    <phase duration="2"  state="yyyyrrrrr"/>
 #    </tlLogic>
 #    <tlLogic id="JunctionSS" type="static" programID="0" offset="0">
 #    <phase duration="31" state="rrGGGGGg"/>
