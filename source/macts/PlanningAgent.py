@@ -7,11 +7,11 @@ class BasePlanningAgent(Agent):
 
     """
 
-    # TODO SR 15 Planning Agent plans
+    # SR 15 Planning Agent plans
     def createPlan(self, sensor_data):
         pass
 
-    # TODO SR 16 Planning Agent submits plan to Safety Agent for Review
+    # SR 16 Planning Agent submits plan to Safety Agent for Review
     def submitToSafetyAgentForReview(self, safety_agent, plan):
         pass
 

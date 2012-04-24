@@ -73,7 +73,7 @@ class Agent:
         internal_queue_name = self.agent_name + "_" + queue_name
 
         print "Creating Queue %s on %s Exchange..." % (
-        internal_queue_name, subscribed_exchange),
+            internal_queue_name, subscribed_exchange),
         self.publishChannel.queue_declare(queue=internal_queue_name,
             exclusive=True)
         self.publishChannel.queue_bind(exchange=subscribed_exchange,
@@ -163,7 +163,7 @@ class Agent:
                              Agent.COMMAND_KEY: command,
                              Agent.COMMAND_PARAMETERS_KEY: parameters}
         self.sendMessage(decorated_command, MactsExchange.COMMAND_DISCOVERY,
-        channel)
+            channel)
 
 
 class MactsExchange:
@@ -268,18 +268,14 @@ class Metric:
 
 class SensorState:
     ST_SAVIORS_JUNCTION = "SteSaviors"
-    SS_JUNCTION_SENSORS = {
-        "e1det_Best~EB_0", "e1det_Best~EB_1",
-        "e1det_SteS~SB_0",
-        "e1det_BAve~WB_0", "e1det_BAve~WB_1"
-    }
+    SS_JUNCTION_SENSORS = {"e1det_Best~EB_0", "e1det_Best~EB_1",
+                           "e1det_SteS~SB_0",
+                           "e1det_BAve~WB_0", "e1det_BAve~WB_1"}
 
     RKL_JUNCTION = "RoseKilnLane"
-    RKL_JUNCTION_SENSORS = {
-        "e1det_BAve~EB_0", "e1det_BAve~EB_1",
-        "e1det_RKL~SB_0", "e1det_RKL~SB_1",
-        "e1det_Pell~WB_0", 'e1det_Pell~WB_1'
-    }
+    RKL_JUNCTION_SENSORS = {"e1det_BAve~EB_0", "e1det_BAve~EB_1",
+                            "e1det_RKL~SB_0", "e1det_RKL~SB_1",
+                            "e1det_Pell~WB_0", 'e1det_Pell~WB_1'}
 
     sensed = {}
 

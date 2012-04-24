@@ -18,7 +18,8 @@ class SignalState:
                           PRIORITY_GREEN + YELLOW,
                           YELLOW + YELLOW, YELLOW + RED,
                           RED + RED,
-                          RED + GREEN, RED + PRIORITY_GREEN
+                          RED + GREEN, RED + PRIORITY_GREEN,
+                          YELLOW + GREEN, YELLOW + PRIORITY_GREEN
     ]
 
     current_state = RED
@@ -107,6 +108,12 @@ class SignalPhase:
         self.setPhase(initial_phase)
 
     def setPhase(self, desired_phase):
+        """
+        give it the phase you want to change to
+        returns with STATUS_OK or STATUS_NO_CHANGE
+        pull from current_phase to see if permitted
+        status_last_change_request holds status for each signal
+        """
         new_phase = ""
         change_status = []
 

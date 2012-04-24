@@ -8,10 +8,11 @@ import os
 import subprocess
 import sys
 import datetime
-import thread
 import time
 import json
 import pika
+import thread
+import threading
 from warnings import simplefilter
 
 from Core import Agent
@@ -34,9 +35,9 @@ class CommunicationsAgent(Agent):
     PORT = 8813
     ONE_SECOND = 1000
     SAFETY_AGENTS = ["JRKL_SafetyAgent", "JSS_SafetyAgent"]
-    FIXED_PLAN_NO_SAFETY_AGENTS = True
+    FIXED_PLAN_NO_SAFETY_AGENTS = False
 
-    # TODO +1 when add a safety agent ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # NOTE: SET TO THE CORRECT NUMBER OF SAFETY AGENTS ~~~~~~~~~~~~~~~~~~~~~~~
     EXPECTED_NUMBER_SAFETY_AGENT_COMMANDS = 1
 
     verbose_level = 2
@@ -46,6 +47,8 @@ class CommunicationsAgent(Agent):
     do_move_next_step = True
     network_set = False
     iterations_set = False
+
+    traci_free = threading.Event()
 
     def set_network_configuration(self, sysArgs):
         """
@@ -114,7 +117,8 @@ class CommunicationsAgent(Agent):
         """
         gather all of the metrics we are interested in and put them together
         """
-
+        self.traci_free.wait()
+        self.traci_free.clear()
         # Metric container for every segment
         metrics = [
         Metric({
@@ -132,6 +136,7 @@ class CommunicationsAgent(Agent):
             "Halting": traci.lane.getLastStepHaltingNumber(segment)
         })
         for segment in networkSegments]
+        self.traci_free.set()
 
         self.verbose_display("Metrics: %s", metrics, 4)
 
@@ -148,9 +153,12 @@ class CommunicationsAgent(Agent):
         sensorState = SensorState(self.simulationId, self.simulationStep,
             junction_name)
 
+        self.traci_free.wait()
+        self.traci_free.clear()
         for sensor in junction_sensor_list:
             sensorState.sensed.update({
                 sensor: traci.inductionloop.getLastStepVehicleNumber(sensor)})
+        self.traci_free.set()
 
         return sensorState
 
@@ -174,15 +182,19 @@ class CommunicationsAgent(Agent):
         self.sendCommand(channel, Agent.COMMAND_END)
 
     def command_response_consumer(self, channel, method, header, body):
-    #        local_lock = thread.allocate_lock()
-    #        with local_lock:
+        """
+        SR 5/SR 10 are there any command requests from MAS?
+        SR 6/SR 11 submits any received plans
+        SR 7 don't continue until all MAS have reported in
+            and their instructions sent
+        """
         channel.basic_ack(delivery_tag=method.delivery_tag)
 
         message_received = json.loads(body)
-        self.verbose_display("Cmd Resp C: %s", message_received, 1)
+        self.verbose_display("Cmd Resp C: %s", message_received, 2)
 
         response = message_received.get(Agent.RESPONSE_PONG, "")
-        self.verbose_display("Cmd Resp Pong value: %s", response, 1)
+
         if response:
             self.network_agents.append(response)
             self.verbose_display("CRC Agents: %s", self.network_agents, 1)
@@ -190,7 +202,7 @@ class CommunicationsAgent(Agent):
                 self.network_agents)
 
         cmd = message_received.get(Agent.COMMAND_KEY, "")
-        self.verbose_display("Cmd Resp C, cmd value: %s", cmd, 1)
+        self.verbose_display("CRC cmd: %s", cmd, 3)
 
         if Agent.COMMAND_PLAN == cmd:
             # get the junction and plan from the parameters
@@ -198,10 +210,17 @@ class CommunicationsAgent(Agent):
             junction = message_received.get(Agent.PLAN_JUNCTION_KEY, "").\
             encode('utf-8')
             self.verbose_display("TLS Junction %s Plan %s ", (junction, plan),
-                1)
+                3)
             if junction and plan:
-                self.TRACI.trafficlights.setRedYellowGreenState(junction, plan)
+                self.verbose_display(" calling %s Plan %s ", (junction, plan),
+                    3)
 
+                self.traci_free.wait()
+                self.traci_free.clear()
+                self.TRACI.trafficlights.setRedYellowGreenState(junction, plan)
+                self.traci_free.set()
+
+                self.verbose_display("TLS %s %s", (junction, plan), 2)
             self.safety_agents_commands_received += 1
             if self.safety_agents_commands_received ==\
                CommunicationsAgent.EXPECTED_NUMBER_SAFETY_AGENT_COMMANDS:
@@ -241,6 +260,7 @@ class CommunicationsAgent(Agent):
         self.sendCommand(localChannel, Agent.COMMAND_PING)
 
         self.TRACI = traci
+        self.traci_free.set()
 
         while  self.simulationStep <= self.MAXIMUM_ITERATIONS:
             self.verbose_display("Sim Step %d", self.simulationStep, 1)
@@ -271,13 +291,6 @@ class CommunicationsAgent(Agent):
                 # SR 9b gather and publish metrics data
                 stepMetrics = self.gatherRawMetrics(traci, roadNetworkSegments)
                 self.publishRawMetrics(stepMetrics, localChannel)
-
-                # TODO SR 5/SR 10 are there any command requests from MAS?
-
-                # TODO SR 6/SR 11 submits any received plans
-
-                # TODO SR 7 don't continue until all MAS have reported in
-                # TODO SR 7  and their instructions sent
 
                 self.simulationStep += 1
         traci.close()
