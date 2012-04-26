@@ -38,6 +38,8 @@ class SafetyAgentRoseKiln(SafetyAgent):
         # SR20 Submit verified safe plan to TLS command queue.
         self.sendTrafficLightSignalCommand(self.phase_manager.current_phase)
 
+        return self.phase_manager.current_states
+
     def __init__(self, initial_phase):
         self.junction = "JunctionRKLN"
         self.agent_name = "SafetyAgentRoseKiln"
