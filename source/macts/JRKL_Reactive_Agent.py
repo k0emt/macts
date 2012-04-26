@@ -19,7 +19,7 @@ from PlanningAgent import BasePlanningAgent
 from Core import MactsExchange
 from Core import SensorState
 from Core import Agent
-from JSS_SafetyAgent import SafetyAgentStSaviours
+from JRKL_SafetyAgent import SafetyAgentRoseKiln
 
 
 class JRKL_ReactiveAgent(BasePlanningAgent):
@@ -27,7 +27,9 @@ class JRKL_ReactiveAgent(BasePlanningAgent):
     Reactive Agent for Ste Saviors Junction
     """
 
-    verbose_level = 1
+    verbose_level = 0
+
+    WINDOW_SIZE = 4
 
     P_EAST_WEST = "rrrGGGGGg"
     P_CLEARING_FOR_NB = "rrryyyyyg"
@@ -71,9 +73,10 @@ class JRKL_ReactiveAgent(BasePlanningAgent):
 
     def should_bump(self, current_state, raw_sensor_data):
         # don't bump if the next state is the same as the current state
-        next_index = ((self.program_pointer + 1) % self.program_length)
-        if current_state == self.PROGRAM[next_index]:
-            return False
+#        next_index = ((self.program_pointer + JRKL_ReactiveAgent.WINDOW_SIZE) %
+#                      self.program_length)
+#        if current_state == self.PROGRAM[next_index]:
+#            return False
 
         if current_state in [self.P_CLEARING_ALL, self.P_SLOWING]:
             return False
@@ -140,7 +143,7 @@ class JRKL_ReactiveAgent(BasePlanningAgent):
             MactsExchange.SENSOR_PREFIX + SensorState.RKL_JUNCTION
         )
 
-        self.safety_agent = SafetyAgentStSaviours(
+        self.safety_agent = SafetyAgentRoseKiln(
             self.PROGRAM[self.program_pointer]
         )
 

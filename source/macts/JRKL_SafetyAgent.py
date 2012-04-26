@@ -1,4 +1,4 @@
-import SafetyAgent
+from SafetyAgent import SafetyAgent
 from TrafficLightSignal import SignalPhase
 
 __author__ = 'k0emt'

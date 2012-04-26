@@ -268,14 +268,14 @@ class Metric:
 
 class SensorState:
     ST_SAVIORS_JUNCTION = "SteSaviors"
-    SS_JUNCTION_SENSORS = {"e1det_Best~EB_0", "e1det_Best~EB_1",
+    SS_JUNCTION_SENSORS = ("e1det_Best~EB_0", "e1det_Best~EB_1",
                            "e1det_SteS~SB_0",
-                           "e1det_BAve~WB_0", "e1det_BAve~WB_1"}
+                           "e1det_BAve~WB_0", "e1det_BAve~WB_1")
 
     RKL_JUNCTION = "RoseKilnLane"
-    RKL_JUNCTION_SENSORS = {"e1det_BAve~EB_0", "e1det_BAve~EB_1",
+    RKL_JUNCTION_SENSORS = ("e1det_BAve~EB_0", "e1det_BAve~EB_1",
                             "e1det_RKL~SB_0", "e1det_RKL~SB_1",
-                            "e1det_Pell~WB_0", 'e1det_Pell~WB_1'}
+                            "e1det_Pell~WB_0", 'e1det_Pell~WB_1')
 
     sensed = {}
 
