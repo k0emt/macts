@@ -27,7 +27,7 @@ class JRKL_ReactiveAgent(BasePlanningAgent):
     Reactive Agent for Ste Saviors Junction
     """
 
-    verbose_level = 0
+    verbose_level = 1
 
     WINDOW_SIZE = 4
 
@@ -73,10 +73,10 @@ class JRKL_ReactiveAgent(BasePlanningAgent):
 
     def should_bump(self, current_state, raw_sensor_data):
         # don't bump if the next state is the same as the current state
-#        next_index = ((self.program_pointer + JRKL_ReactiveAgent.WINDOW_SIZE) %
-#                      self.program_length)
-#        if current_state == self.PROGRAM[next_index]:
-#            return False
+        next_index = ((self.program_pointer + JRKL_ReactiveAgent.WINDOW_SIZE) %
+                      self.program_length)
+        if current_state == self.PROGRAM[next_index]:
+            return False
 
         if current_state in [self.P_CLEARING_ALL, self.P_SLOWING]:
             return False

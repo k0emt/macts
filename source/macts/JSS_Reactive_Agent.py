@@ -15,6 +15,8 @@ class JSS_ReactiveAgent(BasePlanningAgent):
 
     verbose_level = 1
 
+    WINDOW_SIZE = 4
+
     P_EAST_WEST = "rrGGGGGg"
     P_CLEARING_FOR_NB = "rryyyyyg"
     P_PROTECTED_NB = "rrrrrrrG"
@@ -58,6 +60,12 @@ class JSS_ReactiveAgent(BasePlanningAgent):
         # Note: may want to add code to consider
         # the bump/don't bump strategy if still within
         # the normal cycle of the phase
+        # don't bump if the next state is the same as the current state
+#        next_index = ((self.program_pointer + JSS_ReactiveAgent.WINDOW_SIZE) %
+#                      self.program_length)
+#        if current_state == self.PROGRAM[next_index]:
+#            return False
+
         if current_state in [self.P_CLEARING_ALL, self.P_SLOWING]:
             return False
 
