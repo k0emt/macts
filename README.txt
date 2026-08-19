@@ -1,2 +1,4 @@
 Materials related to my MSE project
-MultiAgent Control of Traffic Signals (macts)
+Multi-Agent Control of Traffic Signals (macts)
+
+Legacy [MSE Project website](https://k0emt.github.io/macts/)
